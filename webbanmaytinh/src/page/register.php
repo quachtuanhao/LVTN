@@ -65,6 +65,12 @@
             $sql = "INSERT INTO taikhoan(userName,password,hoTen,email,sdt,diachi,maCV) 
             values('$username','$pass','$name','$email','$sdt','$diachi','CV02') ";
             mysqli_query($conn,$sql);
+?>
+        <script language="javascript">
+            alert("Đăng ký tài khoản thành công!");
+            window.location = "index.php?action=login";
+        </script>;
+<?php
         }
         else{
 

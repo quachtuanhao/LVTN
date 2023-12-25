@@ -7,6 +7,7 @@
         $ngaykt = $_POST['ngaykt'];
         $giatri = $_POST['giatri'];
         $loaikm = $_POST['loaikm'];
+        $errors = [];
         if(empty($ma)){
             $errors['ma']['required']='Mã không được bỏ trống';
         }
@@ -47,7 +48,7 @@
             $sql = "INSERT into khuyenmai(maKhuyenMai,tenKhuyenMai,ngayBatDau,ngayKetThuc,maLKM,giaTriKhuyenMai)
             values('$ma','$ten','$ngaybd','$ngaykt','$loaikm','$giatri')";
             mysqli_query($conn,$sql);
-            header('location:../../index.php?action=quanlykhuyenmai&&query=no');
+            header('location:./index.php?action=quanlykhuyenmai&&query=no');
         }
     }
 ?>

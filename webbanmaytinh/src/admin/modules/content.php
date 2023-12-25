@@ -21,6 +21,9 @@
         else if($tam=='quanlynhasanxuat' && $query=='xoa'){
             include'./modules/quanlynhasanxuat/xoa.php';
         }
+
+
+
         else if($tam=='quanlysanpham' && $query=='no'){
             include'./modules/quanlysanpham/hienthi.php';
         }
@@ -33,12 +36,21 @@
         else if($tam=='quanlysanpham' && $query=='sua'){
             include'./modules/quanlysanpham/sua.php';
         }
+
+
+
         else if($tam=='quanlytaikhoan' && $query=='no'){
             include'./modules/quanlytaikhoan/hienthi.php';
         }
         else if($tam=='quanlytaikhoan' && $query=='sua'){
-            include'./modules/quanlytaikhoan/sua.php';
+            include'./modules/quanlytaikhoan/thongtin.php';
         }
+        else if($tam=='quanlytaikhoan' && $query=='xoa'){
+            include'./modules/quanlytaikhoan/xoa.php';
+        }
+
+
+
         else if($tam=='quanlydonhang' && $query=='no'){
             include'./modules/quanlydonhang/hienthi.php';
         }
@@ -48,11 +60,17 @@
         else if($tam=='quanlydonhang' && $query=='capnhat'){
             include'./modules/quanlydonhang/hienthi.php';
         }
+
+
+        
         else if($tam=='quanlykhuyenmai' && $query=='no'){
             include'./modules/quanlykhuyenmai/hienthi.php';
         }
         else if($tam=='quanlykhuyenmai' && $query=='them'){
             include'./modules/quanlykhuyenmai/them.php';
+        }
+        else if($tam=='quanlykhuyenmai' && $query=='xoa'){
+            include'./modules/quanlykhuyenmai/xoa.php';
         }
         else{
             include'./modules/dashboard.php';
