@@ -1,5 +1,5 @@
-<?php 
-    include'../././db/connect.php';
+<?php
+include '../././db/connect.php';
 ?>
 <div class="content-header">
     <h3 class="content-title">Danh Sách Sản Phẩm</h3>
@@ -16,28 +16,28 @@
         <td class="content-item width100 head"><b>Thao tác</b></td>
 
     </tr>
-    <?php 
-        $sql = "SELECT maSanPham as id,tenSanPham as ten,gia,hinhAnh as img,moTa,
+    <?php
+    $sql = "SELECT maSanPham as id,tenSanPham as ten,gia,hinhAnh as img,moTa,
         tenNhaSanXuat as tenNSX from sanpham join nhasanxuat
         on sanpham.maNSX=nhaSanXuat.maNhaSanXuat order by id ASC";
-        $result = mysqli_query($conn,$sql);
-        while($row = mysqli_fetch_array($result)){
-        ?>
-            <tr class="content-list">
-                <td class="content-item width100"><?php echo $row['id'] ?></td>
-                <td class="content-item width200"><?php echo $row['ten'] ?></td>
-                <td class="content-item width100"><?php echo $row['gia'] ?></td>
-                <td class="content-item width100"><img src="../../././assets/img/<?php echo $row['img'] ?> " alt="img"></td>
-                <td class="content-item width150"><?php echo $row['moTa'] ?></td>
-                <td class="content-item width100"><?php echo $row['tenNSX'] ?></td>
-                <td class="content-item width100"> 
-                    <a class="content-item width50" href="?action=quanlysanpham&query=sua&this_id=<?php echo $row['id']?>"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a class="content-item width50" href="?action=quanlysanpham&&query=xoa&&this_id=<?php echo $row['id']?>"><i class="fa-sharp fa-solid fa-trash"></i></a>
-                </td>
-            </tr>
-            
+    $result = mysqli_query($conn, $sql);
+    while ($row = mysqli_fetch_array($result)) {
+    ?>
+        <tr class="content-list">
+            <td class="content-item width100"><?php echo $row['id'] ?></td>
+            <td class="content-item width200"><?php echo $row['ten'] ?></td>
+            <td class="content-item width100"><?php echo $row['gia'] ?></td>
+            <td class="content-item width100"><img src="../../././assets/img/<?php echo $row['img'] ?> " alt="img"></td>
+            <td class="content-item width150"><?php echo $row['moTa'] ?></td>
+            <td class="content-item width100"><?php echo $row['tenNSX'] ?></td>
+            <td class="content-item width100">
+                <a class="content-item width50" href="?action=quanlysanpham&query=sua&this_id=<?php echo $row['id'] ?>"><i class="fa-solid fa-pen-to-square"></i></a>
+                <a class="content-item width50" href="?action=quanlysanpham&&query=xoa&&this_id=<?php echo $row['id'] ?>"><i class="fa-sharp fa-solid fa-trash"></i></a>
+            </td>
+        </tr>
+
     <?php
-         }
-         mysqli_close($conn);
+    }
+    mysqli_close($conn);
     ?>
 </table>

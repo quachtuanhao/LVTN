@@ -1,5 +1,5 @@
-<?php 
-    include'../././db/connect.php';
+<?php
+include '../././db/connect.php';
 ?>
 <div class="content-header">
     <h3 class="content-title">Danh Sách Khuyến Mãi</h3>
@@ -16,31 +16,31 @@
         <td class="content-item width150 head"><b>Giá trị khuyến mãi</b></td>
         <td class="content-item width100 head"><b>Thao tác</b></td>
     </tr>
-    <?php 
-        $sql = "SELECT maKhuyenMai,tenKhuyenMai,ngayBatDau,ngayKetThuc,giaTriKhuyenMai,tenLoai 
+    <?php
+    $sql = "SELECT maKhuyenMai,tenKhuyenMai,ngayBatDau,ngayKetThuc,giaTriKhuyenMai,tenLoai 
         from khuyenmai join loaikhuyenmai
         on khuyenmai.maLKM=loaikhuyenmai.maLoai";
-        $result = mysqli_query($conn,$sql);
-        while($row = mysqli_fetch_array($result)){
-        ?>
-            <tr class="content-list">
-                <td class="content-item width150"><?php echo $row['maKhuyenMai'] ?></td>
-                <td class="content-item width150"><?php echo $row['tenKhuyenMai'] ?></td>
-                <td class="content-item width100"><?php echo $row['ngayBatDau'] ?></td>
-                <td class="content-item width100"><?php echo $row['ngayKetThuc'] ?></td>
-                <td class="content-item width150"><?php echo $row['tenLoai'] ?></td>
-                <td class="content-item width150"><?php 
-                                                         echo $row['giaTriKhuyenMai'] ;
+    $result = mysqli_query($conn, $sql);
+    while ($row = mysqli_fetch_array($result)) {
+    ?>
+        <tr class="content-list">
+            <td class="content-item width150"><?php echo $row['maKhuyenMai'] ?></td>
+            <td class="content-item width150"><?php echo $row['tenKhuyenMai'] ?></td>
+            <td class="content-item width100"><?php echo $row['ngayBatDau'] ?></td>
+            <td class="content-item width100"><?php echo $row['ngayKetThuc'] ?></td>
+            <td class="content-item width150"><?php echo $row['tenLoai'] ?></td>
+            <td class="content-item width150"><?php
+                                                echo $row['giaTriKhuyenMai'];
                                                 ?>
-                </td>
-                <td class="content-item width100"> 
-                    <a class="content-item width50" href="?action=quanlysanpham&query=sua&this_id=<?php echo $row['maKhuyenMai']?>"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a class="content-item width50" href="?action=quanlysanpham&&query=xoa&&this_id=<?php echo $row['maKhuyenMai']?>"><i class="fa-sharp fa-solid fa-trash"></i></a>
-                </td>
-            </tr>
-            
+            </td>
+            <td class="content-item width100">
+                <a class="content-item width50" href="?action=quanlykhuyenmai&query=sua&this_id=<?php echo $row['maKhuyenMai'] ?>"><i class="fa-solid fa-pen-to-square"></i></a>
+                <a class="content-item width50" href="?action=quanlykhuyenmai&&query=xoa&&this_id=<?php echo $row['maKhuyenMai'] ?>"><i class="fa-sharp fa-solid fa-trash"></i></a>
+            </td>
+        </tr>
+
     <?php
-         }
-         mysqli_close($conn);
+    }
+    mysqli_close($conn);
     ?>
 </table>
