@@ -32,7 +32,7 @@ include '../././db/connect.php';
             <td class="content-item width100"><?php echo $row['diachi'] ?></td>
             <td class="content-item width100"><?php echo $row['chucvu'] ?></td>
             <td class="content-item width100">
-                <a class="content-item width50" href="?action=quanlytaikhoan&query=sua&this_id=<?php echo $row['user'] ?>"><i class="fa-solid fa-pen-to-square"></i></a>
+                <a class="content-item width50" href="?action=quanlytaikhoan&query=sua&&this_id=<?php echo $row['user'] ?>"><i class="fa-solid fa-pen-to-square"></i></a>
                 <a class="content-item width50" href="?action=quanlytaikhoan&query=xoa&&this_id=<?php echo $row['user'] ?>"><i class="fa-sharp fa-solid fa-trash"></i></a>
             </td>
         </tr>

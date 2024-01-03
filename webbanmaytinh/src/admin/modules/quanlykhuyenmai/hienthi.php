@@ -34,7 +34,7 @@ include '../././db/connect.php';
                                                 ?>
             </td>
             <td class="content-item width100">
-                <a class="content-item width50" href="?action=quanlykhuyenmai&query=sua&this_id=<?php echo $row['maKhuyenMai'] ?>"><i class="fa-solid fa-pen-to-square"></i></a>
+                <a class="content-item width50" href="?action=quanlykhuyenmai&&query=sua&this_id=<?php echo $row['maKhuyenMai'] ?>"><i class="fa-solid fa-pen-to-square"></i></a>
                 <a class="content-item width50" href="?action=quanlykhuyenmai&&query=xoa&&this_id=<?php echo $row['maKhuyenMai'] ?>"><i class="fa-sharp fa-solid fa-trash"></i></a>
             </td>
         </tr>

@@ -72,6 +72,9 @@
         else if($tam=='quanlykhuyenmai' && $query=='xoa'){
             include'./modules/quanlykhuyenmai/xoa.php';
         }
+        else if ($tam == 'quanlykhuyenmai' && $query == 'sua') {
+            include './modules/quanlykhuyenmai/sua.php';
+        }
         else{
             include'./modules/dashboard.php';
         }

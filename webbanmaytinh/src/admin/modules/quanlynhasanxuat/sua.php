@@ -48,7 +48,7 @@ if (isset($_POST['submit'])) {
 
             }
             ?>
-            <input class="submit" type="submit" name="submit">
+            <input class="submit" type="submit" name="submit" value="Lưu">
         </div>
 
     </div>
