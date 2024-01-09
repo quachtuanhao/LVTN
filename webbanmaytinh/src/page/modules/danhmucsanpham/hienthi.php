@@ -45,5 +45,5 @@ if (isset($_POST['search'])) {
         </table>
     </div>
 <?php
-}
+} 
 ?>

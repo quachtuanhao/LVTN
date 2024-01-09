@@ -23,6 +23,7 @@
         <div class="main">
             <?php
             include './modules/sidebar.php';
+            include './modules/filter.php';
             include './modules/content.php';
             ?>
         </div>

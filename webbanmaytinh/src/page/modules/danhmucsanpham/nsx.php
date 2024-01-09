@@ -10,6 +10,13 @@ if (isset($_GET['value'])) {
             <?php
             $sql = "SELECT maSanPham,tenSanPham,gia,hinhAnh from sanpham where maNSX = '$tam'";
             $result = mysqli_query($conn, $sql);
+
+            if (isset($_GET['loaiSP'])) {
+                $loai = $_GET['loaiSP'];
+                $sql = "SELECT maSanPham,tenSanPham,gia,hinhAnh from sanpham where maLSP = '$loai'";
+                $result = mysqli_query($conn, $sql);
+            }
+
             while ($row = mysqli_fetch_array($result)) { ?>
                 <td class="content-product-items">
                     <a class="content-product-item-wrapper" href="./index.php?action=chitietsanpham&&value=<?php echo $row['maSanPham'] ?>">
@@ -23,4 +30,5 @@ if (isset($_GET['value'])) {
             ?>
         </tr>
     </table>
+
 </div>
