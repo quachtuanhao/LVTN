@@ -15,8 +15,14 @@ session_start(); {
                 }
             }
             header('location:../../index.php?action=xemgiohang');
+        } else if (isset($_GET['quantity'])) {
+            $sl = $_GET['quantity'];
+            $value = $_GET['value'];
+            $_SESSION["cart$id_user"][$value]['quantity'] = $sl;
+            $_SESSION["cart$id_user"][$value]['total'] = $_SESSION["cart$id_user"][$value]['price'] * $sl;
+            header('location:../../index.php?action=xemgiohang');
         } else {
-            echo "khong co";
+            echo "Không có !";
         }
     } else {
         if (isset($_GET['action'])) {
@@ -32,8 +38,16 @@ session_start(); {
                 }
             }
             header('location:../../index.php?action=xemgiohang');
+        }
+        else if (isset($_GET['quantity'])) {
+            if(empty($sl)<0)
+            $sl = $_GET['quantity'];
+            $value = $_GET['value'];
+            $_SESSION["cart$id_user"][$value]['quantity'] = $sl;
+            $_SESSION["cart$id_user"][$value]['total'] = $_SESSION["cart$id_user"][$value]['price'] * $sl;
+            header('location:../../index.php?action=xemgiohang');
         } else {
-            echo "khong co";
+            echo "Không có !";
         }
     }
 }

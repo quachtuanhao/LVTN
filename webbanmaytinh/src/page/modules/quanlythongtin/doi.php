@@ -23,9 +23,6 @@
                 if($row2['password']!==$pass)
                 $errors['password']['trung']='Password không đúng';
             }
-            // else{
-            //     $errors['username']['trung']='';
-            // }
         }
         if(empty($newPassword)){
             $errors['newPassword']['required']='Mật khẩu mới không được bỏ trống';

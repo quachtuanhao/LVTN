@@ -1,7 +1,5 @@
 <?php
-// session_start();
-//     echo $username;
-// session_start();
+    session_start();
 ?>
 <div class="menu">
     <div class="menu-content-left">
@@ -20,12 +18,30 @@
     </div>
     <div class="menu-content-right">
         <ul class="menu-list">
-            <!-- <li class="menu-item"><a class="menu-link" href="./index.php?action=xemkhuyenmai"><i class="menu-icon fa-solid fa-star"></i>Tin khuyến mãi</a></li> -->
             <li class="menu-item"><a class="menu-link" href="./index.php?action=xemdonhang"><i class="menu-icon fa-solid fa-table-list"></i>Đơn hàng</a></li>
-            <li class="menu-item"><a class="menu-link" href="./index.php?action=xemgiohang"><i class="menu-icon fa-solid fa-cart-shopping"></i>Giỏ hàng</a></li>
+            <li class="menu-item" style="position:relative"><a class="menu-link" href="./index.php?action=xemgiohang"><i class="menu-icon fa-solid fa-cart-shopping"></i>Giỏ hàng</a>
+                <div style="position: absolute;right: 60px;top: 6px;z-index: 2;width: 14px;height: 14px;text-align: center;border-radius: 50%;background-color: #ffd400;border: #fff solid 1px;font-size: 12px;">
+                    <?php
+                    if (isset($_SESSION['dangnhap'])) {
+                        $id_user = $_SESSION['dangnhap'];
+                        if (isset($_SESSION["cart$id_user"])) {
+                            $arr = $_SESSION["cart$id_user"];
+                            echo count($arr);
+                        } else {
+                            echo 0;
+                        }
+                    } else if (isset($_SESSION["cart"])) {
+                        $arr = $_SESSION["cart"];
+                        echo count($arr);
+                    } else {
+                        echo 0;
+                    }
+                    ?></div>
+            </li>
+
             <?php
             include './../db/connect.php';
-            session_start();
+            
             if (isset($_SESSION['dangnhap'])) {
                 $username = $_SESSION['dangnhap'];
                 $sql = "SELECT hoTen from taikhoan where userName like '$username'";

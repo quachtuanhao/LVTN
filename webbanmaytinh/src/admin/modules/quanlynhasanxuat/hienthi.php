@@ -39,8 +39,6 @@ include '../././db/connect.php';
                     <a class="content-item width50" href="./index.php?action=quanlynhasanxuat&query=xoa&this_id=<?php echo $row['id'] ?>"><i class="fa-sharp fa-solid fa-trash"></i></a>
                 </td>
             </tr>
-
-
         <?php
         }
         mysqli_close($conn);

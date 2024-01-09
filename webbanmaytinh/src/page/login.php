@@ -3,7 +3,6 @@ include '../db/connect.php';
 $username = "";
 $password = "";
 if (isset($_POST['dangnhap'])) {
-    // session_start();
     $username = $_POST['username'];
     $password = $_POST['password'];
     $errors = [];
@@ -17,9 +16,6 @@ if (isset($_POST['dangnhap'])) {
         if (empty($row1)) {
             $errors['username']['trung'] = 'Username không tồn tại';
         }
-        // else{
-        //     $errors['username']['trung']='';
-        // }
     }
     if (empty($password)) {
         $errors['password']['required'] = 'Password không được bỏ trống';
@@ -32,9 +28,6 @@ if (isset($_POST['dangnhap'])) {
             if ($row2['password'] !== $pass)
                 $errors['password']['trung'] = 'Password không đúng';
         }
-        // else{
-        //     $errors['username']['trung']='';
-        // }
     }
     if (count($errors) == 0) {
         $sql = "SELECT userName,password,hoTen,maCV from taikhoan where taikhoan.userName ='$username' and taikhoan.password='$pass'";

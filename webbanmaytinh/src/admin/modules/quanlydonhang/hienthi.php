@@ -1,11 +1,9 @@
 <?php
 include '../././db/connect.php';
-// session_start();
+
 if (isset($_POST['capnhat'])) {
     $id = $_GET['id'];
     $tt = $_POST['tinhtrang'];
-
-    // $_SESSION['thongtin'][5]=$tt;
     $sql2 = "UPDATE dondathang SET maTT='$tt' where maDonDatHang='$id'";
     mysqli_query($conn, $sql2);
 }

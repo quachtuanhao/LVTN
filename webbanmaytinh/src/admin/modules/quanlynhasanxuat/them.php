@@ -18,9 +18,6 @@ if (isset($_POST['submit'])) {
         if (!empty($row1)) {
             $errors['ma']['trung'] = 'Mã đã tồn tại';
         }
-        // else{
-        //     $errors['username']['trung']='';
-        // }
     }
     if (empty($ten)) {
         $errors['ten']['required'] = 'Tên không được bỏ trống';

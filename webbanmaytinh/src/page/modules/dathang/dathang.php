@@ -20,7 +20,6 @@ if (isset($_SESSION['dangnhap'])) {
         $maTT = "DXL";
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $date = date('Y-m-d h:i:s');
-        // echo "$name,$email,$sdt,$diachi,$maTT,$date,$maKM";
         $sql = "INSERT into dondathang(maKH,tenKhach,emailKhach,sdtKhach,diaChiKhach,ngayDat,maTT,maKM) 
             values('$id_user','$name','$email','$sdt','$diachi','$date','$maTT','$maKM')";
         mysqli_query($conn, $sql);

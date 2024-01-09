@@ -56,8 +56,6 @@ if (isset($_POST['submit'])) {
                 }
             }
         }
-
-        // header('location: ../../../page/index.php?action=thongtindonhang');
     }
 }
 ?>

@@ -4,9 +4,6 @@ if (isset($_GET['this_id'])) {
     $username = $_GET['this_id'];
 }
 if (isset($_POST['sua'])) {
-    // session_start();
-    // echo "y";
-    // $username = $_GET['this_id'];
     $name = $_POST['name'];
     $email = $_POST['email'];
     $sdt = $_POST['sdt'];
@@ -49,7 +46,6 @@ if (isset($_POST['sua'])) {
         <div class="form-content">
             <?php
             if (isset($_GET['this_id'])) {
-                // $username = $_GET['this_id'];
                 $sql = "SELECT hoTen,email,sdt,diachi from taikhoan where userName='$username'";
                 $result = mysqli_query($conn, $sql);
                 while ($row = mysqli_fetch_array($result)) { ?>

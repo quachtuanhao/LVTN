@@ -25,9 +25,6 @@ if (isset($_POST['dangky'])) {
         if (!empty($row1)) {
             $errors['username']['trung'] = 'Username đã tồn tại';
         }
-        // else{
-        //     $errors['username']['trung']='';
-        // }
     }
     if (empty($password)) {
         $errors['password']['required'] = 'Password không được bỏ trống';

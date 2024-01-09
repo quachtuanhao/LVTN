@@ -31,24 +31,7 @@
     } else if ($tam == 'search') {
         include 'danhmucsanpham/hienthi.php';
     }
-
-    // else if($tam=='themgiohang'){
-    //     include'./giohang.php';
-    // }
-    // else if($tam=='quanlysanpham' && $query=='them'){
-    //     include'./modules/quanlysanpham/them.php';
-    // }
-    // else if($tam=='quanlysanpham' && $query=='xoa'){
-    //     include'./modules/quanlysanpham/xoa.php';
-    // }
-    // else if($tam=='quanlysanpham' && $query=='sua'){
-    //     include'./modules/quanlysanpham/sua.php';
-    // }
-    // else if($tam=='quanlytaikhoan' && $query=='no'){
-    //     include'./modules/quanlytaikhoan/hienthi.php';
-    // }
     else {
-        // include'./modules/dashboard.php';
         include 'danhmucsanpham/hienthi.php';
     }
 

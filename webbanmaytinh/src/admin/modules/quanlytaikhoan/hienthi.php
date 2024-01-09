@@ -42,4 +42,3 @@ include '../././db/connect.php';
     mysqli_close($conn);
     ?>
 </table>
-<!-- <button><a href="?action=quanlysanpham&&query=them">Thêm</a></button> -->

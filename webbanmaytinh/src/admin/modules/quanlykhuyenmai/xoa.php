@@ -6,8 +6,6 @@ if (isset($_GET['this_id'])) {
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_array($result);
     $today = date('Y-m-d');
-    // echo $row['ngayKetThuc'];
-    // echo $today;
     if (strtotime($row['ngayKetThuc']) < strtotime($today)) {
         $sql1 = "DELETE FROM khuyenmai WHERE maKhuyenMai='$id'";
         mysqli_query($conn, $sql1);

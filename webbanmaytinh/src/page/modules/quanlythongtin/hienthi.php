@@ -1,7 +1,5 @@
 <?php
     if(isset($_POST['sua'])){
-        // session_start();
-        // include'../../../db/connect.php';
         $username = $_SESSION['dangnhap'];
         $name = $_POST['name'];
         $email = $_POST['email'];

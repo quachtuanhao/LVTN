@@ -4,7 +4,6 @@ if (isset($_SESSION['dangnhap'])) {
     $id = $_SESSION['dangnhap'];
     $sql = "SELECT * from dondathang where maKH='$id'";
     $result = mysqli_query($conn, $sql);
-    // if(count($kt=mysqli_fetch_row($result))>0){
 ?>
     <div class="tiltle">
         <p class="content-title">Đơn Hàng</p>

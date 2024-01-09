@@ -6,7 +6,6 @@ include './../db/connect.php';
 
     </ul>
     <ul class="sidebar-list">
-        <!-- <li><div class="sidebar-list-title">Hãng sản xuất</div></li> -->
         <?php
         $sql = "SELECT maNhaSanXuat,tenNhaSanXuat from nhasanxuat";
         $result = mysqli_query($conn, $sql);

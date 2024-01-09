@@ -1,5 +1,4 @@
 <?php
-// session_start();
 if (isset($_SESSION['dangnhap'])) {
     $id_user = $_SESSION['dangnhap'];
     $_SESSION["km1$id_user"] = 0;
@@ -46,7 +45,10 @@ if (isset($_SESSION['dangnhap'])) {
                     <td class="cart-item width100">
                         <div class="handle_quantity">
                             <a class="quantity" href="./modules/quanlygiohang/chinhsuasoluong.php?action=giam&&value=<?php echo $k ?>"><i class="fa-solid fa-minus"></i></a>
-                            <p class="quantity"><?php echo $v['quantity'] ?></p>
+                            <form action="./modules/quanlygiohang/chinhsuasoluong.php?action=a">
+                                <input type="text" name="quantity" class="quantity" style="width:20px" value="<?php echo $v['quantity'] ?>"></input>
+                                <input type="hidden" name="value" value="<?php echo $k ?>"></input>
+                            </form>
                             <a class="quantity" href="./modules/quanlygiohang/chinhsuasoluong.php?action=tang&&value=<?php echo $k ?>"><i class="fa-solid fa-plus"></i></a>
                         </div>
                     </td>
@@ -91,7 +93,10 @@ if (isset($_SESSION['dangnhap'])) {
                 <td class="cart-item width100">
                     <div class="handle_quantity">
                         <a class="quantity" href="./modules/quanlygiohang/chinhsuasoluong.php?action=giam&&value=<?php echo $k ?>"><i class="fa-solid fa-minus"></i></a>
-                        <p class="quantity"><?php echo $v['quantity'] ?></p>
+                        <form action="./modules/quanlygiohang/chinhsuasoluong.php?action=a">
+                            <input type="text" name="quantity" class="quantity" style="width:20px" value="<?php echo $v['quantity'] ?>"></input>
+                            <input type="hidden" name="value" value="<?php echo $k ?>"></input>
+                        </form>
                         <a class="quantity" href="./modules/quanlygiohang/chinhsuasoluong.php?action=tang&&value=<?php echo $k ?>"><i class="fa-solid fa-plus"></i></a>
                     </div>
                 </td>

@@ -35,9 +35,6 @@ if (isset($_POST['submit'])) {
             <?php
             $sql = "SELECT maKhuyenMai as ma,tenKhuyenMai as ten,ngayBatDau,ngayKetThuc,maLKM,giaTriKhuyenMai 
                     from khuyenmai where maKhuyenMai='$this_id'";
-            // $sql = "SELECT maKhuyenMai as ma,tenKhuyenMai as ten,ngayBatDau,ngayKetThuc,maLKM,giaTriKhuyenMai ,tenLoai
-            // from khuyenmai join loaikhuyenmai
-            //     on khuyenmai.maLKM=loaikhuyenmai.maLoai where maKhuyenMai='$this_id'";
             $result = mysqli_query($conn, $sql);
             while ($row = mysqli_fetch_array($result)) {
             ?>
@@ -58,7 +55,6 @@ if (isset($_POST['submit'])) {
                         class='message-error'>" . $errors['ngayKetThuc']['required'] . "</span>" : false ?>
                 <label class="label">Loại khuyến mãi</label>
                 <input class="text" type="text" name="maLKM" value="<?php echo (!empty($maLKM) ? $maLKM : $row['maLKM']) ?>">
-                <!-- <input class="text" type="text" name="maLKM" value="<?php echo (!empty($maLKM) ? $maLKM : $row['tenLoai']) ?>"> -->
                 <?php echo (!empty($errors['maLKM']['required'])) ? "<span
                         class='message-error'>" . $errors['maLKM']['required'] . "</span>" : false ?>
                 <label class="label">Giá trị khuyến mãi</label>
