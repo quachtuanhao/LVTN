@@ -17,10 +17,19 @@ session_start(); {
             header('location:../../index.php?action=xemgiohang');
         } else if (isset($_GET['quantity'])) {
             $sl = $_GET['quantity'];
-            $value = $_GET['value'];
-            $_SESSION["cart$id_user"][$value]['quantity'] = $sl;
-            $_SESSION["cart$id_user"][$value]['total'] = $_SESSION["cart$id_user"][$value]['price'] * $sl;
-            header('location:../../index.php?action=xemgiohang');
+            if (is_numeric($sl) && $sl > 0) {
+                $value = $_GET['value'];
+                $_SESSION["cart$id_user"][$value]['quantity'] = $sl;
+                $_SESSION["cart$id_user"][$value]['total'] = $_SESSION["cart$id_user"][$value]['price'] * $sl;
+                header('location:../../index.php?action=xemgiohang');
+            } else {
+?>
+                <script language="javascript">
+                    alert("Phải nhập số và phải lớn hơn 0!");
+                    window.location = "../../index.php?action=xemgiohang";
+                </script>;
+            <?php
+            }
         } else {
             echo "Không có !";
         }
@@ -38,14 +47,21 @@ session_start(); {
                 }
             }
             header('location:../../index.php?action=xemgiohang');
-        }
-        else if (isset($_GET['quantity'])) {
-            if(empty($sl)<0)
+        } else if (isset($_GET['quantity'])) {
             $sl = $_GET['quantity'];
-            $value = $_GET['value'];
-            $_SESSION["cart$id_user"][$value]['quantity'] = $sl;
-            $_SESSION["cart$id_user"][$value]['total'] = $_SESSION["cart$id_user"][$value]['price'] * $sl;
-            header('location:../../index.php?action=xemgiohang');
+            if (is_numeric($sl) && $sl > 0) {
+                $value = $_GET['value'];
+                $_SESSION["cart$id_user"][$value]['quantity'] = $sl;
+                $_SESSION["cart$id_user"][$value]['total'] = $_SESSION["cart$id_user"][$value]['price'] * $sl;
+                header('location:../../index.php?action=xemgiohang');
+            } else {
+            ?>
+                <script language="javascript">
+                    alert("Phải nhập số và phải lớn hơn 0!");
+                    window.location = "../../index.php?action=xemgiohang";
+                </script>;
+<?php
+            }
         } else {
             echo "Không có !";
         }
