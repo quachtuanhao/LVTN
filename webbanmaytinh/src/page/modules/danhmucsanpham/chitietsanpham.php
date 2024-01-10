@@ -11,11 +11,11 @@ if (isset($_GET['value'])) {
     <table>
         <tr class="content-product-list">
             <?php
-            $sql = "SELECT tenSanPham,gia,hinhAnh,ram,dungLuong,pin,moTa,maNSX from sanpham where maSanPham = '$tam'";
+            $sql = "SELECT tenSanPham,gia,hinhAnh,ram,dungLuong,pin,moTa,maNSX,maLSP from sanpham where maSanPham = '$tam'";
             $result = mysqli_query($conn, $sql);
             $row = mysqli_fetch_array($result) ?>
             <form class="form" action="./modules/quanlygiohang/them.php?action=themgiohang&&idsanpham=<?php echo $tam ?>" method="POST">
-                <?php if ($row['maNSX'] == 'NSX01') {
+                <?php if ($row['maLSP'] == 'LSP01') {
                 ?>
                     <td class="content-product-items detail">
                         <img class="content-product-item img-detail" style="margin-left: 60px;" src="./../../assets/img/<?php echo $row['hinhAnh'] ?>" alt="no">
