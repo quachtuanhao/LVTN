@@ -1,6 +1,5 @@
 <?php
 include './../db/connect.php';
-
 ?>
 <div class="filter">
     <form class="form-5" action="./index.php?action=nsx">

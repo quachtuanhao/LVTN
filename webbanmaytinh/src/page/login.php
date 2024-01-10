@@ -34,11 +34,22 @@ if (isset($_POST['dangnhap'])) {
         $result = mysqli_query($conn, $sql);
         while ($row = mysqli_fetch_array($result)) {
             if ($row['maCV'] == 'CV02') {
-                header('location:index.php');
+                //header('location:index.php');
                 $_SESSION['dangnhap'] = $username;
+?>
+                <script>
+                    window.location.replace("index.php");
+                </script>
+            <?php
             } else if ($row['maCV'] == 'CV01') {
-                header('location: ../admin/index.php');
+                //header('location: ../admin/index.php');
                 $_SESSION['dangnhapadmin'] = $username;
+            ?>
+                <script>
+                    window.location.replace("../admin/index.php");
+                </script>
+<?php
+
             }
         }
     }
