@@ -21,11 +21,11 @@ include '../././db/connect.php';
         $page = $_GET['page'];
         $n = ($page - 1) * 5;
         if ($page == 1) {
-            $sql = "SELECT maKhuyenMai,tenKhuyenMai,ngayBatDau,ngayKetThuc,giaTriKhuyenMai,tenLoai 
+            $sql = "SELECT maKhuyenMai,tenKhuyenMai,ngayBatDau,ngayKetThuc,giaTriKhuyenMai,tenLoai,maLKM
             from khuyenmai join loaikhuyenmai
             on khuyenmai.maLKM=loaikhuyenmai.maLoai order by ngayKetThuc DESC limit 0,5 ";
         } else {
-            $sql = "SELECT maKhuyenMai,tenKhuyenMai,ngayBatDau,ngayKetThuc,giaTriKhuyenMai,tenLoai 
+            $sql = "SELECT maKhuyenMai,tenKhuyenMai,ngayBatDau,ngayKetThuc,giaTriKhuyenMai,tenLoai,maLKM
             from khuyenmai join loaikhuyenmai
             on khuyenmai.maLKM=loaikhuyenmai.maLoai order by ngayKetThuc DESC limit $n,5 ";
         }
@@ -44,7 +44,7 @@ include '../././db/connect.php';
             <td class="cart-item width100"><?php echo date("d/m/Y", strtotime($row['ngayKetThuc'])) ?></td>
             <td class="content-item width150"><?php echo $row['tenLoai'] ?></td>
             <td class="content-item width150">
-                <?php if (isset($row['maLKM']) == "KM1") {
+                <?php if ($row['maLKM'] == "KM1") {
                     echo number_format($row['giaTriKhuyenMai'], $decimals = 0, $dec_point = ',', $thousand_sep = '.') . 'đ';
                 } else {
                     echo $row['giaTriKhuyenMai'] . '%';
