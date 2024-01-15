@@ -14,7 +14,7 @@ include '../db/connect.php';
     </tr>
     <?php
     $sql = "SELECT maKhuyenMai,tenKhuyenMai,ngayBatDau,ngayKetThuc,giaTriKhuyenMai,maLKM
-        from khuyenmai where DATEDIFF(ngayBatDau,CURDATE()) >= 0 ORDER BY ngayBatDau DESC";
+        from khuyenmai where DATEDIFF(ngayKetThuc,CURDATE()) >= 0 ORDER BY ngayBatDau DESC";
     $result = mysqli_query($conn, $sql);
     while ($row = mysqli_fetch_array($result)) {
     ?>
