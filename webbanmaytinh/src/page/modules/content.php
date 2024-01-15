@@ -16,7 +16,7 @@
         include 'donhang/hienthi.php';
     } else if ($tam == 'xemchitietdonhang') {
         include 'donhang/chitiet.php';
-    } else if ($tam == 'xemkhuyenmai') {
+    } else if ($tam == 'khuyenmai') {
         include 'khuyenmai/hienthi.php';
     } else if ($tam == 'login') {
         include './login.php';
@@ -30,8 +30,7 @@
         include 'quanlythongtin/doi.php';
     } else if ($tam == 'search') {
         include 'danhmucsanpham/hienthi.php';
-    }
-    else {
+    } else {
         include 'danhmucsanpham/hienthi.php';
     }
 

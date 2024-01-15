@@ -11,7 +11,7 @@ if (isset($_POST['capnhat'])) {
 <div class="content-header">
     <h3 class="content-title">Danh Sách Đơn Hàng</h3>
 </div>
-<table class="content-wrapper">
+<table class="content-wrapper" style="min-height:395px">
     <tr class="content-list head">
         <td class="content-item width100 head"> <b>Mã đơn hàng</b></td>
         <td class="content-item width100 head"> <b>Username</b></td>
@@ -24,19 +24,29 @@ if (isset($_POST['capnhat'])) {
 
     </tr>
     <?php
-    $sql = "SELECT * from dondathang";
+    if (isset($_GET['page'])) {
+        $page = $_GET['page'];
+        $n = ($page - 1) * 5;
+        if ($page == 1) {
+            $sql = "SELECT * from dondathang order by ngayDat DESC limit 0,5 ";
+        } else {
+            $sql = "SELECT * from dondathang order by ngayDat DESC limit $n,5 ";
+        }
+    } else {
+        $sql = "SELECT * from dondathang order by ngayDat DESC limit 0,5 ";
+    }
     $result = mysqli_query($conn, $sql);
     while ($row = mysqli_fetch_array($result)) {
         $tt = $row['maTT'];
         $maDDH = $row['maDonDatHang'];
     ?>
-        <tr class="content-list">
+        <tr class="content-list" style="height: 70px;">
             <td class="content-item width100"><?php echo $row['maDonDatHang'] ?></td>
             <td class="content-item width100"><?php echo $row['maKH'] ?></td>
             <td class="content-item width150"><?php echo $row['tenKhach'] ?></td>
             <td class="content-item width100"><?php echo $row['sdtKhach'] ?></td>
             <td class="content-item width150"><?php echo $row['diaChiKhach'] ?></td>
-            <td class="content-item width100"><?php echo date("d-m-Y", strtotime($row['ngayDat'])) ?></td>
+            <td class="content-item width100"><?php echo date("d/m/Y", strtotime($row['ngayDat'])) ?></td>
             <td class="content-item width200">
                 <form class="form-row" action="index.php?action=quanlydonhang&&query=capnhat&&id=<?php echo $maDDH ?>" method="POST">
                     <select name="tinhtrang"><?php $sql1 = "SELECT * from trangthai";
@@ -57,6 +67,9 @@ if (isset($_POST['capnhat'])) {
         </tr>
     <?php
     }
-    mysqli_close($conn);
+
     ?>
 </table>
+<?php
+include 'pagination.php';
+?>

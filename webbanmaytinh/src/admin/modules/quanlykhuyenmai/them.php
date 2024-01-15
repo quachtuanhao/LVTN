@@ -17,6 +17,9 @@ if (isset($_POST['submit'])) {
         if (!empty($row1)) {
             $errors['ma']['trung'] = 'Mã đã tồn tại';
         }
+        // else{
+        //     $errors['username']['trung']='';
+        // }
     }
     if (empty($ten)) {
         $errors['ten']['required'] = 'Tên không được bỏ trống';
@@ -38,8 +41,15 @@ if (isset($_POST['submit'])) {
         }
     }
     if (count($errors) == 0) {
-        $sql = "INSERT into khuyenmai(maKhuyenMai,tenKhuyenMai,ngayBatDau,ngayKetThuc,maLKM,giaTriKhuyenMai)
+        if (isset($_POST['hienthi']) && $_POST['hienthi'] == 1) {
+            $sql = "INSERT into khuyenmai(maKhuyenMai,tenKhuyenMai,ngayBatDau,ngayKetThuc,maLKM,giaTriKhuyenMai,hienThi)
+            values('$ma','$ten','$ngaybd','$ngaykt','$loaikm','$giatri',1)";
+            echo 'a';
+        } else {
+            $sql = "INSERT into khuyenmai(maKhuyenMai,tenKhuyenMai,ngayBatDau,ngayKetThuc,maLKM,giaTriKhuyenMai)
             values('$ma','$ten','$ngaybd','$ngaykt','$loaikm','$giatri')";
+            echo 'b';
+        }
         mysqli_query($conn, $sql);
         header('location:./index.php?action=quanlykhuyenmai&&query=no');
     }
@@ -86,6 +96,8 @@ if (isset($_POST['submit'])) {
             <?php echo (!empty($errors['giatri']['max'])) ? "<span
             class='message-error'>" . $errors['giatri']['max'] . "</span>" : false ?>
             <input class="text" type="text" name="giatri" value="<?php echo (!empty($giatri) ? $giatri : "") ?>">
+            <label class="label">Hiển thị trang chủ</label>
+            <input type="checkbox" name="hienthi" value="1">
             <input class="submit" type="submit" name="submit" value="Thêm">
         </div>
     </div>

@@ -1,6 +1,5 @@
 <?php
 include '../././db/connect.php';
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +17,7 @@ include '../././db/connect.php';
         <h3 class="content-title">Danh Sách Nhà Sản Xuất</h3>
         <button class="btn-add"><a class="title" href="?action=quanlynhasanxuat&&query=them"><i class="icon fa-solid fa-plus"></i>Thêm</a></button>
     </div>
-    <table class="content-wrapper">
+    <table class="content-wrapper" style="min-height: 395px;">
         <tr class="content-list head">
             <td class="content-item width100 head"> <b class="title">STT</b></td>
             <td class="content-item width200 head"> <b class="title">Tên nhà sản xuất</b></td>
@@ -26,11 +25,21 @@ include '../././db/connect.php';
             <td class="content-item width100 head"> <b class="title">Thao tác</b></td>
         </tr>
         <?php
-        $sql = "SELECT maNhaSanXuat as id,tenNhaSanXuat as ten ,truSoChinh as truSo from nhasanxuat";
+        if (isset($_GET['page'])) {
+            $page = $_GET['page'];
+            $n = ($page - 1) * 5;
+            if ($page == 1) {
+                $sql = "SELECT maNhaSanXuat as id,tenNhaSanXuat as ten ,truSoChinh as truSo from nhasanxuat order by maNhaSanXuat ASC limit 0,5 ";
+            } else {
+                $sql = "SELECT maNhaSanXuat as id,tenNhaSanXuat as ten ,truSoChinh as truSo from nhasanxuat order by maNhaSanXuat ASC limit $n,5 ";
+            }
+        } else {
+            $sql = "SELECT maNhaSanXuat as id,tenNhaSanXuat as ten ,truSoChinh as truSo from nhasanxuat order by maNhaSanXuat ASC limit 0,5 ";
+        }
         $result = mysqli_query($conn, $sql);
         while ($row = mysqli_fetch_array($result)) {
         ?>
-            <tr class="content-list">
+            <tr class="content-list" style="height: 70px;">
                 <td class="content-item width100"><?php echo $row['id'] ?></td>
                 <td class="content-item width200"><?php echo $row['ten'] ?></td>
                 <td class="content-item width400"><?php echo (string)$row['truSo'] ?></td>
@@ -41,9 +50,11 @@ include '../././db/connect.php';
             </tr>
         <?php
         }
-        mysqli_close($conn);
         ?>
     </table>
+    <?php
+    include 'pagination.php';
+    ?>
 </body>
 
 </html>

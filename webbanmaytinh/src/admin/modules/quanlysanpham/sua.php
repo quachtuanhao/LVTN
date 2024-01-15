@@ -19,6 +19,7 @@ if (isset($_POST['submit'])) {
     }
     $moTa = $_POST['mota'];
     $nsx = $_POST['hang'];
+    $loai = $_POST['loai'];
     if (empty($ten)) {
         $errors['ten']['required'] = 'Tên sản phẩm không được bỏ trống';
     }
@@ -30,13 +31,13 @@ if (isset($_POST['submit'])) {
     if (count($errors) == 0) {
         if (empty($anh)) {
             $anh = $row['hinhAnh'];
-            $sql = "UPDATE sanpham set tenSanPham='$ten', gia=$gia ,hinhAnh='$anh' ,moTa='$moTa' ,maNSX='$nsx'
+            $sql = "UPDATE sanpham set tenSanPham='$ten', gia=$gia ,hinhAnh='$anh' ,moTa='$moTa' ,maNSX='$nsx',maLSP='$loai'
             where maSanPham='$id'";
             mysqli_query($conn, $sql);
             mysqli_close($conn);
             header('location: ./index.php?action=quanlysanpham&&query=no');
         }
-        $sql = "UPDATE sanpham set tenSanPham='$ten', gia=$gia ,hinhAnh='$anh' ,moTa='$moTa' ,maNSX='$nsx'
+        $sql = "UPDATE sanpham set tenSanPham='$ten', gia=$gia ,hinhAnh='$anh' ,moTa='$moTa' ,maNSX='$nsx',maLSP='$loai'
         where maSanPham='$id'";
         mysqli_query($conn, $sql);
         mysqli_close($conn);
@@ -52,7 +53,7 @@ if (isset($_POST['submit'])) {
         </div>
         <div class="form-content">
             <?php
-            $sql = "SELECT maSanPham as ma,tenSanPham as ten,gia,hinhAnh,moTa,maNSX 
+            $sql = "SELECT maSanPham as ma,tenSanPham as ten,gia,hinhAnh,moTa,maNSX,maLSP
                     from sanpham where maSanPham='$this_id'";
             $result = mysqli_query($conn, $sql);
             while ($row = mysqli_fetch_array($result)) {
@@ -78,7 +79,10 @@ if (isset($_POST['submit'])) {
                         class='message-error'>" . $errors['anh']['required'] . "</span>" : false ?>
                 <label class="label">Mô tả</label>
                 <input class="text" type="text" name="mota" value="<?php echo (!empty($moTa) ? $gia : $row['moTa']) ?>">
-                <?php $ma = $row['maNSX'] ?>
+                <?php
+                $ma = $row['maNSX'];
+                $maloai = $row['maLSP'];
+                ?>
                 <label class="label">Nhà sản xuất</label>
             <?php
 
@@ -102,6 +106,26 @@ if (isset($_POST['submit'])) {
                 }
                 ?>
             </select>
+            <label class="label">Loại sản phẩm</label>
+
+            <select name="loai">
+                <?php
+                $sql = "SELECT maLoaiSanPham as id,tenLoaiSanPham as ten from loaisanpham";
+                $result = mysqli_query($conn, $sql);
+                while ($row = mysqli_fetch_array($result)) {
+                ?>
+                    <option value="<?php echo $row['id'] ?>" <?php
+                                                                if ($maloai == $row['id']) {
+                                                                    echo 'selected';
+                                                                }
+                                                                ?>>
+                        <?php echo $row['ten'] ?></option>
+
+                <?php
+                }
+                ?>
+            </select>
+
             <input class="submit" type="submit" name="submit" value="Lưu">
         </div>
 

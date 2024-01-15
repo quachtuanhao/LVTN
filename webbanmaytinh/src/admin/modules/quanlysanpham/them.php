@@ -10,6 +10,7 @@ if (isset($_POST['submit'])) {
     }
     $mota = $_POST['mota'];
     $nsx = $_POST['hang'];
+    $loai = $_POST['loai'];
     $errors = [];
     if (empty($ma)) {
         $errors['ma']['required'] = 'Mã không được bỏ trống';
@@ -20,6 +21,9 @@ if (isset($_POST['submit'])) {
         if (!empty($row1)) {
             $errors['ma']['trung'] = 'Mã sản phẩm đã tồn tại';
         }
+        // else{
+        //     $errors['username']['trung']='';
+        // }
     }
     if (empty($ten)) {
         $errors['ten']['required'] = 'Tên sản phẩm không được bỏ trống';
@@ -33,8 +37,8 @@ if (isset($_POST['submit'])) {
         $errors['anh']['required'] = 'Chưa chọn ảnh';
     }
     if (count($errors) == 0) {
-        $sql = "INSERT into sanpham(maSanPham,tenSanPham,gia,hinhAnh,moTa,maNSX)
-            values('$ma','$ten',$gia,'$anh','$mota','$nsx')";
+        $sql = "INSERT into sanpham(maSanPham,tenSanPham,gia,hinhAnh,moTa,maNSX,maLSP)
+            values('$ma','$ten',$gia,'$anh','$mota','$nsx','$loai')";
         mysqli_query($conn, $sql);
         header('location:./index.php?action=quanlysanpham&&query=no');
     }
@@ -78,6 +82,18 @@ if (isset($_POST['submit'])) {
                 ?>
                     <option value="<?php echo $row['id'] ?>" <?php if ($row['id'] == $nsx) echo 'selected' ?>><?php echo $row['ten'] ?></option>
 
+                <?php
+                }
+                ?>
+            </select>
+            <label class="label">Loại sản phẩm</label>
+            <select class="text" name="loai">
+                <?php
+                $sql = "SELECT maLoaiSanPham as id,tenLoaiSanPham as ten from loaisanpham";
+                $result = mysqli_query($conn, $sql);
+                while ($row = mysqli_fetch_array($result)) {
+                ?>
+                    <option value="<?php echo $row['id'] ?>" <?php if ($row['id'] == $nsx) echo 'selected' ?>><?php echo $row['ten'] ?></option>
                 <?php
                 }
                 ?>

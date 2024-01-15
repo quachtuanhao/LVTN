@@ -5,7 +5,7 @@ include '../././db/connect.php';
     <h3 class="content-title">Danh Sách Sản Phẩm</h3>
     <button class="btn-add"><a class="title" href="?action=quanlysanpham&&query=them"><i class="icon fa-solid fa-plus"></i>Thêm</a></button>
 </div>
-<table class="content-wrapper">
+<table class="content-wrapper" style="min-height: 395px;">
     <tr class="content-list head">
         <td class="content-item width100 head"> <b>Mã sản phẩm</b> </td>
         <td class="content-item width200 head"><b>Tên sản phẩm</b></td>
@@ -17,18 +17,32 @@ include '../././db/connect.php';
 
     </tr>
     <?php
-    $sql = "SELECT maSanPham as id,tenSanPham as ten,gia,hinhAnh as img,moTa,
+    if (isset($_GET['page'])) {
+        $page = $_GET['page'];
+        $n = ($page - 1) * 5;
+        if ($page == 1) {
+            $sql = "SELECT maSanPham as id,tenSanPham as ten,gia,hinhAnh as img,moTa,
+            tenNhaSanXuat as tenNSX from sanpham join nhasanxuat
+            on sanpham.maNSX=nhaSanXuat.maNhaSanXuat order by id ASC limit 0,5 ";
+        } else {
+            $sql = "SELECT maSanPham as id,tenSanPham as ten,gia,hinhAnh as img,moTa,
         tenNhaSanXuat as tenNSX from sanpham join nhasanxuat
-        on sanpham.maNSX=nhaSanXuat.maNhaSanXuat order by id ASC";
+        on sanpham.maNSX=nhaSanXuat.maNhaSanXuat order by id ASC limit $n,5 ";
+        }
+    } else {
+        $sql = "SELECT maSanPham as id,tenSanPham as ten,gia,hinhAnh as img,moTa,
+        tenNhaSanXuat as tenNSX from sanpham join nhasanxuat
+        on sanpham.maNSX=nhaSanXuat.maNhaSanXuat order by id ASC limit 0,5 ";
+    }
     $result = mysqli_query($conn, $sql);
     while ($row = mysqli_fetch_array($result)) {
     ?>
-        <tr class="content-list">
+        <tr class="content-list" style="height: 70px;">
             <td class="content-item width100"><?php echo $row['id'] ?></td>
             <td class="content-item width200"><?php echo $row['ten'] ?></td>
-            <td class="content-item width100"><?php echo $row['gia'] ?></td>
+            <td class="content-item width100"><?php echo number_format($row['gia'], $decimals = 0, $dec_point = ',', $thousand_sep = '.') . 'đ' ?></td>
             <td class="content-item width100"><img src="../../././assets/img/<?php echo $row['img'] ?> " alt="img"></td>
-            <td class="content-item width150"><?php echo $row['moTa'] ?></td>
+            <td class="content-item width150" style="height: 100%;overflow-y: hidden;"><?php echo $row['moTa'] ?></td>
             <td class="content-item width100"><?php echo $row['tenNSX'] ?></td>
             <td class="content-item width100">
                 <a class="content-item width50" href="?action=quanlysanpham&query=sua&this_id=<?php echo $row['id'] ?>"><i class="fa-solid fa-pen-to-square"></i></a>
@@ -38,6 +52,8 @@ include '../././db/connect.php';
 
     <?php
     }
-    mysqli_close($conn);
     ?>
 </table>
+<?php
+include 'pagination.php';
+?>
