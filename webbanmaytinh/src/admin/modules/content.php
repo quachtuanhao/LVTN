@@ -24,6 +24,18 @@
 
 
 
+        else if ($tam == 'quanlyloaisanpham' && $query == 'no') {
+            include './modules/quanlyloaisanpham/hienthi.php';
+        } else if ($tam == 'quanlyloaisanpham' && $query == 'them') {
+            include './modules/quanlyloaisanpham/them.php';
+        } else if ($tam == 'quanlyloaisanpham' && $query == 'sua') {
+            include './modules/quanlyloaisanpham/sua.php';
+        } else if ($tam == 'quanlyloaisanpham' && $query == 'xoa') {
+            include './modules/quanlyloaisanpham/xoa.php';
+        }
+
+
+
         else if($tam=='quanlysanpham' && $query=='no'){
             include'./modules/quanlysanpham/hienthi.php';
         }
