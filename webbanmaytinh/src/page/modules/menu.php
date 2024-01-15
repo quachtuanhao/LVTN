@@ -50,12 +50,12 @@ session_start();
                 $row = mysqli_fetch_array($result);
             ?>
                 <li class="menu-item info">Xin chào <?php echo $row['hoTen'] ?>
-                    <div class="menu-sub">
+                    <div class="menu-sub" style="border-radius: 4px;">
                         <ul class="menu-sub-list">
-                            <li class="menu-sub-item">
+                            <li class="menu-sub-item" style="margin-bottom: 4px;">
                                 <a class="menu-sub-title" href="./index.php?action=chinhsuathongtin">Chỉnh sửa thông tin</a>
                             </li>
-                            <li class="menu-sub-item">
+                            <li class="menu-sub-item" style="margin-bottom: 4px;">
                                 <a class="menu-sub-title" href="./index.php?action=doimatkhau">Đổi mật khẩu</a>
                             </li>
                         </ul>
