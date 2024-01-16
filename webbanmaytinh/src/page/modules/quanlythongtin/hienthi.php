@@ -10,6 +10,8 @@ if (isset($_POST['sua'])) {
         $errors['name']['required'] = 'Họ tên không được bỏ trống';
     } else if (strlen($name) < 6) {
         $errors['name']['min'] = 'Họ tên phải lớn hơn 6 ký tự';
+    } else if (strlen($name) > 50) {
+        $errors['name']['max'] = 'Họ tên không được quá 50 ký tự';
     }
     if (empty($email)) {
         $errors['email']['required'] = 'Email không được bỏ trống';
@@ -59,6 +61,8 @@ if (isset($_POST['sua'])) {
                             class='message-error'>" . $errors['name']['required'] . "</span>" : false ?>
                     <?php echo (!empty($errors['name']['min'])) ? "<span
                             class='message-error'>" . $errors['name']['min'] . "</span>" : false ?>
+                    <?php echo (!empty($errors['name']['max'])) ? "<span
+                            class='message-error'>" . $errors['name']['max'] . "</span>" : false ?>
                     <label class="label">Email</label>
                     <input class="text" type="text" name="email" value="<?php $em = isset($email) ? $email : $row['email'];
                                                                         echo $em ?>">
