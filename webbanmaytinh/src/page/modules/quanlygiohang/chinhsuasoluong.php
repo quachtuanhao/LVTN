@@ -17,15 +17,25 @@ session_start(); {
             header('location:../../index.php?action=xemgiohang');
         } else if (isset($_GET['quantity'])) {
             $sl = $_GET['quantity'];
-            if (is_numeric($sl) && $sl > 0) {
+            if (is_numeric($sl) && $sl > 0 && $sl <= 99) {
+                echo '< abc';
                 $value = $_GET['value'];
                 $_SESSION["cart$id_user"][$value]['quantity'] = $sl;
                 $_SESSION["cart$id_user"][$value]['total'] = $_SESSION["cart$id_user"][$value]['price'] * $sl;
                 header('location:../../index.php?action=xemgiohang');
-            } else {
+            } else if ($sl <= 0) {
+                echo '< 0';
 ?>
                 <script language="javascript">
                     alert("Phải nhập số và phải lớn hơn 0!");
+                    window.location = "../../index.php?action=xemgiohang";
+                </script>;
+            <?php
+            } else if ($sl > 99) {
+                echo '> 99';
+            ?>
+                <script language="javascript">
+                    alert("Số lượng giới hạn là 99!");
                     window.location = "../../index.php?action=xemgiohang";
                 </script>;
             <?php
