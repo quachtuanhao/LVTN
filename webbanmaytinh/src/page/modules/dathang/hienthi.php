@@ -20,6 +20,10 @@ if (isset($_SESSION['dangnhap'])) {
 $_SESSION['giam'] = 0;
 $_SESSION['makm'] = '';
 $_SESSION['tenKhuyenMai'] = '';
+$_SESSION['gtKM'] = '';
+$_SESSION['mLKM'] = '';
+
+
 
 if (isset($_POST['submit'])) {
     $_SESSION['makm'] = $_POST['km'];
@@ -48,6 +52,8 @@ if (isset($_POST['submit'])) {
             } else {
                 $maLKM = $row2['maLKM'];
                 $_SESSION['tenKhuyenMai'] = $row2['tenKhuyenMai'];
+                $_SESSION['gtKM'] = $row2['giaTriKhuyenMai'];
+                $_SESSION['mLKM'] = $row2['maLKM'];
                 $value = $row2['giaTriKhuyenMai'];
                 if ($maLKM == 'KM1') {
                     $_SESSION['giam'] = $value;
@@ -99,7 +105,7 @@ if (isset($_POST['submit'])) {
     }
     ?>
     <tr class="cart-list voucher">
-        <td class="cart-item width200"><?php echo $_SESSION['tenKhuyenMai'] != '' ? $_SESSION['tenKhuyenMai'] : 'Mã khuyến mãi' ?></td>
+        <td class="cart-item width400"><?php echo $_SESSION['tenKhuyenMai'] != '' ? ($_SESSION['tenKhuyenMai'] . ' Giảm ' . ($_SESSION['mLKM'] == 'KM1' ? number_format($_SESSION['gtKM'], $decimals = 0, $dec_point = ',', $thousand_sep = '.') . 'đ' : $_SESSION['gtKM'] . '%')) : 'Mã khuyến mãi' ?></td>
         <td class="cart-item width200">
             <form class="form" action="index.php?action=thongtindonhang" method="POST">
                 <input class="text" type="text" name="km">
