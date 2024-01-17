@@ -7,12 +7,12 @@ if (isset($_GET["id"])) {
 }
 $sql2 = "SELECT khuyenmai.maLKM as maLKM,khuyenmai.giaTriKhuyenMai as gtKM,maKhuyenMai,tenKhuyenMai  from khuyenmai join dondathang on dondathang.maKM=khuyenmai.maKhuyenMai where dondathang.maDonDatHang=$id";
 $result2 = mysqli_query($conn, $sql2);
-while ($row2 = mysqli_fetch_array($result2)) {
-    $maLKM = $row2['maLKM'];
-    $gtKM = $row2['gtKM'];
-    $tenKM = $row2['tenKhuyenMai'];
-    $maKM = $row2['maKhuyenMai'];
-}
+$row2 = mysqli_fetch_array($result2);
+$maLKM = $row2['maLKM'];
+$gtKM = $row2['gtKM'];
+$tenKM = $row2['tenKhuyenMai'];
+$maKM = $row2['maKhuyenMai'];
+
 ?>
 <div class="content-header">
     <h3 class="content-title">Chi Tiết Đơn Hàng</h3>

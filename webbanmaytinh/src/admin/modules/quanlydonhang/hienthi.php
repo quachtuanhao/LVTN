@@ -59,7 +59,7 @@ if (isset($_POST['capnhat'])) {
                         <?php
                                                 }
                         ?>
-                        <input type="submit" name="capnhat" value="Cập nhật">
+                        <input type="submit" name="capnhat" value="Cập nhật" style="margin-top: 10px;margin-left:92px;cursor:pointer">
                     </select>
                 </form>
             </td>
