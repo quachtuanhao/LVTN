@@ -26,6 +26,9 @@ if (isset($_POST['dangky'])) {
             $errors['username']['trung'] = 'Username đã tồn tại';
         }
     }
+    if(strpos($username,' ')){
+        $errors['username']['space'] = 'Username không được có khoảng trắng';
+    }
     if (empty($password)) {
         $errors['password']['required'] = 'Password không được bỏ trống';
     } else if (strlen($password) < 6) {
@@ -90,6 +93,8 @@ if (isset($_POST['dangky'])) {
                 class='message-error'>" . $errors['username']['required'] . "</span>" : false ?>
                 <?php echo (!empty($errors['username']['trung'])) ? "<span
                 class='message-error'>" . $errors['username']['trung'] . "</span>" : false ?>
+                <?php echo (!empty($errors['username']['space'])) ? "<span
+                class='message-error'>" . $errors['username']['space'] . "</span>" : false ?>
                 <label class="label">Password</label>
                 <input class="text" type="password" name="password" value="<?php echo $password ?>">
                 <?php echo (!empty($errors['password']['required'])) ? "<span
