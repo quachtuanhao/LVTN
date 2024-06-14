@@ -56,8 +56,8 @@ if (isset($_SESSION['dangnhap'])) {
             $date = date('Y-m-d h:i:s');
             $tinhtrang = 'DXL';
             $_SESSION['thongtin'] = array($name, $email, $sdt, $diachi, $date, $tinhtrang);
-            $sql = "INSERT into dondathang(maKH,tenKhach,emailKhach,sdtKhach,diaChiKhach,ngayDat,maTT) 
-                values('$sdt','$name','$email','$sdt','$diachi','$date','$tinhtrang')";
+            $sql = "INSERT into dondathang(maKH,tenKhach,emailKhach,sdtKhach,diaChiKhach,ngayDat,maTT,maKM) 
+                values('$sdt','$name','$email','$sdt','$diachi','$date','$tinhtrang','NULL')";
             mysqli_query($conn, $sql);
             $id = $conn->insert_id;
             foreach ($_SESSION['cart'] as $k => $v) {

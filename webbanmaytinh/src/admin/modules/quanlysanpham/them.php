@@ -5,7 +5,7 @@ if (isset($_POST['submit'])) {
     $ma = $_POST['ma'];
     $ten = $_POST['name'];
     $gia = $_POST['gia'];
-    if (isset($_FILES['anh'])) {
+    if (isset($_FILES['anh']) ) {
         $anh = $_FILES['anh']['name'];
     }
     $mota = $_POST['mota'];
@@ -21,9 +21,7 @@ if (isset($_POST['submit'])) {
         if (!empty($row1)) {
             $errors['ma']['trung'] = 'Mã sản phẩm đã tồn tại';
         }
-        // else{
-        //     $errors['username']['trung']='';
-        // }
+        
     }
     if (empty($ten)) {
         $errors['ten']['required'] = 'Tên sản phẩm không được bỏ trống';
@@ -31,14 +29,14 @@ if (isset($_POST['submit'])) {
     if (empty($gia)) {
         $errors['gia']['required'] = 'Giá không được bỏ trống';
     } else if (!is_numeric($gia)) {
-        $errors['gia']['invalid'] = 'Giá phải là số';
+        $errors['gia']['invalid'] = 'Giá phải là số ';
     }
     if (empty($anh)) {
         $errors['anh']['required'] = 'Chưa chọn ảnh';
     }
     if (count($errors) == 0) {
         $sql = "INSERT into sanpham(maSanPham,tenSanPham,gia,hinhAnh,moTa,maNSX,maLSP)
-            values('$ma','$ten',$gia,'$anh','$mota','$nsx','$loai')";
+            values('$ma','$ten','$gia','$anh','$mota','$nsx','$loai')";
         mysqli_query($conn, $sql);
         header('location:./index.php?action=quanlysanpham&&query=no');
     }
