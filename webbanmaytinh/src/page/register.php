@@ -18,6 +18,7 @@ if (isset($_POST['dangky'])) {
     $errors = [];
     if (empty($username)) {
         $errors['username']['required'] = 'Username không được bỏ trống';
+        
     } else {
         $sql1 = "SELECT userName from taikhoan where userName='$username'";
         $result1 = mysqli_query($conn, $sql1);
@@ -27,7 +28,11 @@ if (isset($_POST['dangky'])) {
         }
     }
     if(strpos($username,' ')){
-        $errors['username']['space'] = 'Username không được có khoảng trắng';
+        $errors['username']['required'] = 'Username không được có khoảng trắng';
+    }
+    $pattern = '/[^a-zA-Z0-9]/'; 
+    if(preg_match($pattern, $username)){
+        $errors['username']['required'] = 'Username không được có ký tự đặc biệt';
     }
     if (empty($password)) {
         $errors['password']['required'] = 'Password không được bỏ trống';
@@ -93,8 +98,6 @@ if (isset($_POST['dangky'])) {
                 class='message-error'>" . $errors['username']['required'] . "</span>" : false ?>
                 <?php echo (!empty($errors['username']['trung'])) ? "<span
                 class='message-error'>" . $errors['username']['trung'] . "</span>" : false ?>
-                <?php echo (!empty($errors['username']['space'])) ? "<span
-                class='message-error'>" . $errors['username']['space'] . "</span>" : false ?>
                 <label class="label">Password</label>
                 <input class="text" type="password" name="password" value="<?php echo $password ?>">
                 <?php echo (!empty($errors['password']['required'])) ? "<span
