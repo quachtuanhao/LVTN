@@ -27,6 +27,8 @@ if (isset($_POST['submit'])) {
         $errors['gia']['required'] = 'Giá không được bỏ trống';
     } else if (!is_numeric($gia)) {
         $errors['gia']['required'] = 'Giá phải là số';
+    }else if ($gia<0) {
+        $errors['gia']['required'] = 'Giá không được âm';
     }
     if (count($errors) == 0) {
         if (empty($anh)) {
