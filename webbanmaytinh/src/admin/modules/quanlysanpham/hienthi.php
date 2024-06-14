@@ -42,7 +42,8 @@ include '../././db/connect.php';
             <td class="content-item width200"><?php echo $row['ten'] ?></td>
             <td class="content-item width100"><?php echo number_format($row['gia'], $decimals = 0, $dec_point = ',', $thousand_sep = '.') . 'đ' ?></td>
             <td class="content-item width100"><img src="../../././assets/img/<?php echo $row['img'] ?> " alt="img"></td>
-            <td class="content-item width150" style="height: 100%;overflow-y: hidden;"><?php echo $row['moTa'] ?></td>
+            <td class="content-item width150" style="height: 100%;overflow-y: hidden; max-height: 3em;
+            overflow: hidden;text-overflow: ellipsis;"><?php echo $row['moTa'] ?></td>
             <td class="content-item width100"><?php echo $row['tenNSX'] ?></td>
             <td class="content-item width100">
                 <a class="content-item width50" href="?action=quanlysanpham&query=sua&this_id=<?php echo $row['id'] ?>"><i class="fa-solid fa-pen-to-square"></i></a>

@@ -72,7 +72,7 @@ if (isset($_POST['submit'])) {
             <?php echo (!empty($errors['anh']['required'])) ? "<span
             class='message-error'>" . $errors['anh']['required'] . "</span>" : false ?>
             <label class="label">Mô tả</label>
-            <input class="text" type="text" name="mota" value="<?php echo (!empty($mota) ? $mota : "") ?>">
+            <textarea  name="mota" rows="9" cols="70"><?php echo (!empty($mota) ? $mota : "") ?></textarea>
             <label class="label">Nhà sản xuất</label>
             <select class="text" name="hang" id="Hang">
                 <?php
