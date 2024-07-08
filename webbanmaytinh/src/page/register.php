@@ -27,12 +27,9 @@ if (isset($_POST['dangky'])) {
             $errors['username']['trung'] = 'Username đã tồn tại';
         }
     }
-    if(strpos($username,' ')){
-        $errors['username']['required'] = 'Username không được có khoảng trắng';
-    }
     $pattern = '/[^a-zA-Z0-9]/'; 
     if(preg_match($pattern, $username)){
-        $errors['username']['required'] = 'Username không được có ký tự đặc biệt';
+        $errors['username']['required'] = 'Username không được chứa ký tự đặc biệt hoặc khoảng trắng';
     }
     if (empty($password)) {
         $errors['password']['required'] = 'Password không được bỏ trống';
