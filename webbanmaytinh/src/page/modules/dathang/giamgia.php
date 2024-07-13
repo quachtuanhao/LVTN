@@ -40,7 +40,7 @@ if (isset($_SESSION['dangnhap'])) {
         unset($_SESSION["maKM"]);
         unset($_SESSION["tong"]);
     } else {
-        echo 'ngu';
+        echo 'khong ';
     }
 } else {
     session_start();
