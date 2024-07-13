@@ -30,9 +30,16 @@ if (isset($_POST['submit'])) {
         $errors['gia']['required'] = 'Giá không được bỏ trống';
     } else if (!is_numeric($gia)) {
         $errors['gia']['invalid'] = 'Giá phải là số ';
+<<<<<<< Updated upstream
     }else if ($gia<0) {
+=======
+    } 
+
+    else if ($gia<0) {
+>>>>>>> Stashed changes
         $errors['gia']['required'] = 'Giá không được âm';
     }
+    
     if (empty($anh)) {
         $errors['anh']['required'] = 'Chưa chọn ảnh';
     }
