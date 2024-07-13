@@ -45,7 +45,7 @@ if (isset($_SESSION['dangnhap'])) {
                     <td class="cart-item width100">
                         <div class="handle_quantity">
                             <a class="quantity" href="./modules/quanlygiohang/chinhsuasoluong.php?action=giam&&value=<?php echo $k ?>"><i class="fa-solid fa-minus"></i></a>
-                            <form action="./modules/quanlygiohang/chinhsuasoluong.php?action=a">
+                            <form action="./modules/quanlygiohang/chinhsuasoluong.php" method="GET">
                                 <input type="text" name="quantity" class="quantity" style="width:20px" value="<?php echo $v['quantity'] ?>"></input>
                                 <input type="hidden" name="value" value="<?php echo $k ?>"></input>
                             </form>

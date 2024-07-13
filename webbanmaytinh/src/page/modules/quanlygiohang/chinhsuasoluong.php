@@ -1,4 +1,6 @@
 <?php
+    include'../../../db/connect.php';
+
 session_start(); {
     if (isset($_SESSION['dangnhap'])) {
         $id_user = $_SESSION['dangnhap'];
@@ -17,6 +19,18 @@ session_start(); {
             header('location:../../index.php?action=xemgiohang');
         } else if (isset($_GET['quantity'])) {
             $sl = $_GET['quantity'];
+            $id=$_GET['value'];
+            $sql = "SELECT soLuong from sanpham where maSanPham='$id'";
+            $result = mysqli_query($conn, $sql);
+            $row = mysqli_fetch_array($result);
+             if ($sl > $row['soLuong']) {
+                ?>
+                    <script language="javascript">
+                        alert("Số lượng trong kho còn <?php echo $row['soLuong']?>!");
+                        window.location = "../../index.php?action=xemgiohang";
+                    </script>;
+                <?php
+                }
             if (is_numeric($sl) && $sl > 0 && $sl <= 99) {
                 echo '< abc';
                 $value = $_GET['value'];
@@ -31,7 +45,8 @@ session_start(); {
                     window.location = "../../index.php?action=xemgiohang";
                 </script>;
             <?php
-            } else if ($sl > 99) {
+            } 
+            else if ($sl > 99) {
                 echo '> 99';
             ?>
                 <script language="javascript">
@@ -40,6 +55,7 @@ session_start(); {
                 </script>;
             <?php
             }
+            
         } else {
             echo "Không có !";
         }
