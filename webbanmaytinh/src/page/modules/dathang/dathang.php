@@ -33,12 +33,12 @@ if (isset($_SESSION['dangnhap'])) {
             $sql1 = "INSERT into chitietdathang(maDDH,maSP,tenSP,giaSP,soLuong,tongTien) 
                 values('$id','$maSP','$tenSP','$giaSP','$soLuongSP','$totalSP')";
             mysqli_query($conn, $sql1);
-            $sql = "SELECT soLuong from sanpham where maSanPham='$maSP'";
-            $result = mysqli_query($conn, $sql);
+            $sql2 = "SELECT soLuong from sanpham where maSanPham='$maSP'";
+            $result = mysqli_query($conn, $sql2);
             $row = mysqli_fetch_array($result);
             $soluong = $row['soLuong']-$soLuongSP;
-            $sql = "UPDATE sanpham SET soLuong=$soluong WHERE maSanPham=$maSP";
-            mysqli_query($conn, $sql1);
+            $sql3 = "UPDATE sanpham SET soLuong=$soluong WHERE maSanPham='$maSP'";
+            mysqli_query($conn, $sql3);
         }
         unset($_SESSION["cart$id_user"]);
         unset($_SESSION["maKM"]);

@@ -10,6 +10,7 @@ include '../././db/connect.php';
         <td class="content-item width100 head"> <b>Mã sản phẩm</b> </td>
         <td class="content-item width200 head"><b>Tên sản phẩm</b></td>
         <td class="content-item width100 head"><b>Giá</b></td>
+        <td class="content-item width100 head"><b>Số lượng</b></td>
         <td class="content-item width100 head"><b>Hình ảnh</b></td>
         <td class="content-item width150 head"><b>Mô tả</b></td>
         <td class="content-item width100 head"><b>Nhà sản xuất</b></td>
@@ -21,16 +22,16 @@ include '../././db/connect.php';
         $page = $_GET['page'];
         $n = ($page - 1) * 5;
         if ($page == 1) {
-            $sql = "SELECT maSanPham as id,tenSanPham as ten,gia,hinhAnh as img,moTa,
+            $sql = "SELECT maSanPham as id,tenSanPham as ten,gia,soLuong,hinhAnh as img,moTa,
             tenNhaSanXuat as tenNSX from sanpham join nhasanxuat
             on sanpham.maNSX=nhaSanXuat.maNhaSanXuat order by id ASC limit 0,5 ";
         } else {
-            $sql = "SELECT maSanPham as id,tenSanPham as ten,gia,hinhAnh as img,moTa,
+            $sql = "SELECT maSanPham as id,tenSanPham as ten,gia,soLuong,hinhAnh as img,moTa,
         tenNhaSanXuat as tenNSX from sanpham join nhasanxuat
         on sanpham.maNSX=nhaSanXuat.maNhaSanXuat order by id ASC limit $n,5 ";
         }
     } else {
-        $sql = "SELECT maSanPham as id,tenSanPham as ten,gia,hinhAnh as img,moTa,
+        $sql = "SELECT maSanPham as id,tenSanPham as ten,gia,soLuong,hinhAnh as img,moTa,
         tenNhaSanXuat as tenNSX from sanpham join nhasanxuat
         on sanpham.maNSX=nhaSanXuat.maNhaSanXuat order by id ASC limit 0,5 ";
     }
@@ -41,6 +42,7 @@ include '../././db/connect.php';
             <td class="content-item width100"><?php echo $row['id'] ?></td>
             <td class="content-item width200"><?php echo $row['ten'] ?></td>
             <td class="content-item width100"><?php echo number_format($row['gia'], $decimals = 0, $dec_point = ',', $thousand_sep = '.') . 'đ' ?></td>
+            <td class="content-item width100"><?php echo $row['soLuong'] ?></td>
             <td class="content-item width100"><img src="../../././assets/img/<?php echo $row['img'] ?> " alt="img"></td>
             <td class="content-item width150" style="height: 100%;overflow-y: hidden; max-height: 3em;
             overflow: hidden;text-overflow: ellipsis;"><?php echo $row['moTa'] ?></td>
