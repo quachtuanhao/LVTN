@@ -23,15 +23,8 @@ session_start(); {
             $sql = "SELECT soLuong from sanpham where maSanPham='$id'";
             $result = mysqli_query($conn, $sql);
             $row = mysqli_fetch_array($result);
-             if ($sl > $row['soLuong']) {
-                ?>
-                    <script language="javascript">
-                        alert("Số lượng trong kho còn <?php echo $row['soLuong']?>!");
-                        window.location = "../../index.php?action=xemgiohang";
-                    </script>;
-                <?php
-                }
-            if (is_numeric($sl) && $sl > 0 && $sl <= 99) {
+            $soluong = $row['soLuong'];
+            if (is_numeric($sl) && $sl > 0 && $sl <= $soluong) {
                 echo '< abc';
                 $value = $_GET['value'];
                 $_SESSION["cart$id_user"][$value]['quantity'] = $sl;
@@ -46,11 +39,11 @@ session_start(); {
                 </script>;
             <?php
             } 
-            else if ($sl > 99) {
+            else if ($sl > $soluong) {
                 echo '> 99';
             ?>
                 <script language="javascript">
-                    alert("Số lượng giới hạn là 99!");
+                    alert("Số lượng giới hạn là <?php echo $soluong?>!");
                     window.location = "../../index.php?action=xemgiohang";
                 </script>;
             <?php
