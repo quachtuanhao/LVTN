@@ -92,7 +92,7 @@ if (isset($_POST['submit'])) {
                 <?php echo (!empty($errors['anh']['required'])) ? "<span
                         class='message-error'>" . $errors['anh']['required'] . "</span>" : false ?>
                 <label class="label">Mô tả</label>
-                <textarea class="text" name="mota" value="" rows="9" cols="70"><?php echo (!empty($moTa) ? $gia : $row['moTa']) ?></textarea>
+                <textarea class="text" name="mota" value="" rows="9" cols="70"><?php echo (!empty($moTa) ? $moTa : $row['moTa']) ?></textarea>
                 <?php
                 $ma = $row['maNSX'];
                 $maloai = $row['maLSP'];

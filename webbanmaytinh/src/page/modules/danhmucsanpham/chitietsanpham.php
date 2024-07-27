@@ -11,7 +11,7 @@ if (isset($_GET['value'])) {
     <table>
         <tr class="content-product-list">
             <?php
-            $sql = "SELECT tenSanPham,gia,hinhAnh,ram,dungLuong,pin,moTa,maNSX,maLSP from sanpham where maSanPham = '$tam'";
+            $sql = "SELECT tenSanPham,gia,soLuong,hinhAnh,ram,dungLuong,pin,moTa,maNSX,maLSP from sanpham where maSanPham = '$tam'";
             $result = mysqli_query($conn, $sql);
             $row = mysqli_fetch_array($result) ?>
             <form class="form" action="./modules/quanlygiohang/them.php?action=themgiohang&&idsanpham=<?php echo $tam ?>" method="POST">
@@ -23,6 +23,7 @@ if (isset($_GET['value'])) {
                     <td class="content-product-items detail">
                         <p class="content-product-item-detail title"><?php echo 'Tên sản phẩm : ' . $row['tenSanPham'] ?></p>
                         <p class="content-product-item-detail price"><?php echo 'Giá :' . number_format($row['gia'], $decimals = 0, $dec_point = ',', $thousand_sep = '.') . 'đ' ?></p>
+                        <p class="content-product-item-detail title"><?php echo 'Số Lượng : ' . $row['soLuong'] ?></p>
                         <p class="content-product-item-detail title"><?php echo 'RAM : ' . $row['ram'] ?></p>
                         <p class="content-product-item-detail title"><?php echo 'Dung lượng : ' . $row['dungLuong'] ?></p>
                         <p class="content-product-item-detail title"><?php echo 'PIN : ' . $row['pin'] ?></p>
@@ -37,6 +38,7 @@ if (isset($_GET['value'])) {
                     <td class="content-product-items detail">
                         <p class="content-product-item-detail title"><?php echo 'Tên sản phẩm : ' . $row['tenSanPham'] ?></p>
                         <p class="content-product-item-detail price"><?php echo 'Giá :' . number_format($row['gia'], $decimals = 0, $dec_point = ',', $thousand_sep = '.') . 'đ' ?></p>
+                        <p class="content-product-item-detail title"><?php echo 'Số Lượng : ' . $row['soLuong'] ?></p>
                         <p class="content-product-item-detail description"><?php echo 'Mô tả :' . $row['moTa'] ?></p>
                         <input class="content-product-item submit" style="margin-left: 150px;" type="submit" name="submit" value="Thêm vào giỏ hàng">
                     </td>
