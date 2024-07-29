@@ -31,8 +31,14 @@ if (isset($_POST['submit'])) {
     }
     if (empty($ten)) {
         $errors['ten']['required'] = 'Tên sản phẩm không được bỏ trống';
-    }
-    if (empty($gia)) {
+    } else {
+        $sql2 = "SELECT tenSanPham from sanpham where tenSanPham='$ten'";
+        $result2 = mysqli_query($conn, $sql2);
+        $row2 = mysqli_fetch_array($result2);
+        if (!empty($row2)) {
+            $errors['ten']['trung'] = 'Tên sản phẩm đã tồn tại';
+        }
+    }if (empty($gia)) {
         $errors['gia']['required'] = 'Giá không được bỏ trống';
     } else if (!is_numeric($gia)) {
         $errors['gia']['invalid'] = 'Giá phải là số ';
@@ -74,6 +80,8 @@ if (isset($_POST['submit'])) {
             <input class="text" type="text" name="name" value="<?php echo (!empty($ten) ? $ten : "") ?>">
             <?php echo (!empty($errors['ten']['required'])) ? "<span
             class='message-error'>" . $errors['ten']['required'] . "</span>" : false ?>
+            <?php echo (!empty($errors['ten']['trung'])) ? "<span
+            class='message-error'>" . $errors['ten']['trung'] . "</span>" : false ?>
             <label class="label">Giá</label>
             <input class="text" type="text" name="gia" value="<?php echo (!empty($gia) ? $gia : "") ?>">
             <?php echo (!empty($errors['gia']['required'])) ? "<span

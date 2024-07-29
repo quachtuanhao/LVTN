@@ -4,7 +4,7 @@ include '../././db/connect.php';
 if (isset($_POST['capnhat'])) {
     $id = $_GET['id'];
     $tt = $_POST['tinhtrang'];
-    $sql2 = "UPDATE dondathang SET maTT='$tt' where maDonDatHang='$id'";
+    $sql2 = "UPDATE dondathang SET maTT='$tt' WHERE maDonDatHang='$id'";
     mysqli_query($conn, $sql2);
 }
 ?>
@@ -21,19 +21,14 @@ if (isset($_POST['capnhat'])) {
         <td class="content-item width100 head"> <b>Ngày đặt</b></td>
         <td class="content-item width200 head"> <b>Tình trạng</b></td>
         <td class="content-item width50 head"> <b>Chi tiết</b></td>
-
     </tr>
     <?php
     if (isset($_GET['page'])) {
         $page = $_GET['page'];
         $n = ($page - 1) * 5;
-        if ($page == 1) {
-            $sql = "SELECT * from dondathang order by ngayDat DESC limit 0,5 ";
-        } else {
-            $sql = "SELECT * from dondathang order by ngayDat DESC limit $n,5 ";
-        }
+        $sql = $page == 1 ? "SELECT * FROM dondathang ORDER BY ngayDat DESC LIMIT 0,5" : "SELECT * FROM dondathang ORDER BY ngayDat DESC LIMIT $n,5";
     } else {
-        $sql = "SELECT * from dondathang order by ngayDat DESC limit 0,5 ";
+        $sql = "SELECT * FROM dondathang ORDER BY ngayDat DESC LIMIT 0,5";
     }
     $result = mysqli_query($conn, $sql);
     while ($row = mysqli_fetch_array($result)) {
@@ -49,25 +44,28 @@ if (isset($_POST['capnhat'])) {
             <td class="content-item width100"><?php echo date("d/m/Y", strtotime($row['ngayDat'])) ?></td>
             <td class="content-item width200">
                 <form class="form-row" action="index.php?action=quanlydonhang&&query=capnhat&&id=<?php echo $maDDH ?>" method="POST">
-                    <select name="tinhtrang"><?php $sql1 = "SELECT * from trangthai";
-                                                $result1 = mysqli_query($conn, $sql1);
-                                                while ($row = mysqli_fetch_array($result1)) {
-                                                ?>
-                            <option value="<?php echo $row['maTrangThai'] ?>" <?php if ($tt == $row['maTrangThai']) {
-                                                                                    echo 'selected';
-                                                                                } ?>><?php echo $row['tenTrangThai'] ?></option>
+                    <select name="tinhtrang">
                         <?php
-                                                }
+                        $sql1 = "SELECT * FROM trangthai";
+                        $result1 = mysqli_query($conn, $sql1);
+                        while ($row1 = mysqli_fetch_array($result1)) {
                         ?>
-                        <input type="submit" name="capnhat" value="Cập nhật" style="margin-top: 10px;margin-left:92px;cursor:pointer">
+                            <option value="<?php echo $row1['maTrangThai'] ?>" <?php if ($tt == $row1['maTrangThai']) echo 'selected'; ?>>
+                                <?php echo $row1['tenTrangThai'] ?>
+                            </option>
+                        <?php
+                        }
+                        ?>
                     </select>
+                    <input type="submit" name="capnhat" value="Cập nhật" style="margin-top: 10px; margin-left: 92px; cursor: pointer">
                 </form>
             </td>
-            <td class="content-item width50"> <a href="index.php?action=quanlydonhang&&query=chitiet&&id=<?php echo $maDDH ?>"><i class="fa-solid fa-circle-info"></i></a> </td>
+            <td class="content-item width50">
+                <a href="index.php?action=quanlydonhang&&query=chitiet&&id=<?php echo $maDDH ?>"><i class="fa-solid fa-circle-info"></i></a>
+            </td>
         </tr>
     <?php
     }
-
     ?>
 </table>
 <?php
