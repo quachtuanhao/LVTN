@@ -61,7 +61,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_comment']) && $
         <tr class="content-product-list">
             <?php
             if ($tam) {
-                $sql = "SELECT tenSanPham, gia, soLuong, hinhAnh, ram, dungLuong, pin, moTa, maLSP FROM sanpham WHERE maSanPham = '$tam'";
+                // Truy vấn lấy thông tin sản phẩm, nhà sản xuất và loại sản phẩm
+                $sql = "SELECT sp.tenSanPham, sp.gia, sp.soLuong, sp.hinhAnh, sp.moTa, lsp.tenLoaiSanPham, nsx.tenNhaSanXuat 
+                        FROM sanpham sp 
+                        JOIN loaisanpham lsp ON sp.maLSP = lsp.maLoaiSanPham 
+                        JOIN nhasanxuat nsx ON sp.maNSX = nsx.maNhaSanXuat 
+                        WHERE sp.maSanPham = '$tam'";
                 $result = mysqli_query($conn, $sql);
 
                 if ($result) {
@@ -73,15 +78,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_comment']) && $
                                 <img class="content-product-item img-detail" style="margin-left: 60px;" src="./../../assets/img/<?php echo $row['hinhAnh']; ?>" alt="no">
                             </td>
                             <td class="content-product-items detail">
-                                <p class="content-product-item-detail title"><?php echo 'Tên sản phẩm : ' . $row['tenSanPham']; ?></p>
-                                <p class="content-product-item-detail price"><?php echo 'Giá : ' . number_format($row['gia'], 0, ',', '.') . 'đ'; ?></p>
-                                <p class="content-product-item-detail title"><?php echo 'Số Lượng : ' . $row['soLuong']; ?></p>
-                                <?php if ($row['maLSP'] == 'LSP01') { ?>
-                                    <p class="content-product-item-detail title"><?php echo 'RAM : ' . $row['ram']; ?></p>
-                                    <p class="content-product-item-detail title"><?php echo 'Dung lượng : ' . $row['dungLuong']; ?></p>
-                                    <p class="content-product-item-detail title"><?php echo 'PIN : ' . $row['pin']; ?></p>
-                                <?php } ?>
-                                <p class="content-product-item-detail description"><?php echo 'Mô tả : ' . $row['moTa']; ?></p>
+                                <p class="content-product-item-detail title"><?php echo 'Tên sản phẩm: ' . $row['tenSanPham']; ?></p>
+                                <p class="content-product-item-detail price"><?php echo 'Giá: ' . number_format($row['gia'], 0, ',', '.') . 'đ'; ?></p>
+                                <p class="content-product-item-detail title"><?php echo 'Số Lượng: ' . $row['soLuong']; ?></p>
+                                <p class="content-product-item-detail description"><?php echo 'Mô tả: ' . $row['moTa']; ?></p>
+                                <p class="content-product-item-detail title"><?php echo 'Loại sản phẩm: ' . $row['tenLoaiSanPham']; ?></p>
+                                <p class="content-product-item-detail title"><?php echo 'Nhà sản xuất: ' . $row['tenNhaSanXuat']; ?></p>
                                 <input class="content-product-item submit" style="margin-left: 150px;" type="submit" name="submit" value="Thêm vào giỏ hàng">
                             </td>
                         </form>

@@ -477,3 +477,10 @@ input.submit:hover{
     color: #f33a58;
 }
 
+.message-success {
+    color: green;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+

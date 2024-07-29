@@ -6,9 +6,12 @@ if (isset($_GET['this_id'])) {
     die("Mã sản phẩm không được cung cấp.");
 }
 
-$sql = "SELECT tenSanPham, gia, soLuong, hinhAnh, moTa, maNSX, maLSP
-        FROM sanpham
-        WHERE maSanPham='$this_id'";
+// Truy vấn lấy thông tin sản phẩm, nhà sản xuất và loại sản phẩm
+$sql = "SELECT sp.tenSanPham, sp.gia, sp.soLuong, sp.hinhAnh, sp.moTa, nsx.tenNhaSanXuat, lsp.tenLoaiSanPham 
+        FROM sanpham sp
+        JOIN nhasanxuat nsx ON sp.maNSX = nsx.maNhaSanXuat
+        JOIN loaisanpham lsp ON sp.maLSP = lsp.maLoaiSanPham
+        WHERE sp.maSanPham='$this_id'";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_array($result);
 
@@ -67,6 +70,8 @@ if (!$row) {
             <p><strong>Giá:</strong> <?php echo number_format($row['gia'], 0, ',', '.'); ?> đ</p>
             <p><strong>Số lượng:</strong> <?php echo htmlspecialchars($row['soLuong']); ?></p>
             <p><strong>Mô tả:</strong><br><?php echo nl2br(htmlspecialchars($row['moTa'])); ?></p>
+            <p><strong>Loại sản phẩm:</strong> <?php echo htmlspecialchars($row['tenLoaiSanPham']); ?></p>
+            <p><strong>Nhà sản xuất:</strong> <?php echo htmlspecialchars($row['tenNhaSanXuat']); ?></p>
         </div>
 
         <!-- Hiển thị bình luận -->

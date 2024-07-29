@@ -201,4 +201,11 @@ input.submit:hover{
     /* height: 50px; */
 }
 
+.message-success {
+    color: green;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+
 
