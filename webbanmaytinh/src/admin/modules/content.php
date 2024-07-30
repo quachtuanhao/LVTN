@@ -42,7 +42,7 @@
     } else if ($tam == 'quanlytaikhoan' && $query == 'no') {
         include './modules/quanlytaikhoan/hienthi.php';
     } else if ($tam == 'quanlytaikhoan' && $query == 'sua') {
-        include './modules/quanlytaikhoan/thongtin.php';
+        include './modules/quanlytaikhoan/sua.php';
     } else if ($tam == 'quanlytaikhoan' && $query == 'xoa') {
         include './modules/quanlytaikhoan/xoa.php';
         

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 30, 2024 at 02:06 PM
+-- Generation Time: Jul 30, 2024 at 05:29 PM
 -- Server version: 5.7.36
 -- PHP Version: 7.4.26
 
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `chitietdathang` (
   PRIMARY KEY (`maChiTiet`),
   KEY `PK_CTDDH_DDH` (`maDDH`),
   KEY `PK_CTDDH_SP` (`maSP`)
-) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=142 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `chitietdathang`
@@ -78,7 +78,35 @@ INSERT INTO `chitietdathang` (`maChiTiet`, `maDDH`, `maSP`, `tenSP`, `giaSP`, `s
 (110, 86, 'SP09', 'CPU Intel Core I9 14900K', 10990000, 1, 10990000),
 (111, 87, 'SP38', 'Màn hình Samsung LU28R550UQEXXV', 5700000, 1, 5700000),
 (112, 88, 'SP19', 'Miếng lót chuột nhỏ kích thước 21x26cm', 30000, 6, 180000),
-(113, 89, 'SP06', 'Hp Elitebook 830 G9', 15000000, 100, 1500000000);
+(113, 89, 'SP06', 'Hp Elitebook 830 G9', 15000000, 100, 1500000000),
+(114, 90, 'SP02', 'Mainboard Gigabyte Z790 GAMING X AX DDR5', 7090000, 97, 687730000),
+(115, 91, 'SP16', 'Chuột chơi game Dareu EM908 RGB', 380000, 1, 380000),
+(116, 91, 'SP07', 'HP 240 G9 6L1X7PA', 9990000, 1, 9990000),
+(117, 91, 'SP13', 'Acer Aspire 7 Gaming A715-76-57CY', 13990000, 1, 13990000),
+(118, 91, 'SP06', 'Hp Elitebook 830 G9', 15000000, 1, 15000000),
+(119, 91, 'SP04', 'RAM Laptop Kingston 8GB DDR4 bus', 599000, 1, 599000),
+(120, 91, 'SP41', 'Tai nghe MSI True Gaming Headset H991', 399000, 1, 399000),
+(121, 91, 'SP18', 'Miếng lót chuột khổ lớn 80 X 30 CM', 60000, 1, 60000),
+(122, 91, 'SP20', 'Bàn phím có dây RAPOO V500 Pro', 749000, 1, 749000),
+(123, 91, 'SP38', 'Màn hình Samsung LU28R550UQEXXV', 5700000, 1, 5700000),
+(124, 92, 'SP27', 'Laptop Samsung Galaxy Book Pro 15 950XDB-KB2US', 16990000, 2, 33980000),
+(125, 92, 'SP26', 'Laptop Gaming GIGABYTE AORUS 15 BMF 52US383SH', 21990000, 3, 65970000),
+(126, 92, 'SP33', 'RAM Laptop DDR5 8GB Samsung bus 5600Mhz', 750000, 1, 750000),
+(127, 93, 'SP15', 'Màn hình Asus VZ24EHE-R', 2600000, 1, 2600000),
+(128, 94, 'SP41', 'Tai nghe MSI True Gaming Headset H991', 399000, 1, 399000),
+(129, 95, 'SP06', 'Hp Elitebook 830 G9', 15000000, 34, 510000000),
+(130, 95, 'SP11', 'Ổ cứng SSD Kingfast F10 512GB', 1500000, 9, 13500000),
+(131, 95, 'SP05', 'RAM Laptop Samsung 16GB DDR4', 850000, 100, 85000000),
+(132, 96, 'SP03', 'Mainboard Asus Prime H610M-K D4', 2190000, 12, 26280000),
+(133, 96, 'SP39', 'Laptop MSI Thin GF63 12UCX-841VN', 15490000, 1, 15490000),
+(134, 97, 'SP03', 'Mainboard Asus Prime H610M-K D4', 2190000, 6, 13140000),
+(135, 97, 'SP41', 'Tai nghe MSI True Gaming Headset H991', 399000, 4, 1596000),
+(136, 98, 'SP12', 'CPU Intel Core I5 14600K', 5290000, 12, 63480000),
+(137, 98, 'SP41', 'Tai nghe MSI True Gaming Headset H991', 399000, 2, 798000),
+(138, 98, 'SP02', 'Mainboard Gigabyte Z790 GAMING X AX DDR5', 7090000, 4, 28360000),
+(139, 99, 'SP03', 'Mainboard Asus Prime H610M-K D4', 2190000, 5, 10950000),
+(140, 99, 'SP11', 'Ổ cứng SSD Kingfast F10 512GB', 1500000, 5, 7500000),
+(141, 99, 'SP36', 'Ổ cứng Western 4TB Purple WD42PURZ', 2400000, 10, 24000000);
 
 -- --------------------------------------------------------
 
@@ -147,7 +175,7 @@ CREATE TABLE IF NOT EXISTS `dondathang` (
   KEY `PK_DDH_TT` (`maTT`),
   KEY `PK_DDH_TK` (`maKH`),
   KEY `PK_DDH_KM` (`maKM`)
-) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `dondathang`
@@ -176,7 +204,17 @@ INSERT INTO `dondathang` (`maDonDatHang`, `maKH`, `tenKhach`, `emailKhach`, `sdt
 (86, 'thanhthanh', 'Thanh Huỳnh', 'thanh@gmail.com', '0122554689', 'Quận 1', '2024-07-30 08:03:44', 'DXL', 'KM10K'),
 (87, 'thanhthanh', 'Thanh Huỳnh', 'thanh@gmail.com', '0122554689', 'Quận 1', '2024-07-30 08:05:51', 'HT', 'KM120K'),
 (88, 'thanhthanh', 'Thanh Huỳnh', 'thanh@gmail.com', '0122554689', 'Quận 1', '2024-07-30 08:21:03', 'DXL', 'KM120K'),
-(89, 'thanhthanh', 'Thanh Huỳnh', 'thanh@gmail.com', '0122554689', 'Quận 1', '2024-07-30 08:46:41', 'DXL', 'KM10');
+(89, 'thanhthanh', 'Thanh Huỳnh', 'thanh@gmail.com', '0122554689', 'Quận 1', '2024-07-30 08:46:41', 'DXL', 'KM10'),
+(90, 'sangsang123', 'Sang Huỳnh', 'sanghuynh@gmail.com', '0124589875', 'Quận 11', '2024-07-30 10:29:53', 'DXL', 'KM10'),
+(91, '0283953808', 'Quách Ngọc Mỹ', 'myquach77gmail.com*', '0283953808', '17 tt Quận 8', '2024-07-30 10:49:17', 'DXL', 'NULL'),
+(92, 'quachmy', 'Quach Ngoc My', 'quachmy08@gmail.com', '0218161131', '88 vo', '2024-07-30 11:06:36', 'DXL', 'KM100K'),
+(93, 'quachmy', 'Quach Ngoc My', 'quachmy08@gmail.com', '0218161131', '88 vo', '2024-07-30 11:09:34', 'DXL', 'KM10'),
+(94, 'quachmy', 'Quach Ngoc My', 'quachmy08@gmail.com', '0218161131', '88 vo', '2024-07-30 11:10:45', 'DXL', 'KM10'),
+(95, 'quachmy', 'Quach Ngoc My', 'quachmy08@gmail.com', '0218161131', '88 vo', '2024-07-30 11:19:52', 'DXL', ''),
+(96, '0467890123', 'myyquach', 'quachcacongmail.com', '0467890123', '22 nn', '2024-07-30 11:25:07', 'DXL', 'NULL'),
+(97, 'myquach', 'myyquach', 'nqixc@gmail.com', '012345678910', 'USA', '2024-07-30 11:37:18', 'DXL', 'KM10'),
+(98, 'myquach', 'myyquach', 'nqixc@gmail.com', '012345678910', 'USA', '2024-07-30 11:50:11', 'DXL', 'KM10'),
+(99, 'myquach', 'myyquach', 'nqixc@gmail.com', '012345678910', 'USA', '2024-07-30 11:52:58', 'DXL', 'KM100K');
 
 -- --------------------------------------------------------
 
@@ -319,20 +357,20 @@ CREATE TABLE IF NOT EXISTS `sanpham` (
 --
 
 INSERT INTO `sanpham` (`maSanPham`, `tenSanPham`, `gia`, `soLuong`, `ram`, `dungLuong`, `pin`, `hinhAnh`, `moTa`, `maNSX`, `maLSP`) VALUES
-('SP02', 'Mainboard Gigabyte Z790 GAMING X AX DDR5', 7090000, 97, '', '', '', 'Mainboard Gigabyte Z790 GAMING X AX DDR5.jpg', 'Socket: LGA1700 hỗ trợ CPU Intel thế hệ 13, Intel thế hệ thứ 12, Pentium® Gold and Celeron® Processors - Khe cắm RAM: 4 khe (Tối đa 192GB) - Khe cắm mở rộng: 1 x PCI Express 5.0 x16 slot, 1 x PCI Express 4.0 x16 slots, 1 x PCI Express 3.0 x16 slots - Khe cắm ổ cứng: 4 x M.2 slots, 6 x SATA 6Gb/s ports', 'NSX04', 'LSP03'),
-('SP03', 'Mainboard Asus Prime H610M-K D4', 2190000, 100, '', '', '', 'Mainboard Asus Prime H610M-K D4.jpg', 'Kích thước: Hệ số hình thức mATX 9,2 inch x 8,0 inch (23,4 cm x 20,3 cm) - CPU hỗ trợ: Intel ® Socket LGA1700 cho Bộ xử lý Intel ® Core ™, Pentium ® Gold và Celeron ® thế hệ thứ 12 * – Hỗ trợ Công nghệ Intel ® Turbo Boost 2.0 và Công nghệ Intel ® Turbo Boost Max 3.0 ** - Chipset: Bộ chip Intel ® H610', 'NSX03', 'LSP03'),
+('SP02', 'Mainboard Gigabyte Z790 GAMING X AX DDR5', 7090000, 16, '', '', '', 'Mainboard Gigabyte Z790 GAMING X AX DDR5.jpg', 'Socket: LGA1700 hỗ trợ CPU Intel thế hệ 13, Intel thế hệ thứ 12, Pentium® Gold and Celeron® Processors - Khe cắm RAM: 4 khe (Tối đa 192GB) - Khe cắm mở rộng: 1 x PCI Express 5.0 x16 slot, 1 x PCI Express 4.0 x16 slots, 1 x PCI Express 3.0 x16 slots - Khe cắm ổ cứng: 4 x M.2 slots, 6 x SATA 6Gb/s ports', 'NSX04', 'LSP03'),
+('SP03', 'Mainboard Asus Prime H610M-K D4', 2190000, 89, '', '', '', 'Mainboard Asus Prime H610M-K D4.jpg', 'Kích thước: Hệ số hình thức mATX 9,2 inch x 8,0 inch (23,4 cm x 20,3 cm) - CPU hỗ trợ: Intel ® Socket LGA1700 cho Bộ xử lý Intel ® Core ™, Pentium ® Gold và Celeron ® thế hệ thứ 12 * – Hỗ trợ Công nghệ Intel ® Turbo Boost 2.0 và Công nghệ Intel ® Turbo Boost Max 3.0 ** - Chipset: Bộ chip Intel ® H610', 'NSX03', 'LSP03'),
 ('SP04', 'RAM Laptop Kingston 8GB DDR4 bus', 599000, 100, 'DDR4', '8GB', '', 'RAM Laptop Kingston 8GB DDR4 bus.jpg', '8GB - DDR4 - Bus 2666MHz', 'NSX07', 'LSP04'),
-('SP05', 'RAM Laptop Samsung 16GB DDR4', 850000, 100, 'DDR4', '16GB', '', 'RAM-Laptop-Samsung-16GB-DDR4-3200.jpg', 'RAM DDR4 - Dung lượng: 16GB - Tốc độ: 3200MHz', 'NSX05', 'LSP04'),
-('SP06', 'Hp Elitebook 830 G9', 15000000, 120, '8GB', 'SSD 256GB', '51 Wh', 'Hp Elitebook 830 G9.jpg', 'Màn hình: 14 inch - CPU: intel Core i5-1235U - Tần số xung nhịp CPU: 3.30 GHz đến 4.40 GHz Intel® Integrated Intel® Iris® Xe Graphics  Trọng lượng: 1.2 kg', 'NSX01', 'LSP01'),
+('SP05', 'RAM Laptop Samsung 16GB DDR4', 850000, 0, 'DDR4', '16GB', '', 'RAM-Laptop-Samsung-16GB-DDR4-3200.jpg', 'RAM DDR4 - Dung lượng: 16GB - Tốc độ: 3200MHz', 'NSX05', 'LSP04'),
+('SP06', 'Hp Elitebook 830 G9', 15000000, 86, '8GB', 'SSD 256GB', '51 Wh', 'Hp Elitebook 830 G9.jpg', 'Màn hình: 14 inch - CPU: intel Core i5-1235U - Tần số xung nhịp CPU: 3.30 GHz đến 4.40 GHz Intel® Integrated Intel® Iris® Xe Graphics  Trọng lượng: 1.2 kg', 'NSX01', 'LSP01'),
 ('SP07', 'HP 240 G9 6L1X7PA', 9990000, 100, '8GB', 'SSD 256GB', '41 Wh', 'Laptop HP 240 G9 6L1X7PA.jpg', 'CPU: Intel Core i3-1215U (upto 4.40 GHz, 10MB) - VGA: Intel UHD Graphics - Màn hình: 14 inch FullHD - Cân nặng: 1.47 kg', 'NSX01', 'LSP01'),
 ('SP08', 'CPU Intel Core i7-12700K', 9850000, 100, '', '', '', 'CPU Intel Core i7-12700K.jpg', '3.6GHz up to 5.0GHz, 25MB', 'NSX09', 'LSP02'),
 ('SP09', 'CPU Intel Core I9 14900K', 10990000, 99, '', '', '', 'CPU Intel Core I9 14900K.png', 'Up 6.0 GHz, 24 Nhân 32 Luồng, 36MB Cache, Raptor Lake Refresh', 'NSX09', 'LSP02'),
 ('SP10', 'Ổ Cứng SSD Kingston KC600 256GB', 1410000, 100, '', '', '', 'Ổ Cứng SSD Kingston KC600.jpg', 'Dung lượng: 256GB 2.5 Inch SATA3 -  Đọc 500MB/s, Ghi 500MB/s', 'NSX07', 'LSP05'),
-('SP11', 'Ổ cứng SSD Kingfast F10 512GB', 1500000, 100, '', '', '', 'Ổ cứng SSD Kingfast F10.jpg', 'Dung lượng: 512GB SATA III 2.5 Inch', 'NSX09', 'LSP05'),
-('SP12', 'CPU Intel Core I5 14600K', 5290000, 100, '', '', '', 'CPU Intel Core I5 14600K.png', 'Up 5.30 GHz, 14 Nhân 20 Luồng, 24MB Cache, Raptor Lake Refresh', 'NSX09', 'LSP02'),
+('SP11', 'Ổ cứng SSD Kingfast F10 512GB', 1500000, 86, '', '', '', 'Ổ cứng SSD Kingfast F10.jpg', 'Dung lượng: 512GB SATA III 2.5 Inch', 'NSX09', 'LSP05'),
+('SP12', 'CPU Intel Core I5 14600K', 5290000, 88, '', '', '', 'CPU Intel Core I5 14600K.png', 'Up 5.30 GHz, 14 Nhân 20 Luồng, 24MB Cache, Raptor Lake Refresh', 'NSX09', 'LSP02'),
 ('SP13', 'Acer Aspire 7 Gaming A715-76-57CY', 13990000, 100, '8 GB', 'SSD 512GB', '50 Wh', 'Acer Aspire 7 Gaming A715-76-57CY.jpg', 'CPU: Intel Core i5-12450H - VGA: Intel UHD Graphics - Màn hình: 15.6 inch FHD - Cân nặng: 2.1 kg', 'NSX02', 'LSP01'),
 ('SP14', 'Màn hình MSI PRO MP243X', 2450000, 100, '', '', '', 'Màn hình MSI-PRO MP243X.jpg', 'Kích thước: 23.8 inch - Độ phân giải: FHD 1920 x 1080 - Tấm nền: IPS - Tần số quét: 100Hz - Thời gian phản hồi: 1ms - Tỉ lệ tương phản: 1000:1 - Độ sáng: 300cd/m2 - Tích hợp: 2x 3W - VESA: 75x75mm - Cổng kết nối: 1x HDMI, 1x DisplayPort', 'NSX06', 'LSP07'),
-('SP15', 'Màn hình Asus VZ24EHE-R', 2600000, 100, '', '', '', 'Màn hình Asus VZ24EHE R.jpg', 'Kích thước: 23,8″ - Tỷ lệ: 16:9 - Bề mặt hiển thị: Không chói - Tấm nền: IPS - Góc nhìn: (CR≧10, H/V) 178°/ 178° - Độ phân giải: 1920×1080 - Độ sáng: 250cd/㎡', 'NSX03', 'LSP07'),
+('SP15', 'Màn hình Asus VZ24EHE-R', 2600000, 99, '', '', '', 'Màn hình Asus VZ24EHE R.jpg', 'Kích thước: 23,8″ - Tỷ lệ: 16:9 - Bề mặt hiển thị: Không chói - Tấm nền: IPS - Góc nhìn: (CR≧10, H/V) 178°/ 178° - Độ phân giải: 1920×1080 - Độ sáng: 250cd/㎡', 'NSX03', 'LSP07'),
 ('SP16', 'Chuột chơi game Dareu EM908 RGB', 380000, 100, '', '', '', 'Chuột chơi game Dareu EM908 RGB.jpg', 'Tình trạng: Mới - Kết nối: có dây, cổng kết nối chuẩn USB - Tương thích: Windows 10, Windows 7, Mac OS và các hệ điều hành cũ.', 'NSX09', 'LSP08'),
 ('SP17', 'Chuột Không Dây DAREU EM901 RGB - BLACK', 550000, 100, '', '', '', 'Chuột Không Dây DAREU EM901 RGB - BLACK.jpg', 'Kết nối không dây 2,4 GHz - Switch: DareU (10 triệu lần click)', 'NSX09', 'LSP08'),
 ('SP18', 'Miếng lót chuột khổ lớn 80 X 30 CM', 60000, 100, '', '', '', 'Miếng lót chuột khổ lớn 80 X 30 CM.jpg', 'Kiểu dáng: hình chữ nhật - Lót chuột Kích thước : 80×30 cm - Độ dày : 0.3 cm - Chất liệu : đế cao su | mặt vải - Bề mặt : Trơn, Nhẵn - Chất lượng in: Sắc nét', 'NSX09', 'LSP08'),
@@ -343,22 +381,22 @@ INSERT INTO `sanpham` (`maSanPham`, `tenSanPham`, `gia`, `soLuong`, `ram`, `dung
 ('SP23', 'Bàn phím không dây RAPOO V500 Pro 87', 649000, 100, '', '', '', 'Bàn phím không dây RAPOO V500 Pro 87 Dual Mode Black.jpg', 'Dual Mode Black - Blue/Red/Brown/Black Switch', 'NSX08', 'LSP09'),
 ('SP24', 'Asus Vivobook 16X', 13990000, 100, '12GB', 'SSD 512GB', '50 Wh', 'Asus Vivobook 16X.jpg', 'CPU: AMD Ryzen 7-5800HS - Card đồ họa: AMD Radeon Graphics - Màn hình: 16 inch Full HD+ - Kích thước: 35.84 x 24.77 x 1.99 ~ 1.99 cm - Trọng lượng: 1.88 kg', 'NSX03', 'LSP01'),
 ('SP25', 'Laptop ASUS TUF GAMING FX506HF-HN014W', 15990000, 100, '8GB', 'SSD 512GB', '48 Wh', 'Laptop ASUS TUF GAMING FX506HF-HN014W.jpg', 'CPU: Intel Core i5-11400H - Card đồ họa: Nvidia Geforce RTX 2050 - Màn hình: 15.6 Inch Full HD 144Hz - Cân nặng: 2.30 kg', 'NSX03', 'LSP01'),
-('SP26', 'Laptop Gaming GIGABYTE AORUS 15 BMF 52US383SH', 21990000, 100, '8GB', 'SSD 512GB', '90 Wh', 'Laptop Gaming GIGABYTE AORUS 15 BMF 52US383SH.jpg', 'CPU: Intel Core i5-13500H - Card đồ họa: NVIDIA GeForce RTX 4050 Laptop GPU 6GB GDDR6 - Màn hình: 15.6 Inch Full HD 144Hz', 'NSX04', 'LSP01'),
-('SP27', 'Laptop Samsung Galaxy Book Pro 15 950XDB-KB2US', 16990000, 100, '8GB', 'SSD 512GB', '75 Wh', 'Laptop Samsung Galaxy Book Pro 15 950XDB-KB2US.jpg', 'CPU: Intel Core i5 - 1135G7 - Card đồ họa: Intel® Iris Xe Graphics - Màn hình: 15.6 Inch Full HD AMOLED', 'NSX05', 'LSP01'),
+('SP26', 'Laptop Gaming GIGABYTE AORUS 15 BMF 52US383SH', 21990000, 97, '8GB', 'SSD 512GB', '90 Wh', 'Laptop Gaming GIGABYTE AORUS 15 BMF 52US383SH.jpg', 'CPU: Intel Core i5-13500H - Card đồ họa: NVIDIA GeForce RTX 4050 Laptop GPU 6GB GDDR6 - Màn hình: 15.6 Inch Full HD 144Hz', 'NSX04', 'LSP01'),
+('SP27', 'Laptop Samsung Galaxy Book Pro 15 950XDB-KB2US', 16990000, 98, '8GB', 'SSD 512GB', '75 Wh', 'Laptop Samsung Galaxy Book Pro 15 950XDB-KB2US.jpg', 'CPU: Intel Core i5 - 1135G7 - Card đồ họa: Intel® Iris Xe Graphics - Màn hình: 15.6 Inch Full HD AMOLED', 'NSX05', 'LSP01'),
 ('SP28', 'CPU Intel Core i9-12900K', 13390000, 100, '', '', '', 'CPU Intel Core i9-12900K.jpg', 'Socket: FCLGA1700 - Số lõi/luồng: 16/24 - Bộ nhớ đệm: 30 MB - Bus ram hỗ trợ: DDR4 3200MHz, DDR5-4800 - Mức tiêu thụ điện: 125W', 'NSX09', 'LSP02'),
 ('SP29', 'CPU Intel Core i7 14700K', 7650000, 100, '', '', '', 'CPU Intel Core i7 14700K.png', 'Socket: FCLGA1700 - Số lõi/luồng: 20 nhân, 28 luồng - Tốc độ xử lí tối đa: 5.6 GHz - Bộ nhớ đệm: 33 MB - Bus ram hỗ trợ: DDR4 3200 MT/s, DDR5 5600 MT/s - Mức tiêu thụ điện: 125 W', 'NSX09', 'LSP02'),
 ('SP30', 'Mainboard Asus ROG Strix X299 - E Gaming', 7500000, 100, '', '', '', 'Mainboard Asus ROG Strix X299 - E Gaming.jpg', 'Dòng bộ xử lý: Intel® Core™ X Series - Tản nhiệt M.2 tích hợp - Tối ưu hóa 5 chiều - Khả năng kết nối chơi game: Đầu nối M.2 kép và USB 3.1 Thế hệ 2 Kiểu A và Kiểu C™ - Mạng chơi game: Intel Gigabit Ethernet, LANGuard GameFirst và Wi-Fi 2x2 802.11ac có hỗ trợ MU-MIMO.', 'NSX03', 'LSP03'),
 ('SP31', 'Mainboard Asus ROG STRIX Z790-H GAMING WIFI', 9990000, 100, '', '', '', 'Mainboard Asus ROG STRIX Z790-H GAMING WIFI.jpg', 'CPU: Intel® Socket LGA1700 for 13th Gen Intel® Core™ & 12th Gen Intel® Core™, Pentium® Gold and Celeron® Processors* - Chipset: Intel® Z790 Chipset - Kích thước: ATX 12 inch x 9,6 inch (30,5 cm x 24,4 cm) - RAM: 4 x DIMM, Tối đa. 128GB, DDR5 - Non-ECC, Un-buffered Memory* - Kiến trúc bộ nhớ kênh đôi - Hỗ trợ Intel ® Extreme Memory Profile (XMP) OptiMem II ', 'NSX03', 'LSP03'),
 ('SP32', 'Ram Desktop Kingston Fury Beast', 1630000, 100, '', '', '', 'Ram Desktop Kingston Fury Beast.jpg', 'RAM: 16GB - Bộ nhớ: DDR4 - Bus: 3600MHz', 'NSX07', 'LSP04'),
-('SP33', 'RAM Laptop DDR5 8GB Samsung bus 5600Mhz', 750000, 100, '', '', '', 'RAM Laptop DDR5 8GB Samsung bus 5600Mhz.jpg', 'Thương hiệu: Samsung - Dung lượng: 8GB - Chuẩn RAM:DDR5 - Bus RAM: 5600Mhz', 'NSX05', 'LSP04'),
+('SP33', 'RAM Laptop DDR5 8GB Samsung bus 5600Mhz', 750000, 99, '', '', '', 'RAM Laptop DDR5 8GB Samsung bus 5600Mhz.jpg', 'Thương hiệu: Samsung - Dung lượng: 8GB - Chuẩn RAM:DDR5 - Bus RAM: 5600Mhz', 'NSX05', 'LSP04'),
 ('SP34', 'Tai nghe HP H2800', 249000, 100, '', '', '', 'Tai nghe HP H2800.jpg', 'Loại tai nghe: Chụp tai - Loại kết nối: Giắc cắm 3,5mm', 'NSX01', 'LSP10'),
 ('SP35', 'Ổ Cứng Seagate 1TB SkyHawk', 1150000, 100, '', '', '', 'Ổ Cứng Seagate 1TB SkyHawk', 'Số vòng quay: 5900rpm - Chuẩn: SATA III - Bộ nhớ đệm: 64MB Cache - Dung lượng: 1000GB - Kích thước: 3.5 inch - Tốc độ truyền dữ liệu: 600MB/s.', 'NSX09', 'LSP06'),
-('SP36', 'Ổ cứng Western 4TB Purple WD42PURZ', 2400000, 100, '', '', '', 'Ổ cứng Western 4TB Purple WD42PURZ.jpg', 'Được thiết kế để chạy 24/7 - Khả năng chịu tải 180TB/ năm - Hỗ trợ công nghệ phục hồi ổ cứng trong thời gian nhất định (TLER) - Hỗ trợ hệ thông 8 bay ổ đĩa - Tốc độ vòng quay: 5400 RPM', 'NSX09', 'LSP06'),
+('SP36', 'Ổ cứng Western 4TB Purple WD42PURZ', 2400000, 90, '', '', '', 'Ổ cứng Western 4TB Purple WD42PURZ.jpg', 'Được thiết kế để chạy 24/7 - Khả năng chịu tải 180TB/ năm - Hỗ trợ công nghệ phục hồi ổ cứng trong thời gian nhất định (TLER) - Hỗ trợ hệ thông 8 bay ổ đĩa - Tốc độ vòng quay: 5400 RPM', 'NSX09', 'LSP06'),
 ('SP37', 'Màn Hình Máy Tính Gigabyte G27FC A', 4690000, 100, '', '', '', 'Màn Hình Máy Tính Gigabyte G27FC A.jpg', 'Kích thước 27 inch với độ cong lý tưởng 1500HR - Tấm nền VA độ phân giải 1920 x 1080, tốc độ làm mới 165Hz - Hỗ trỡ FreeSync - Độ phủ màu 90% DCI-P3 (120% sRGB) - Tốc độ phản hồi siêu nhanh 1ms (MPRT) - Cổng kết nối: HDMI, Displayport - Loa: 2 loa x 2w', 'NSX04', 'LSP07'),
 ('SP38', 'Màn hình Samsung LU28R550UQEXXV', 5700000, 99, '', '', '', 'Màn hình Samsung LU28R550UQEXXV.jpg', 'Loại màn hình: Phẳng - Tỉ lệ: 16:9 - Kích thước: 28 inch - Tấm nền: IPS - Độ phân giải: UHD 4K (3840 x 2160) - Tốc độ làm mới: 60Hz - Thời gian đáp ứng: 4ms - Cổng kết nối: HDMI, Display Port - Phụ kiện: Cáp nguồn, Cáp HDMI', 'NSX05', 'LSP07'),
 ('SP39', 'Laptop MSI Thin GF63 12UCX-841VN', 15490000, 100, '8GB', 'SSD 512GB', '52.4 Wh', 'Laptop MSI Thin GF63 12UCX-841VN.jpg', 'GA: NVIDIA GeForce RTX 2050 4GB GDDR6 - Màn hình: 15.6 inch FHD (1920 x 1080) IPS 144Hz, Thin Bezel, 45%NTSC - Màu sắc: Đen - Bàn phím: Single LED Red - Cân nặng: 1.86 kg', 'NSX06', 'LSP01'),
 ('SP40', 'Laptop Acer Nitro 5 AN515-58-525P', 16790000, 100, '8GB', 'SSD 512GB', '58.75 Wh', 'Laptop Acer Nitro 5 AN515-58-525P.jpg', 'CPU: i5-12500H (12 nhân) - Card đồ họa: Nvidia RTX 3050 - Màn hình: 15.6 Inch Full HD 144Hz', 'NSX02', 'LSP01'),
-('SP41', 'Tai nghe MSI True Gaming Headset H991', 399000, 100, '', '', '', 'Tai nghe MSI True Gaming Headset H991.jpg', 'Kiểu tai nghe: Chụp đầu - Kêt nối: 3.5mm', 'NSX06', 'LSP10'),
+('SP41', 'Tai nghe MSI True Gaming Headset H991', 399000, 93, '', '', '', 'Tai nghe MSI True Gaming Headset H991.jpg', 'Kiểu tai nghe: Chụp đầu - Kêt nối: 3.5mm', 'NSX06', 'LSP10'),
 ('SP42', 'Tai nghe Gaming RAPOO VH310 Black', 390000, 100, '', '', '', 'Tai nghe Gaming RAPOO VH310 Black.jpg', 'Loại tai nghe: Chụp đầu - Kết nối: USB - Công nghệ: Âm thanh vòm 7.1 - Tiện ích: Đèn RGB, Mic thoại', 'NSX08', 'LSP10');
 
 -- --------------------------------------------------------
@@ -393,6 +431,8 @@ INSERT INTO `taikhoan` (`userName`, `password`, `hoTen`, `email`, `sdt`, `diachi
 ('hao9898', 'e313a670f2946a1435d2167a8bf5429a', 'Hào phô mai', 'haophomai@gmail.com', '0909091123', 'Quận 8', 'CV02', NULL),
 ('hung2021', '620ebb50d1c968895355942decf0e622', 'Nhật Hùng', 'hung2021@gmail.com', '0312546762', 'Bình Tân', 'CV02', NULL),
 ('lam2020', '693ae5c011f3a8d8994577d4131b0f6c', 'Hoàng Lâm Xu Xu Xu', 'hoanglam@gmail.com', '0965841254', 'Quận 6', 'CV02', NULL),
+('myquach', 'c2ceb601bfe15634d9e15d7a95e77407', 'myyquach', 'nqixc@gmail.com', '01234567899999', 'USA', 'CV02', NULL),
+('quachmy', '12124ccbe37ad74121eb7a9addc18787', 'Quach Ngoc My', 'quachmy08@gmail.com', '0218161001', '88 vo', 'CV02', NULL),
 ('sangsang123', 'f9b095ed80b805ffaded484bdece9932', 'Sang Huỳnh', 'sanghuynh@gmail.com', '0124589875', 'Quận 11', 'CV02', NULL),
 ('thanhthanh', '8287842d10e4f0c07fb17ece386a9191', 'Thanh Huỳnh', 'thanh@gmail.com', '0122554689', 'Quận 1', 'CV02', NULL);
 
