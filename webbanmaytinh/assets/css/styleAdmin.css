@@ -207,3 +207,26 @@ input.submit:hover{
     margin: 10px 0;
 }
 
+/* CSS cho thanh tìm kiếm */
+.search-container {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.search-form {
+    display: inline-flex;
+    align-items: center;
+}
+
+.search-input {
+    height: 40px; /* Điều chỉnh chiều cao phù hợp */
+    width: 300px; /* Chiều rộng thanh tìm kiếm */
+    padding: 0 10px;
+    font-size: 16px;
+}
+
+.search-button {
+    height: 40px; /* Chiều cao nút tìm kiếm */
+    padding: 0 15px;
+    font-size: 16px;
+}

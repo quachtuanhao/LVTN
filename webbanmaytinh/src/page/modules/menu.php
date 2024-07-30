@@ -18,6 +18,7 @@ session_start();
     </div>
     <div class="menu-content-right">
         <ul class="menu-list">
+            <li class="menu-item"><a>HOTLINE: 0377150838</a></li>
             <li class="menu-item"><a class="menu-link" href="./index.php?action=khuyenmai"><i class="menu-icon fa-solid fa-star"></i>Khuyến mãi</a></li>
             <li class="menu-item"><a class="menu-link" href="./index.php?action=xemdonhang"><i class="menu-icon fa-solid fa-table-list"></i>Đơn hàng</a></li>
             <li class="menu-item" style="position:relative"><a class="menu-link" href="./index.php?action=xemgiohang"><i class="menu-icon fa-solid fa-cart-shopping"></i>Giỏ hàng</a>

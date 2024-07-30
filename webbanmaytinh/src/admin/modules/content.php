@@ -36,6 +36,8 @@
         include './modules/quanlysanpham/sua.php';
     } else if ($tam == 'quanlysanpham' && $query == 'chitiet') {
         include './modules/quanlysanpham/chitiet.php';
+    } else if ($tam == 'quanlysanpham' && $query == 'search') {
+        include './modules/quanlysanpham/hienthi.php';
 
     } else if ($tam == 'quanlytaikhoan' && $query == 'no') {
         include './modules/quanlytaikhoan/hienthi.php';
