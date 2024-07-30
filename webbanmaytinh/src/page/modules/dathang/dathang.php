@@ -1,18 +1,19 @@
 <?php
 include '../../../db/connect.php';
-session_start();
+session_start(); // Gọi session_start() một lần ở đầu file
+
 if (isset($_SESSION['dangnhap'])) {
     if (isset($_GET['maKM'])) {
         $maKM = $_GET['maKM'];
+    } else {
+        $maKM = 'NULL'; // Đảm bảo $maKM có giá trị mặc định
     }
-    if ($maKM == "") {
-        $maKM = 'NULL';
-    }
+
     $id_user = $_SESSION['dangnhap'];
-    $sql = "SELECT hoTen,email,sdt,diachi from taikhoan where username='$id_user'";
+    $sql = "SELECT hoTen, email, sdt, diachi FROM taikhoan WHERE username='$id_user'";
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_array($result);
-    if (count($row) > 0) {
+    if ($row) { // Kiểm tra xem có dòng dữ liệu nào được trả về không
         $name = $row['hoTen'];
         $email = $row['email'];
         $sdt = $row['sdt'];
@@ -20,8 +21,8 @@ if (isset($_SESSION['dangnhap'])) {
         $maTT = "DXL";
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $date = date('Y-m-d h:i:s');
-        $sql = "INSERT into dondathang(maKH,tenKhach,emailKhach,sdtKhach,diaChiKhach,ngayDat,maTT,maKM) 
-            values('$id_user','$name','$email','$sdt','$diachi','$date','$maTT','$maKM')";
+        $sql = "INSERT INTO dondathang(maKH, tenKhach, emailKhach, sdtKhach, diaChiKhach, ngayDat, maTT, maKM) 
+                VALUES ('$id_user', '$name', '$email', '$sdt', '$diachi', '$date', '$maTT', '$maKM')";
         mysqli_query($conn, $sql);
         $id = $conn->insert_id;
         foreach ($_SESSION["cart$id_user"] as $k => $v) {
@@ -30,13 +31,13 @@ if (isset($_SESSION['dangnhap'])) {
             $giaSP = $v['price'];
             $soLuongSP = $v['quantity'];
             $totalSP = $v['total'];
-            $sql1 = "INSERT into chitietdathang(maDDH,maSP,tenSP,giaSP,soLuong,tongTien) 
-                values('$id','$maSP','$tenSP','$giaSP','$soLuongSP','$totalSP')";
+            $sql1 = "INSERT INTO chitietdathang(maDDH, maSP, tenSP, giaSP, soLuong, tongTien) 
+                     VALUES ('$id', '$maSP', '$tenSP', '$giaSP', '$soLuongSP', '$totalSP')";
             mysqli_query($conn, $sql1);
-            $sql2 = "SELECT soLuong from sanpham where maSanPham='$maSP'";
+            $sql2 = "SELECT soLuong FROM sanpham WHERE maSanPham='$maSP'";
             $result = mysqli_query($conn, $sql2);
             $row = mysqli_fetch_array($result);
-            $soluong = $row['soLuong']-$soLuongSP;
+            $soluong = $row['soLuong'] - $soLuongSP;
             $sql3 = "UPDATE sanpham SET soLuong=$soluong WHERE maSanPham='$maSP'";
             mysqli_query($conn, $sql3);
         }
@@ -48,10 +49,9 @@ if (isset($_SESSION['dangnhap'])) {
             alert("Đặt hàng thành công!");
             window.location = "../../index.php?action=xemdonhang";
         </script>;
-        <?php
+<?php
     }
 } else {
-    session_start();
     if (isset($_SESSION['cart'])) {
         if (isset($_POST['dathang'])) {
             $name = $_POST['name'];
@@ -62,8 +62,8 @@ if (isset($_SESSION['dangnhap'])) {
             $date = date('Y-m-d h:i:s');
             $tinhtrang = 'DXL';
             $_SESSION['thongtin'] = array($name, $email, $sdt, $diachi, $date, $tinhtrang);
-            $sql = "INSERT into dondathang(maKH,tenKhach,emailKhach,sdtKhach,diaChiKhach,ngayDat,maTT,maKM) 
-                values('$sdt','$name','$email','$sdt','$diachi','$date','$tinhtrang','NULL')";
+            $sql = "INSERT INTO dondathang(maKH, tenKhach, emailKhach, sdtKhach, diaChiKhach, ngayDat, maTT, maKM) 
+                    VALUES ('$sdt', '$name', '$email', '$sdt', '$diachi', '$date', '$tinhtrang', 'NULL')";
             mysqli_query($conn, $sql);
             $id = $conn->insert_id;
             foreach ($_SESSION['cart'] as $k => $v) {
@@ -72,22 +72,24 @@ if (isset($_SESSION['dangnhap'])) {
                 $giaSP = $v['price'];
                 $soLuongSP = $v['quantity'];
                 $totalSP = $v['total'];
-                $sql1 = "INSERT into chitietdathang(maDDH,maSP,tenSP,giaSP,soLuong,tongTien) 
-                    values('$id','$maSP','$tenSP','$giaSP','$soLuongSP','$totalSP')";
+                $sql1 = "INSERT INTO chitietdathang(maDDH, maSP, tenSP, giaSP, soLuong, tongTien) 
+                         VALUES ('$id', '$maSP', '$tenSP', '$giaSP', '$soLuongSP', '$totalSP')";
                 mysqli_query($conn, $sql1);
             }
             unset($_SESSION["cart"]);
             unset($_SESSION["maKM"]);
             unset($_SESSION["tong"]);
-        ?>
+?>
             <script language="javascript">
-                alert("Đặt hàng thành công!");
-                window.location = "../../index.php?action=xemdonhang";
-            </script>;
+            alert("Đặt hàng thành công!");
+            window.location = "../../index.php?action=xemdonhang";
+        </script>;
 <?php
         } else {
             echo 'khong co gio hang';
         }
+    } else {
+        echo 'khong co gio hang';
     }
 }
 ?>
