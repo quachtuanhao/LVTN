@@ -72,8 +72,16 @@ if (isset($_POST['submit'])) {
                        WHERE maSanPham='$this_id'";
         mysqli_query($conn, $sql_update);
         
-        $_SESSION['success_message'] = 'Cập nhật sản phẩm thành công!';
-        header('Location: ./index.php?action=quanlysanpham&query=no');
+        echo "<script>
+            alert('Cập nhật sản phẩm thành công!');
+            window.location.href = './index.php?action=quanlysanpham&query=no';
+        </script>";
+        exit();
+    } else {
+        echo "<script>
+            alert('Có lỗi trong khi cập nhật sản phẩm. Vui lòng kiểm tra thông tin và thử lại.');
+            window.location.href = document.referrer; // Trở về trang trước đó
+        </script>";
         exit();
     }
 }
@@ -144,11 +152,3 @@ if (isset($_POST['submit'])) {
         </div>
     </div>
 </form>
-
-<?php
-// Hiển thị thông báo thành công nếu có
-if (isset($_SESSION['success_message'])) {
-    echo "<p class='message-success'>" . $_SESSION['success_message'] . "</p>";
-    unset($_SESSION['success_message']);
-}
-?>

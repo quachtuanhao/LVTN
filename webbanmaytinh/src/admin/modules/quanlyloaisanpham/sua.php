@@ -1,6 +1,8 @@
 <?php
 include '../././db/connect.php';
 
+$message = '';
+
 if (isset($_GET['this_id'])) {
     $this_id = $_GET['this_id'];
 }
@@ -26,9 +28,14 @@ if (isset($_POST['submit'])) {
 
     if (count($errors) == 0) {
         $sql = "UPDATE loaisanpham SET tenLoaiSanPham='$ten' WHERE maLoaiSanPham='$id'";
-        mysqli_query($conn, $sql);
+        if (mysqli_query($conn, $sql)) {
+            $message = 'Sửa thông tin loại sản phẩm thành công';
+        } else {
+            $message = 'Sửa thông tin loại sản phẩm thất bại';
+        }
         mysqli_close($conn);
-        header('location: ./index.php?action=quanlyloaisanpham&&query=no');
+        header('location: ./index.php?action=quanlyloaisanpham&&query=no&message=' . urlencode($message));
+        exit();
     }
 }
 ?>
@@ -61,3 +68,9 @@ if (isset($_POST['submit'])) {
         </div>
     </div>
 </form>
+
+<?php
+if (isset($_GET['message'])) {
+    echo "<div class='message'>" . $_GET['message'] . "</div>";
+}
+?>

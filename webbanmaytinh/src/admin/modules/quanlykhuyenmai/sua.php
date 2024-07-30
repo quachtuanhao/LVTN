@@ -1,6 +1,8 @@
 <?php
 include '../././db/connect.php';
 
+$message = '';
+
 if (isset($_GET['this_id'])) {
     $this_id = $_GET['this_id'];
 }
@@ -28,14 +30,28 @@ if (isset($_POST['submit'])) {
         }
     }
 
+    // Kiểm tra ngày bắt đầu và ngày kết thúc
+    if (empty($ngayBatDau)) {
+        $errors['ngayBatDau']['required'] = 'Ngày bắt đầu không được bỏ trống';
+    }
+    if (empty($ngayKetThuc)) {
+        $errors['ngayKetThuc']['required'] = 'Ngày kết thúc không được bỏ trống';
+    }
+
     if (count($errors) == 0) {
         if (isset($_POST['hienthi']) && $_POST['hienthi'] == 1) {
             $sql = "UPDATE khuyenmai SET tenKhuyenMai='$ten', ngayBatDau='$ngayBatDau', ngayKetThuc='$ngayKetThuc', maLKM='$maLKM', giaTriKhuyenMai='$giaTriKhuyenMai', hienThi=1 WHERE maKhuyenMai='$id'";
         } else {
             $sql = "UPDATE khuyenmai SET tenKhuyenMai='$ten', ngayBatDau='$ngayBatDau', ngayKetThuc='$ngayKetThuc', maLKM='$maLKM', giaTriKhuyenMai='$giaTriKhuyenMai', hienThi=0 WHERE maKhuyenMai='$id'";
         }
-        mysqli_query($conn, $sql);
-        header('location: ./index.php?action=quanlykhuyenmai&&query=no');
+        if (mysqli_query($conn, $sql)) {
+            $message = 'Sửa thông tin khuyến mãi thành công';
+        } else {
+            $message = 'Sửa thông tin khuyến mãi thất bại';
+        }
+        mysqli_close($conn);
+        header('location: ./index.php?action=quanlykhuyenmai&&query=no&message=' . urlencode($message));
+        exit();
     }
 }
 ?>
@@ -97,3 +113,9 @@ if (isset($_POST['submit'])) {
         </div>
     </div>
 </form>
+
+<?php
+if (isset($_GET['message'])) {
+    echo "<div class='message'>" . $_GET['message'] . "</div>";
+}
+?>

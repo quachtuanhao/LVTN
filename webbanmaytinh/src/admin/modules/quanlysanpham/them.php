@@ -1,37 +1,46 @@
 <?php
 include '../././db/connect.php';
 
+if (isset($_GET['this_id'])) {
+    $this_id = $_GET['this_id'];
+}
+
 if (isset($_POST['submit'])) {
-    $ten = $_POST['name'];
+    // Lấy thông tin sản phẩm hiện tại từ cơ sở dữ liệu
+    $sql = "SELECT maSanPham as ma, tenSanPham as ten, gia, soLuong, hinhAnh, moTa, maNSX, maLSP
+            FROM sanpham WHERE maSanPham='$this_id'";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_array($result);
+
+    $ten = $_POST['ten'];
     $gia = $_POST['gia'];
     $soluong = $_POST['soluong'];
-    $mota = $_POST['mota'];
+    $moTa = $_POST['mota'];
     $nsx = $_POST['hang'];
     $loai = $_POST['loai'];
+    $anh = $row['hinhAnh'];
     $errors = [];
-    
+
     // Xử lý ảnh
     if (isset($_FILES['anh']) && $_FILES['anh']['error'] == 0) {
-        $anh = $_FILES['anh']['name'];
+        $new_anh = $_FILES['anh']['name'];
         $filetype = $_FILES['anh']['type'];
         $allowed = ["jpg" => "image/jpeg", "jpeg" => "image/jpeg", "png" => "image/png"];
         if (!in_array($filetype, $allowed)) {
             $errors['anh']['type'] = 'Chỉ nhận file jpg, jpeg, png!';
         } else {
             // Di chuyển file đến thư mục ảnh
-            $target = "../../././assets/img/" . $anh;
+            $target = "../../././assets/img/" . $new_anh;
             move_uploaded_file($_FILES['anh']['tmp_name'], $target);
+            $anh = $new_anh; // Cập nhật tên ảnh mới
         }
-    } else {
-        $errors['anh']['required'] = 'Chưa chọn ảnh';
     }
 
-    // Kiểm tra tên sản phẩm
+    // Kiểm tra lỗi trùng tên sản phẩm
     if (empty($ten)) {
         $errors['ten']['required'] = 'Tên sản phẩm không được bỏ trống';
     } else {
-        // Kiểm tra tên sản phẩm có bị trùng không
-        $sql_check = "SELECT * FROM sanpham WHERE tenSanPham = '$ten'";
+        $sql_check = "SELECT * FROM sanpham WHERE tenSanPham='$ten' AND maSanPham != '$this_id'";
         $result_check = mysqli_query($conn, $sql_check);
         if (mysqli_num_rows($result_check) > 0) {
             $errors['ten']['duplicate'] = 'Tên sản phẩm đã tồn tại';
@@ -56,70 +65,79 @@ if (isset($_POST['submit'])) {
         $errors['soluong']['invalid'] = 'Số lượng không được âm';
     }
 
-    // Tạo mã sản phẩm mới
-    $ma = "";
-    $sql_max = "SELECT MAX(maSanPham) AS max_ma FROM sanpham";
-    $result_max = mysqli_query($conn, $sql_max);
-    $row_max = mysqli_fetch_assoc($result_max);
-    $max_ma = $row_max['max_ma'];
-
-    if ($max_ma) {
-        $last_id = (int)substr($max_ma, 2); // Lấy số sau 'SP'
-        $ma = 'SP' . ($last_id + 1);
-    } else {
-        $ma = 'SP1';
-    }
-
-    // Kiểm tra lỗi và thêm sản phẩm
+    // Cập nhật sản phẩm nếu không có lỗi
     if (count($errors) == 0) {
-        $sql = "INSERT INTO sanpham (maSanPham, tenSanPham, gia, soLuong, hinhAnh, moTa, maNSX, maLSP) 
-                VALUES ('$ma', '$ten', '$gia', '$soluong', '$anh', '$mota', '$nsx', '$loai')";
-        mysqli_query($conn, $sql);
-
-        $_SESSION['success_message'] = 'Thêm sản phẩm thành công!';
-        header('Location: ./index.php?action=quanlysanpham&query=no');
+        $sql_update = "UPDATE sanpham 
+                       SET tenSanPham='$ten', gia='$gia', soLuong='$soluong', hinhAnh='$anh', moTa='$moTa', maNSX='$nsx', maLSP='$loai'
+                       WHERE maSanPham='$this_id'";
+        mysqli_query($conn, $sql_update);
+        
+        echo "<script>
+            alert('Cập nhật sản phẩm thành công!');
+            window.location.href = './index.php?action=quanlysanpham&query=no';
+        </script>";
+        exit();
+    } else {
+        // Chuyển thông tin lỗi sang trang hiện tại
+        $error_message = json_encode($errors);
+        echo "<script>
+            alert('Có lỗi trong khi cập nhật sản phẩm. Vui lòng kiểm tra thông tin và thử lại.');
+            localStorage.setItem('errors', '$error_message');
+            window.location.href = window.location.href;
+        </script>";
         exit();
     }
 }
 ?>
 
-<!-- Form thêm sản phẩm -->
-<form class="form" action="./index.php?action=quanlysanpham&&query=them" method="POST" enctype="multipart/form-data">
+<!-- Form sửa sản phẩm -->
+<form class="form" action="./index.php?action=quanlysanpham&&query=sua&&this_id=<?php echo $this_id ?>" method="POST" enctype="multipart/form-data">
     <div class="form-main">
         <div class="form-title">
-            <h1>Thêm sản phẩm</h1>
+            <h1>Sửa thông tin sản phẩm</h1>
         </div>
         <div class="form-content">
+            <?php
+            $sql = "SELECT maSanPham as ma, tenSanPham as ten, gia, soLuong, hinhAnh, moTa, maNSX, maLSP
+                    FROM sanpham WHERE maSanPham='$this_id'";
+            $result = mysqli_query($conn, $sql);
+            $row = mysqli_fetch_array($result);
+            ?>
+
+            <label class="label">Mã sản phẩm</label>
+            <input class="text" type="text" name="ma" value="<?php echo $row['ma'] ?>" disabled>
+
             <label class="label">Tên sản phẩm</label>
-            <input class="text" type="text" name="name" value="<?php echo (!empty($ten) ? $ten : "") ?>">
+            <input class="text" type="text" name="ten" value="<?php echo $row['ten'] ?>">
             <?php echo (!empty($errors['ten']['required'])) ? "<span class='message-error'>" . $errors['ten']['required'] . "</span>" : false ?>
             <?php echo (!empty($errors['ten']['duplicate'])) ? "<span class='message-error'>" . $errors['ten']['duplicate'] . "</span>" : false ?>
-            
+
             <label class="label">Giá</label>
-            <input class="text" type="text" name="gia" value="<?php echo (!empty($gia) ? $gia : "") ?>">
+            <input class="text" type="text" name="gia" value="<?php echo $row['gia'] ?>">
             <?php echo (!empty($errors['gia']['required'])) ? "<span class='message-error'>" . $errors['gia']['required'] . "</span>" : false ?>
             <?php echo (!empty($errors['gia']['invalid'])) ? "<span class='message-error'>" . $errors['gia']['invalid'] . "</span>" : false ?>
 
             <label class="label">Số lượng</label>
-            <input class="text" type="text" name="soluong" value="<?php echo (!empty($soluong) ? $soluong : "") ?>">
+            <input class="text" type="text" name="soluong" value="<?php echo $row['soLuong'] ?>">
             <?php echo (!empty($errors['soluong']['required'])) ? "<span class='message-error'>" . $errors['soluong']['required'] . "</span>" : false ?>
             <?php echo (!empty($errors['soluong']['invalid'])) ? "<span class='message-error'>" . $errors['soluong']['invalid'] . "</span>" : false ?>
 
             <label class="label">Ảnh</label>
             <input class="text" type="file" name="anh" accept="image/*">
+            <img src="../../././assets/img/<?php echo $row['hinhAnh'] ?>" alt="img" style="width: 80px; height: 80px; margin: 10px 0">
             <?php echo (!empty($errors['anh']['required'])) ? "<span class='message-error'>" . $errors['anh']['required'] . "</span>" : false ?>
             <?php echo (!empty($errors['anh']['type'])) ? "<span class='message-error'>" . $errors['anh']['type'] . "</span>" : false ?>
 
             <label class="label">Mô tả</label>
-            <textarea class="text" name="mota" rows="9" cols="70"><?php echo (!empty($mota) ? $mota : "") ?></textarea>
+            <textarea class="text" name="mota" rows="9" cols="70"><?php echo $row['moTa'] ?></textarea>
 
             <label class="label">Nhà sản xuất</label>
             <select class="text" name="hang" id="Hang">
                 <?php
                 $sql = "SELECT maNhaSanXuat as id, tenNhaSanXuat as ten FROM nhasanxuat";
                 $result = mysqli_query($conn, $sql);
-                while ($row = mysqli_fetch_array($result)) {
-                    echo "<option value='{$row['id']}'>{$row['ten']}</option>";
+                while ($row_nhaxuat = mysqli_fetch_array($result)) {
+                    echo "<option value='{$row_nhaxuat['id']}' " . ($row['maNSX'] == $row_nhaxuat['id'] ? 'selected' : '') . ">{$row_nhaxuat['ten']}</option>";
                 }
                 ?>
             </select>
@@ -129,21 +147,21 @@ if (isset($_POST['submit'])) {
                 <?php
                 $sql = "SELECT maLoaiSanPham as id, tenLoaiSanPham as ten FROM loaisanpham";
                 $result = mysqli_query($conn, $sql);
-                while ($row = mysqli_fetch_array($result)) {
-                    echo "<option value='{$row['id']}'>{$row['ten']}</option>";
+                while ($row_loai = mysqli_fetch_array($result)) {
+                    echo "<option value='{$row_loai['id']}' " . ($row['maLSP'] == $row_loai['id'] ? 'selected' : '') . ">{$row_loai['ten']}</option>";
                 }
                 ?>
             </select>
 
-            <input class="submit" type="submit" name="submit" value="Thêm">
+            <input class="submit" type="submit" name="submit" value="Cập nhật">
         </div>
     </div>
 </form>
 
 <?php
-// Hiển thị thông báo thành công nếu có
-if (isset($_SESSION['success_message'])) {
-    echo "<p class='message-success'>" . $_SESSION['success_message'] . "</p>";
-    unset($_SESSION['success_message']);
+// Hiển thị thông báo lỗi nếu có
+if (isset($_SESSION['error_message'])) {
+    echo "<p class='message-error'>" . $_SESSION['error_message'] . "</p>";
+    unset($_SESSION['error_message']);
 }
 ?>

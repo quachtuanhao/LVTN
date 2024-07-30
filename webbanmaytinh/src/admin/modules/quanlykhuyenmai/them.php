@@ -61,8 +61,14 @@ if (isset($_POST['submit'])) {
             $sql = "INSERT INTO khuyenmai(maKhuyenMai, tenKhuyenMai, ngayBatDau, ngayKetThuc, maLKM, giaTriKhuyenMai)
                     VALUES('$ma', '$ten', '$ngaybd', '$ngaykt', '$loaikm', '$giatri')";
         }
-        mysqli_query($conn, $sql);
-        header('location:./index.php?action=quanlykhuyenmai&&query=no');
+        $result = mysqli_query($conn, $sql);
+        
+        if ($result) {
+            $message = 'Thêm khuyến mãi thành công';
+        } else {
+            $message = 'Thêm khuyến mãi thất bại';
+        }
+        header("location: ./index.php?action=quanlykhuyenmai&&query=no&message=" . urlencode($message));
     }
 }
 ?>
@@ -112,3 +118,9 @@ if (isset($_POST['submit'])) {
         </div>
     </div>
 </form>
+
+<?php
+if (isset($_GET['message'])) {
+    echo "<div class='message'>" . $_GET['message'] . "</div>";
+}
+?>

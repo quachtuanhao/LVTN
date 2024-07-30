@@ -8,7 +8,6 @@ if (isset($_GET['this_id'])) {
 
 // Xử lý khi người dùng gửi form
 if (isset($_POST['submit'])) {
-    $id = $_GET['this_id']; // Lấy ID từ URL
     $ten = $_POST['ten'];
     $moTa = $_POST['mota'];
     $errors = [];
@@ -20,22 +19,27 @@ if (isset($_POST['submit'])) {
 
     // Nếu không có lỗi thì thực hiện cập nhật dữ liệu
     if (count($errors) == 0) {
-        // Câu lệnh cập nhật dữ liệu
         $sql = "UPDATE nhasanxuat SET tenNhaSanXuat=?, truSoChinh=? WHERE maNhaSanXuat=?";
         $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, 'sss', $ten, $moTa, $id);
-        mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);
-        mysqli_close($conn);
-
-        // Chuyển hướng về trang quản lý nhà sản xuất
-        header('location: ./index.php?action=quanlynhasanxuat&&query=no');
-        exit();
+        mysqli_stmt_bind_param($stmt, 'sss', $ten, $moTa, $this_id);
+        if (mysqli_stmt_execute($stmt)) {
+            echo "<script>
+                alert('Cập nhật thông tin nhà sản xuất thành công!');
+                window.location.href = './index.php?action=quanlynhasanxuat&&query=no';
+            </script>";
+            exit();
+        } else {
+            echo "<script>
+                alert('Có lỗi xảy ra trong khi cập nhật nhà sản xuất. Vui lòng thử lại.');
+                window.location.href = document.referrer;
+            </script>";
+            exit();
+        }
     }
 }
 ?>
 
-<form class="form" action="./index.php?action=quanlynhasanxuat&&query=sua&&this_id=<?php echo htmlspecialchars($this_id); ?>" method="POST" enctype="multipart/form-data">
+<form class="form" action="./index.php?action=quanlynhasanxuat&&query=sua&&this_id=<?php echo htmlspecialchars($this_id); ?>" method="POST">
     <div class="form-main">
         <div class="form-title">
             <h1>Sửa thông tin nhà sản xuất</h1>
