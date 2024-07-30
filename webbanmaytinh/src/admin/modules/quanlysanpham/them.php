@@ -29,6 +29,13 @@ if (isset($_POST['submit'])) {
     // Kiểm tra tên sản phẩm
     if (empty($ten)) {
         $errors['ten']['required'] = 'Tên sản phẩm không được bỏ trống';
+    } else {
+        // Kiểm tra tên sản phẩm có bị trùng không
+        $sql_check = "SELECT * FROM sanpham WHERE tenSanPham = '$ten'";
+        $result_check = mysqli_query($conn, $sql_check);
+        if (mysqli_num_rows($result_check) > 0) {
+            $errors['ten']['duplicate'] = 'Tên sản phẩm đã tồn tại';
+        }
     }
 
     // Kiểm tra giá
@@ -86,6 +93,7 @@ if (isset($_POST['submit'])) {
             <label class="label">Tên sản phẩm</label>
             <input class="text" type="text" name="name" value="<?php echo (!empty($ten) ? $ten : "") ?>">
             <?php echo (!empty($errors['ten']['required'])) ? "<span class='message-error'>" . $errors['ten']['required'] . "</span>" : false ?>
+            <?php echo (!empty($errors['ten']['duplicate'])) ? "<span class='message-error'>" . $errors['ten']['duplicate'] . "</span>" : false ?>
             
             <label class="label">Giá</label>
             <input class="text" type="text" name="gia" value="<?php echo (!empty($gia) ? $gia : "") ?>">

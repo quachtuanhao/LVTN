@@ -15,12 +15,18 @@ if (isset($_POST['submit'])) {
         if (!empty($row1)) {
             $errors['ma']['trung'] = 'Mã đã tồn tại';
         }
-        // else{
-        //     $errors['username']['trung']='';
-        // }
+        
     }
     if (empty($ten)) {
         $errors['ten']['required'] = 'Tên không được bỏ trống';
+    } else {
+        $sql2 = "SELECT maLoaiSanPham from loaisanpham where maLoaiSanPham='$ma'";
+        $result2 = mysqli_query($conn, $sql2);
+        $row2 = mysqli_fetch_array($result2);
+        if (!empty($row2)) {
+            $errors['ten']['trung'] = 'Tên đã tồn tại';
+        }
+        
     }
     if (count($errors) == 0) {
         $sql = "INSERT into loaisanpham(maLoaiSanPham,tenLoaiSanPham)
