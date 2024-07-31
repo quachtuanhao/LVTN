@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 30, 2024 at 05:29 PM
+-- Generation Time: Jul 31, 2024 at 12:29 AM
 -- Server version: 5.7.36
 -- PHP Version: 7.4.26
 
@@ -145,14 +145,17 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `user_id` varchar(255) DEFAULT NULL,
   `user_name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `comments`
 --
 
 INSERT INTO `comments` (`id`, `product_id`, `rating`, `comment`, `created_at`, `user_id`, `user_name`) VALUES
-(1, 'SP10', 5, 'đã mua dùng rất tốt', '2024-07-30 08:16:34', NULL, 'thanhthanh');
+(1, 'SP10', 5, 'đã mua dùng rất tốt', '2024-07-30 08:16:34', NULL, 'thanhthanh'),
+(2, 'SP27', 5, 'đã mua rồi, dùng tốt', '2024-07-31 00:19:23', NULL, 'quachmy'),
+(3, 'SP26', 5, 'nên dùng nha ae ơi !!!', '2024-07-31 00:20:09', NULL, 'quachmy'),
+(4, 'SP33', 5, 'sản phẩm tốt', '2024-07-31 00:20:59', NULL, 'quachmy');
 
 -- --------------------------------------------------------
 
@@ -207,7 +210,7 @@ INSERT INTO `dondathang` (`maDonDatHang`, `maKH`, `tenKhach`, `emailKhach`, `sdt
 (89, 'thanhthanh', 'Thanh Huỳnh', 'thanh@gmail.com', '0122554689', 'Quận 1', '2024-07-30 08:46:41', 'DXL', 'KM10'),
 (90, 'sangsang123', 'Sang Huỳnh', 'sanghuynh@gmail.com', '0124589875', 'Quận 11', '2024-07-30 10:29:53', 'DXL', 'KM10'),
 (91, '0283953808', 'Quách Ngọc Mỹ', 'myquach77gmail.com*', '0283953808', '17 tt Quận 8', '2024-07-30 10:49:17', 'DXL', 'NULL'),
-(92, 'quachmy', 'Quach Ngoc My', 'quachmy08@gmail.com', '0218161131', '88 vo', '2024-07-30 11:06:36', 'DXL', 'KM100K'),
+(92, 'quachmy', 'Quach Ngoc My', 'quachmy08@gmail.com', '0218161131', '88 vo', '2024-07-30 11:06:36', 'HT', 'KM100K'),
 (93, 'quachmy', 'Quach Ngoc My', 'quachmy08@gmail.com', '0218161131', '88 vo', '2024-07-30 11:09:34', 'DXL', 'KM10'),
 (94, 'quachmy', 'Quach Ngoc My', 'quachmy08@gmail.com', '0218161131', '88 vo', '2024-07-30 11:10:45', 'DXL', 'KM10'),
 (95, 'quachmy', 'Quach Ngoc My', 'quachmy08@gmail.com', '0218161131', '88 vo', '2024-07-30 11:19:52', 'DXL', ''),
@@ -433,7 +436,7 @@ INSERT INTO `taikhoan` (`userName`, `password`, `hoTen`, `email`, `sdt`, `diachi
 ('lam2020', '693ae5c011f3a8d8994577d4131b0f6c', 'Hoàng Lâm Xu Xu Xu', 'hoanglam@gmail.com', '0965841254', 'Quận 6', 'CV02', NULL),
 ('myquach', 'c2ceb601bfe15634d9e15d7a95e77407', 'myyquach', 'nqixc@gmail.com', '01234567899999', 'USA', 'CV02', NULL),
 ('quachmy', '12124ccbe37ad74121eb7a9addc18787', 'Quach Ngoc My', 'quachmy08@gmail.com', '0218161001', '88 vo', 'CV02', NULL),
-('sangsang123', 'f9b095ed80b805ffaded484bdece9932', 'Sang Huỳnh', 'sanghuynh@gmail.com', '0124589875', 'Quận 11', 'CV02', NULL),
+('sangsang123', 'f9b095ed80b805ffaded484bdece9932', 'Sang Huỳnh', 'sanghuynh@gmail.com', '0124589875', 'Quận 12', 'CV02', NULL),
 ('thanhthanh', '8287842d10e4f0c07fb17ece386a9191', 'Thanh Huỳnh', 'thanh@gmail.com', '0122554689', 'Quận 1', 'CV02', NULL);
 
 -- --------------------------------------------------------
