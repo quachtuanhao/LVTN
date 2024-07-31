@@ -77,6 +77,6 @@ if (!$result) {
         ?>
     </table>
     <?php
-    include 'pagination.php'; // Đảm bảo rằng phân trang đã được cấu hình đúng
+    include 'pagination.php'; 
 }
 ?>
