@@ -57,7 +57,7 @@ if (isset($_POST['submit'])) {
     }
 
     // Kiểm tra số lượng
-    if (empty($soluong)) {
+    if (!isset($soluong)) {
         $errors['soluong']['required'] = 'Số lượng không được bỏ trống';
     } elseif (!is_numeric($soluong)) {
         $errors['soluong']['invalid'] = 'Số lượng phải là số';
@@ -70,12 +70,17 @@ if (isset($_POST['submit'])) {
         $sql_update = "UPDATE sanpham 
                        SET tenSanPham='$ten', gia='$gia', soLuong='$soluong', hinhAnh='$anh', moTa='$moTa', maNSX='$nsx', maLSP='$loai'
                        WHERE maSanPham='$this_id'";
-        mysqli_query($conn, $sql_update);
-        
-        echo "<script>
-            alert('Cập nhật sản phẩm thành công!');
-            window.location.href = './index.php?action=quanlysanpham&query=no';
-        </script>";
+        if (mysqli_query($conn, $sql_update)) {
+            echo "<script>
+                alert('Cập nhật sản phẩm thành công!');
+                window.location.href = './index.php?action=quanlysanpham&query=no';
+            </script>";
+        } else {
+            echo "<script>
+                alert('Cập nhật sản phẩm thất bại. Vui lòng thử lại.');
+                window.location.href = document.referrer; // Trở về trang trước đó
+            </script>";
+        }
         exit();
     } else {
         echo "<script>
