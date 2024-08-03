@@ -10,45 +10,59 @@ if (session_status() === PHP_SESSION_NONE) {
 $tam = isset($_GET['value']) ? $_GET['value'] : null;
 
 // Kiểm tra xem người dùng đã đăng nhập chưa
-$user_id = isset($_SESSION['dangnhap']) ? $_SESSION['dangnhap'] : null;
+$userName = isset($_SESSION['dangnhap']) ? $_SESSION['dangnhap'] : null;
+$maKH = null; // Biến để lưu mã khách hàng
+
+// Lấy mã khách hàng từ userName nếu người dùng đã đăng nhập
+if ($userName) {
+    $sql_get_maKH = "SELECT userName FROM taikhoan WHERE userName = '$userName'";
+    $result_get_maKH = mysqli_query($conn, $sql_get_maKH);
+    if ($result_get_maKH && mysqli_num_rows($result_get_maKH) > 0) {
+        $maKH = $userName;
+    }
+}
 
 // Xử lý việc gửi bình luận và đánh giá
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_comment']) && $user_id) {
-    $rating = $_POST['rating'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_comment'])) {
+    $rating = isset($_POST['rating']) ? $_POST['rating'] : null;
     $comment = $_POST['comment'];
     $productId = $tam;
 
-    // Kiểm tra xem người dùng đã mua sản phẩm này và đơn hàng đã hoàn tất không
-    $hasPurchasedAndCompleted = false;
-    if ($user_id) {
-        $sql_check_purchase = "SELECT * FROM dondathang 
-                               WHERE maKH = '$user_id' 
-                               AND maDonDatHang IN (SELECT maDDH FROM chitietdathang WHERE maSP = '$tam') 
-                               AND maTT = 'HT'";
-        $result_check_purchase = mysqli_query($conn, $sql_check_purchase);
-        if (mysqli_num_rows($result_check_purchase) > 0) {
-            $hasPurchasedAndCompleted = true;
-        }
-    }
-
-    if ($hasPurchasedAndCompleted) {
-        // Kiểm tra xem người dùng đã đánh giá sản phẩm này chưa
-        $sql_check_comment = "SELECT * FROM comments WHERE product_id = '$productId' AND user_name = '$user_id'";
-        $result_check_comment = mysqli_query($conn, $sql_check_comment);
-
-        if (mysqli_num_rows($result_check_comment) > 0) {
-            echo "Bạn đã đánh giá sản phẩm này trước đó.";
-        } else {
-            // Thực hiện chèn bình luận và đánh giá vào cơ sở dữ liệu
-            $insertComment = "INSERT INTO comments (product_id, rating, comment, user_name) VALUES ('$productId', '$rating', '$comment', '$user_id')";
-            if (mysqli_query($conn, $insertComment)) {
-                echo "Bình luận và đánh giá thành công!";
-            } else {
-                echo "Lỗi: " . $insertComment . "<br>" . mysqli_error($conn);
+    if (!$rating) {
+        echo "Vui lòng chọn đánh giá sao.";
+    } else {
+        // Kiểm tra xem người dùng đã mua sản phẩm này và đơn hàng đã hoàn tất không
+        $hasPurchasedAndCompleted = false;
+        if ($maKH) {
+            $sql_check_purchase = "SELECT * FROM dondathang 
+                                   WHERE maKH = '$maKH' 
+                                   AND maDonDatHang IN (SELECT maDDH FROM chitietdathang WHERE maSP = '$tam') 
+                                   AND maTT = 'HT'";
+            $result_check_purchase = mysqli_query($conn, $sql_check_purchase);
+            if (mysqli_num_rows($result_check_purchase) > 0) {
+                $hasPurchasedAndCompleted = true;
             }
         }
-    } else {
-        echo "Bạn cần mua sản phẩm và đơn hàng phải hoàn tất để đánh giá.";
+
+        if ($hasPurchasedAndCompleted) {
+            // Kiểm tra xem người dùng đã đánh giá sản phẩm này chưa
+            $sql_check_comment = "SELECT * FROM comments WHERE maSP = '$productId' AND maKH = '$maKH'";
+            $result_check_comment = mysqli_query($conn, $sql_check_comment);
+
+            if (mysqli_num_rows($result_check_comment) > 0) {
+                echo "Bạn đã đánh giá sản phẩm này trước đó.";
+            } else {
+                // Thực hiện chèn bình luận và đánh giá vào cơ sở dữ liệu
+                $insertComment = "INSERT INTO comments (maSP, rating, comment, maKH) VALUES ('$productId', '$rating', '$comment', '$maKH')";
+                if (mysqli_query($conn, $insertComment)) {
+                    echo "Bình luận và đánh giá thành công!";
+                } else {
+                    echo "Lỗi: " . $insertComment . "<br>" . mysqli_error($conn);
+                }
+            }
+        } else {
+            echo "Bạn cần mua sản phẩm và đơn hàng phải hoàn tất để đánh giá.";
+        }
     }
 }
 ?>
@@ -104,18 +118,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_comment']) && $
     <!-- Bình luận và đánh giá sản phẩm -->
     <div class="comments-section">
         <h2>Bình luận và đánh giá sản phẩm</h2>
-        <?php if ($user_id): ?>
+        <?php if ($maKH): ?>
             <form action="" method="POST">
                 <label for="rating">Đánh giá:</label>
-                <select name="rating" id="rating" required>
-                    <option value="1">1 sao</option>
-                    <option value="2">2 sao</option>
-                    <option value="3">3 sao</option>
-                    <option value="4">4 sao</option>
-                    <option value="5">5 sao</option>
-                </select><br>
+                <div class="rating">
+                    <input type="radio" id="star5" name="rating" value="5"><label for="star5" title="5 sao">&#9733;</label>
+                    <input type="radio" id="star4" name="rating" value="4"><label for="star4" title="4 sao">&#9733;</label>
+                    <input type="radio" id="star3" name="rating" value="3"><label for="star3" title="3 sao">&#9733;</label>
+                    <input type="radio" id="star2" name="rating" value="2"><label for="star2" title="2 sao">&#9733;</label>
+                    <input type="radio" id="star1" name="rating" value="1"><label for="star1" title="1 sao">&#9733;</label>
+                </div><br>
                 <label for="comment">Bình luận:</label><br>
-                <textarea name="comment" id="comment" rows="4" cols="50" required></textarea><br>
+                <textarea name="comment" id="comment" rows="4" cols="50"></textarea><br>
                 <input type="submit" name="submit_comment" value="Gửi đánh giá">
             </form>
         <?php else: ?>
@@ -128,14 +142,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_comment']) && $
         <h3>Các bình luận:</h3>
         <?php
         if ($tam) {
-            $fetchComments = "SELECT c.rating, c.comment, t.hoTen FROM comments c JOIN taikhoan t ON c.user_name = t.userName WHERE c.product_id = '$tam'";
+            $fetchComments = "SELECT c.rating, c.comment, tk.hoTen, c.created_at FROM comments c 
+                              JOIN taikhoan tk ON c.maKH = tk.userName 
+                              WHERE c.maSP = '$tam'";
             $commentsResult = mysqli_query($conn, $fetchComments);
 
             if ($commentsResult) {
                 while ($commentRow = mysqli_fetch_array($commentsResult)) {
-                    echo "<p>Đánh giá: " . $commentRow['rating'] . " sao</p>";
-                    echo "<p>Bình luận: " . $commentRow['comment'] . "</p>";
-                    echo "<p>Người dùng: " . $commentRow['hoTen'] . "</p><hr>";
+                    echo "<p>Đánh giá: " . str_repeat('&#9733;', $commentRow['rating']) . "</p>";
+                    if (!empty($commentRow['comment'])) {
+                        echo "<p>Bình luận: " . $commentRow['comment'] . "</p>";
+                    }
+                    echo "<p>Người dùng: " . $commentRow['hoTen'] . "</p>";
+                    echo "<p>Thời gian: " . $commentRow['created_at'] . "</p><hr>";
                 }
             } else {
                 echo "Lỗi khi lấy bình luận: " . mysqli_error($conn);
@@ -146,3 +165,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_comment']) && $
         ?>
     </div>
 </div>
+
+<style>
+.rating {
+    direction: rtl;
+    display: inline-block;
+}
+.rating input[type="radio"] {
+    display: none;
+}
+.rating label {
+    color: #d3d3d3;
+    font-size: 2em;
+    cursor: pointer;
+}
+.rating input[type="radio"]:checked ~ label {
+    color: #ffcc00;
+}
+.rating input[type="radio"]:checked ~ label ~ label {
+    color: #d3d3d3;
+}
+.rating input[type="radio"]:hover ~ label,
+.rating input[type="radio"]:checked ~ label,
+.rating input[type="radio"]:checked ~ label ~ label {
+    color: #ffcc00;
+}
+</style>
