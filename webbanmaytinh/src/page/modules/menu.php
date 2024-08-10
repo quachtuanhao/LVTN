@@ -1,5 +1,5 @@
 <?php
-session_start();
+session_start(); // Khởi tạo session đầu tiên
 ?>
 <div class="menu">
     <div class="menu-content-left">

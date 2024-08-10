@@ -122,7 +122,6 @@ if (isset($_POST['dangnhap'])) {
             font-size: 14px;
         }
 
-        /* Thêm CSS để làm cho nút Đăng nhập giống với nút Đăng ký */
         .submit--login {
             background-color: #4CAF50;
             color: white;

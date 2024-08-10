@@ -59,6 +59,14 @@ if (isset($_GET["id"])) {
         .total-label {
             padding-left: 2px; /* Đưa gần lại số tiền */
         }
+        .btn-comment {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .btn-comment:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -73,6 +81,7 @@ if (isset($_GET["id"])) {
         <td class="cart-item width100"> <b>Đơn giá</b></td>
         <td class="cart-item width150"> <b>Số lượng</b></td>
         <td class="cart-item width200"> <b>Số tiền</b></td>
+        <td class="cart-item width150"> <b>Thao tác</b></td>
     </tr>
     <?php
     $sql = "SELECT * FROM chitietdathang WHERE maDDH = $id";
@@ -95,7 +104,12 @@ if (isset($_GET["id"])) {
             <td class="cart-item width200"><?php echo htmlspecialchars($row['tenSP']); ?></td>
             <td class="cart-item width100"><?php echo number_format($row['giaSP'], 0, ',', '.'); ?>đ</td>
             <td class="cart-item width150"><?php echo htmlspecialchars($row['soLuong']); ?></td>
-            <td class="cart-item width200"><?php echo number_format($row['tongTien'], 0, ',', '.'); ?>đ</td>
+            <td class="cart-item width150"><?php echo number_format($row['tongTien'], 0, ',', '.'); ?>đ</td>
+            <td class="cart-item width200">
+                <!-- Chỉnh sửa liên kết để chuyển đến chitietsanpham.php -->
+                <a href="danhmucsanpham/chitietsanpham.php?value=<?php echo $maSP; ?>" class="btn-comment">Bình luận và đánh giá</a>
+
+            </td>
         </tr>
     <?php
     }

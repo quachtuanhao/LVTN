@@ -1,5 +1,8 @@
 <?php
+
+
 include '../db/connect.php';
+
 $username = "";
 $password = "";
 $name = "";
@@ -8,6 +11,12 @@ $sdt = "";
 $diachi = "";
 $errors = [];
 $success_message = "";
+
+// Kiểm tra nếu người dùng đã đăng nhập rồi thì chuyển hướng về trang chính
+if (isset($_SESSION['dangnhap'])) {
+    header('Location: index.php');
+    exit();
+}
 
 if (isset($_POST['dangky'])) {
     $username = trim($_POST['username']);
@@ -76,6 +85,10 @@ if (isset($_POST['dangky'])) {
         $stmt->bind_param('ssssss', $username, $pass, $name, $email, $sdt, $diachi);
         if ($stmt->execute()) {
             $success_message = "Đăng ký tài khoản thành công!";
+
+            // Chuyển hướng đến trang đăng nhập
+            header('Location: login.php');
+            exit();
         } else {
             $errors['general'] = "Lỗi xảy ra khi đăng ký. Vui lòng thử lại.";
         }
@@ -85,7 +98,6 @@ if (isset($_POST['dangky'])) {
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -151,11 +163,26 @@ if (isset($_POST['dangky'])) {
             color: red;
             font-size: 14px;
         }
+
+        .submit--register {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            text-align: center;
+        }
+
+        .submit--register:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
-
 <body>
-    <form class="form" action="index.php?action=register" method="POST" enctype="multipart/form-data">
+    <form class="form" action="register.php" method="POST" enctype="multipart/form-data">
         <div class="form-main">
             <div class="form-title">
                 <h1>Đăng Ký</h1>
@@ -191,34 +218,24 @@ if (isset($_POST['dangky'])) {
                 <label class="label">Địa chỉ</label>
                 <input class="text" type="text" name="diachi" value="<?php echo htmlspecialchars($diachi); ?>">
                 <?php echo (!empty($errors['diachi']['required'])) ? "<span class='message-error'>" . htmlspecialchars($errors['diachi']['required']) . "</span>" : false ?>
+                <?php echo (!empty($success_message)) ? "<span class='message-error'>" . htmlspecialchars($success_message) . "</span>" : false ?>
                 <input class="submit--register" type="submit" name="dangky" value="Đăng ký">
             </div>
         </div>
     </form>
 
-    <?php if (!empty($success_message)) { ?>
-        <script language="javascript">
-            alert("<?php echo htmlspecialchars($success_message); ?>");
-            window.location = "index.php?action=login";
-        </script>
-    <?php } ?>
-
     <script>
-        document.getElementById('togglePassword').addEventListener('click', function () {
+        document.addEventListener('DOMContentLoaded', function () {
             const passwordField = document.getElementById('password');
-            const eyeIcon = document.querySelector('.toggle-password .fa');
+            const togglePassword = document.getElementById('togglePassword');
+            const eyeIcon = togglePassword.querySelector('.fa');
 
-            if (passwordField.type === 'password') {
-                passwordField.type = 'text';
-                eyeIcon.classList.remove('fa-eye');
-                eyeIcon.classList.add('fa-eye-slash');
-            } else {
-                passwordField.type = 'password';
-                eyeIcon.classList.remove('fa-eye-slash');
-                eyeIcon.classList.add('fa-eye');
-            }
+            togglePassword.addEventListener('click', function () {
+                const type = passwordField.type === 'password' ? 'text' : 'password';
+                passwordField.type = type;
+                eyeIcon.className = type === 'password' ? 'fa fa-eye eye-icon' : 'fa fa-eye-slash eye-icon';
+            });
         });
     </script>
 </body>
-
 </html>

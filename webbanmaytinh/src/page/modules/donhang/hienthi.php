@@ -14,9 +14,9 @@ if (isset($_SESSION['dangnhap'])) {
             <td class="cart-item width150"> <b>Tên khách hàng</b></td>
             <td class="cart-item width100"> <b>Số điện thoại</b></td>
             <td class="cart-item width200"> <b>Địa chỉ</b></td>
-            <td class="cart-item width100"> <b>Ngày đặt</b></td>
-            <td class="cart-item width200"> <b>Tình trạng</b></td>
-            <td class="cart-item width50"> <b>Chi tiết</b></td>
+            <td class="cart-item width150"> <b>Ngày đặt</b></td>
+            <td class="cart-item width150"> <b>Tình trạng</b></td>
+            <td class="cart-item width100"> <b>Chi tiết</b></td>
         </tr>
         <?php
         while ($row = mysqli_fetch_array($result)) {
@@ -27,12 +27,12 @@ if (isset($_SESSION['dangnhap'])) {
                 <td class="cart-item width150"><?php echo $row['tenKhach'] ?></td>
                 <td class="cart-item width100"><?php echo $row['sdtKhach'] ?></td>
                 <td class="cart-item width200"><?php echo $row['diaChiKhach'] ?></td>
-                <td class="cart-item width100"><?php echo $row['ngayDat'] ?></td>
-                <td class="cart-item width200"><?php $sql1 = "SELECT * from trangthai where maTrangThai='$tt'";
+                <td class="cart-item width150"><?php echo $row['ngayDat'] ?></td>
+                <td class="cart-item width150"><?php $sql1 = "SELECT * from trangthai where maTrangThai='$tt'";
                                                 $result1 = mysqli_query($conn, $sql1);
                                                 $row1 = mysqli_fetch_array($result1);
                                                 echo $row1['tenTrangThai'] ?></td>
-                <td class="cart-item width50"><a href="index.php?action=xemchitietdonhang&&id=<?php echo $row['maDonDatHang'] ?>"><i class="fa-solid fa-circle-info"></i></a></td>
+                <td class="cart-item width100"><a href="index.php?action=xemchitietdonhang&&id=<?php echo $row['maDonDatHang'] ?>"><i class="fa-solid fa-circle-info"></i></a></td>
             </tr>
         <?php
         };
