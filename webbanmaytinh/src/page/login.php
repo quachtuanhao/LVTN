@@ -1,5 +1,6 @@
 <?php
-include '../db/connect.php'; // Khởi tạo phiên làm việc
+
+include '../db/connect.php';
 
 $username = "";
 $password = "";
@@ -8,44 +9,20 @@ $errors = [];
 if (isset($_POST['dangnhap'])) {
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
-    $pass = "";
 
-    // Kiểm tra nếu username bị bỏ trống
+    // Kiểm tra username
     if (empty($username)) {
         $errors['username']['required'] = 'Username không được bỏ trống';
-    } elseif (!preg_match('/^[a-zA-Z0-9_]+$/', $username)) {
-        $errors['username']['invalid'] = 'Username chỉ có thể chứa chữ cái, số và dấu gạch dưới';
-    } else {
-        // Kiểm tra username tồn tại trong cơ sở dữ liệu
-        $sql1 = "SELECT userName FROM taikhoan WHERE userName=?";
-        $stmt1 = $conn->prepare($sql1);
-        $stmt1->bind_param('s', $username);
-        $stmt1->execute();
-        $result1 = $stmt1->get_result();
-        if ($result1->num_rows === 0) {
-            $errors['username']['not_found'] = 'Username không tồn tại';
-        }
     }
 
-    // Kiểm tra nếu password bị bỏ trống
+    // Kiểm tra password
     if (empty($password)) {
         $errors['password']['required'] = 'Password không được bỏ trống';
-    } else {
-        $pass = md5($password);
-        // Kiểm tra password
-        $sql2 = "SELECT password FROM taikhoan WHERE userName=?";
-        $stmt2 = $conn->prepare($sql2);
-        $stmt2->bind_param('s', $username);
-        $stmt2->execute();
-        $result2 = $stmt2->get_result();
-        $row2 = $result2->fetch_assoc();
-        if (!$row2 || $row2['password'] !== $pass) {
-            $errors['password']['incorrect'] = 'Password không đúng';
-        }
     }
 
     // Nếu không có lỗi thì tiếp tục đăng nhập
     if (empty($errors)) {
+        $pass = md5($password);
         $sql = "SELECT userName, password, hoTen, maCV FROM taikhoan WHERE userName=? AND password=?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('ss', $username, $pass);
@@ -56,6 +33,13 @@ if (isset($_POST['dangnhap'])) {
         if ($row) {
             if ($row['maCV'] == 'CV02') {
                 $_SESSION['dangnhap'] = $username;
+
+                // Kiểm tra và phục hồi giỏ hàng nếu có
+                if (isset($_SESSION['pending_cart']) && !empty($_SESSION['pending_cart'])) {
+                    $_SESSION['cart'] = $_SESSION['pending_cart'];
+                    unset($_SESSION['pending_cart']); // Xóa thông tin giỏ hàng tạm thời
+                }
+
                 header('Location: index.php');
                 exit();
             } elseif ($row['maCV'] == 'CV01') {
@@ -63,6 +47,8 @@ if (isset($_POST['dangnhap'])) {
                 header('Location: ../admin/index.php');
                 exit();
             }
+        } else {
+            $errors['login']['failed'] = 'Username hoặc password không chính xác';
         }
     }
 }
@@ -72,8 +58,9 @@ if (isset($_POST['dangnhap'])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng nhập</title>
+    <title>Đăng Nhập</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         .form {
@@ -114,7 +101,7 @@ if (isset($_POST['dangnhap'])) {
 
         .password-wrapper input {
             width: 100%;
-            padding-right: 40px; /* Cung cấp không gian cho biểu tượng mắt */
+            padding-right: 40px;
             box-sizing: border-box;
         }
 
@@ -134,30 +121,44 @@ if (isset($_POST['dangnhap'])) {
             color: red;
             font-size: 14px;
         }
+
+        /* Thêm CSS để làm cho nút Đăng nhập giống với nút Đăng ký */
+        .submit--login {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            text-align: center;
+        }
+
+        .submit--login:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
-    <form class="form" action="index.php?action=login" method="POST" enctype="multipart/form-data">
+    <form class="form" action="index.php?action=login" method="POST">
         <div class="form-main">
             <div class="form-title">
-                <h1>Đăng nhập</h1>
+                <h1>Đăng Nhập</h1>
             </div>
             <div class="form-content">
                 <label class="label">Username</label>
                 <input class="text" type="text" name="username" value="<?php echo htmlspecialchars($username); ?>">
                 <?php echo (!empty($errors['username']['required'])) ? "<span class='message-error'>" . htmlspecialchars($errors['username']['required']) . "</span>" : false ?>
-                <?php echo (!empty($errors['username']['invalid'])) ? "<span class='message-error'>" . htmlspecialchars($errors['username']['invalid']) . "</span>" : false ?>
-                <?php echo (!empty($errors['username']['not_found'])) ? "<span class='message-error'>" . htmlspecialchars($errors['username']['not_found']) . "</span>" : false ?>
                 <label class="label">Password</label>
                 <div class="password-wrapper">
-                    <input id="password" class="text" type="password" name="password">
+                    <input id="password" class="text" type="password" name="password" value="<?php echo htmlspecialchars($password); ?>">
                     <span id="togglePassword" class="toggle-password">
                         <i class="fa fa-eye eye-icon"></i>
                     </span>
                 </div>
                 <?php echo (!empty($errors['password']['required'])) ? "<span class='message-error'>" . htmlspecialchars($errors['password']['required']) . "</span>" : false ?>
-                <?php echo (!empty($errors['password']['short'])) ? "<span class='message-error'>" . htmlspecialchars($errors['password']['short']) . "</span>" : false ?>
-                <?php echo (!empty($errors['password']['incorrect'])) ? "<span class='message-error'>" . htmlspecialchars($errors['password']['incorrect']) . "</span>" : false ?>
+                <?php echo (!empty($errors['login']['failed'])) ? "<span class='message-error'>" . htmlspecialchars($errors['login']['failed']) . "</span>" : false ?>
                 <input class="submit--login" type="submit" name="dangnhap" value="Đăng nhập">
             </div>
         </div>
@@ -172,7 +173,6 @@ if (isset($_POST['dangnhap'])) {
             togglePassword.addEventListener('click', function () {
                 const type = passwordField.type === 'password' ? 'text' : 'password';
                 passwordField.type = type;
-                // Thay đổi biểu tượng mắt tùy theo trạng thái
                 eyeIcon.className = type === 'password' ? 'fa fa-eye eye-icon' : 'fa fa-eye-slash eye-icon';
             });
         });

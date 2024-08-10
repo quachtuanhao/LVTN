@@ -7,7 +7,7 @@ if (isset($_SESSION['dangnhap'])) {
 if (isset($_GET['action'])) {
     $value = $_GET['action'];
     if ($value == 'vanglai') {
-        include 'themthongtin.php';
+        header('location:../../index.php?action=register');
     } else if ($value == $id_user) {
         header('location:../../index.php?action=thongtindonhang');
     }

@@ -1,5 +1,6 @@
 <?php
 include '../db/connect.php';
+
 if (isset($_GET['this_id'])) {
     $this_id = $_GET['this_id'];
 } else {
@@ -79,10 +80,10 @@ if (!$row) {
             <h2>Các Bình Luận</h2>
             <div class="display-comments">
                 <?php
-                $fetchComments = "SELECT c.rating, c.comment, t.hoTen 
+                $fetchComments = "SELECT c.rating, c.comment, tk.hoTen 
                                   FROM comments c 
-                                  JOIN taikhoan t ON c.user_name = t.userName 
-                                  WHERE c.product_id = '$this_id'";
+                                  JOIN taikhoan tk ON c.maKH = tk.userName 
+                                  WHERE c.maSP = '$this_id'";
                 $commentsResult = mysqli_query($conn, $fetchComments);
 
                 if ($commentsResult && mysqli_num_rows($commentsResult) > 0) {

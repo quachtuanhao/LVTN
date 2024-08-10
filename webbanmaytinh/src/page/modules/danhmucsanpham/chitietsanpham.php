@@ -15,10 +15,11 @@ $maKH = null; // Biến để lưu mã khách hàng
 
 // Lấy mã khách hàng từ userName nếu người dùng đã đăng nhập
 if ($userName) {
-    $sql_get_maKH = "SELECT userName FROM taikhoan WHERE userName = '$userName'";
+    $sql_get_maKH = "SELECT maKH FROM taikhoan WHERE userName = '$userName'";
     $result_get_maKH = mysqli_query($conn, $sql_get_maKH);
     if ($result_get_maKH && mysqli_num_rows($result_get_maKH) > 0) {
-        $maKH = $userName;
+        $row_maKH = mysqli_fetch_assoc($result_get_maKH);
+        $maKH = $row_maKH['maKH'];
     }
 }
 
@@ -57,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_comment'])) {
                 if (mysqli_query($conn, $insertComment)) {
                     echo "Bình luận và đánh giá thành công!";
                 } else {
-                    echo "Lỗi: " . $insertComment . "<br>" . mysqli_error($conn);
+                    echo "Lỗi: " . mysqli_error($conn);
                 }
             }
         } else {
@@ -142,7 +143,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_comment'])) {
         <h3>Các bình luận:</h3>
         <?php
         if ($tam) {
-            $fetchComments = "SELECT c.rating, c.comment, tk.hoTen, c.created_at FROM comments c 
+            $fetchComments = "SELECT c.rating, c.comment, tk.hoTen, c.created_at 
+                              FROM comments c 
                               JOIN taikhoan tk ON c.maKH = tk.userName 
                               WHERE c.maSP = '$tam'";
             $commentsResult = mysqli_query($conn, $fetchComments);
@@ -151,10 +153,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_comment'])) {
                 while ($commentRow = mysqli_fetch_array($commentsResult)) {
                     echo "<p>Đánh giá: " . str_repeat('&#9733;', $commentRow['rating']) . "</p>";
                     if (!empty($commentRow['comment'])) {
-                        echo "<p>Bình luận: " . $commentRow['comment'] . "</p>";
+                        echo "<p>Bình luận: " . htmlspecialchars($commentRow['comment']) . "</p>";
                     }
-                    echo "<p>Người dùng: " . $commentRow['hoTen'] . "</p>";
-                    echo "<p>Thời gian: " . $commentRow['created_at'] . "</p><hr>";
+                    echo "<p>Người dùng: " . htmlspecialchars($commentRow['hoTen']) . "</p>";
+                    echo "<p>Thời gian: " . htmlspecialchars($commentRow['created_at']) . "</p><hr>";
                 }
             } else {
                 echo "Lỗi khi lấy bình luận: " . mysqli_error($conn);
