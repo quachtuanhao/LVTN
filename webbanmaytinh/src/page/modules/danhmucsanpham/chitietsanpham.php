@@ -12,9 +12,6 @@ $tam = isset($_GET['value']) ? $_GET['value'] : null;
 // Kiểm tra xem người dùng đã đăng nhập chưa
 $userName = isset($_SESSION['dangnhap']) ? $_SESSION['dangnhap'] : null;
 
-// Biến để lưu mã khách hàng
-$maKH = null;
-
 // Xử lý việc gửi bình luận và đánh giá
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_comment'])) {
     $rating = isset($_POST['rating']) ? $_POST['rating'] : null;
@@ -80,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_comment'])) {
                     $row = mysqli_fetch_array($result);
                     if ($row) {
                         ?>
-                        <form class="form" action="./modules/quanlygiohang/them.php?action=themgiohang&&idsanpham=<?php echo $tam; ?>" method="POST">
+                        <form class="form" id="addToCartForm" action="./modules/quanlygiohang/them.php?action=themgiohang&&idsanpham=<?php echo $tam; ?>" method="POST" onsubmit="return handleAddToCart();">
                             <td class="content-product-items detail">
                                 <img class="content-product-item img-detail" style="margin-left: 60px;" src="./../../assets/img/<?php echo $row['hinhAnh']; ?>" alt="no">
                             </td>
@@ -94,6 +91,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_comment'])) {
                                 <input class="content-product-item submit" style="margin-left: 150px;" type="submit" name="submit" value="Thêm vào giỏ hàng">
                             </td>
                         </form>
+
+                        <script>
+                        function handleAddToCart() {
+                            var isLoggedIn = "<?php echo $userName; ?>";
+
+                            if (!isLoggedIn) {
+                                alert("Bạn hãy đăng ký và đăng nhập tài khoản để có thể mua hàng nhé !!!");
+                                window.location.href = './index.php?action=register';
+                                return false;
+                            }
+
+                            // Nếu đã đăng nhập, cho phép gửi form
+                            return true;
+                        }
+                        </script>
+
                         <?php
                     } else {
                         echo "Sản phẩm không tồn tại.";
@@ -157,7 +170,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_comment'])) {
         ?>
     </div>
 </div>
-
 
 <style>
 .rating {

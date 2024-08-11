@@ -87,7 +87,7 @@ if (isset($_POST['dangky'])) {
             $success_message = "Đăng ký tài khoản thành công!";
 
             // Chuyển hướng đến trang đăng nhập
-            header('Location: login.php');
+            header('Location: ./index.php?action=login.php');
             exit();
         } else {
             $errors['general'] = "Lỗi xảy ra khi đăng ký. Vui lòng thử lại.";

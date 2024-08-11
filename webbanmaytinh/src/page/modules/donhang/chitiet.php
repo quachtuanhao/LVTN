@@ -107,7 +107,7 @@ if (isset($_GET["id"])) {
             <td class="cart-item width150"><?php echo number_format($row['tongTien'], 0, ',', '.'); ?>đ</td>
             <td class="cart-item width200">
                 <!-- Chỉnh sửa liên kết để chuyển đến chitietsanpham.php -->
-                <a href="danhmucsanpham/chitietsanpham.php?value=<?php echo $maSP; ?>" class="btn-comment">Bình luận và đánh giá</a>
+                <a href="./index.php?action=chitietsanpham&&value=<?php echo $maSP; ?>" class="btn-comment">Bình luận và đánh giá</a>
 
             </td>
         </tr>
