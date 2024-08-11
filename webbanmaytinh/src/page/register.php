@@ -84,10 +84,11 @@ if (isset($_POST['dangky'])) {
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('ssssss', $username, $pass, $name, $email, $sdt, $diachi);
         if ($stmt->execute()) {
-            $success_message = "Đăng ký tài khoản thành công!";
-
-            // Chuyển hướng đến trang đăng nhập
-            header('Location: ./index.php?action=login.php');
+            // Hiển thị thông báo và tự động chuyển hướng sau một khoảng thời gian ngắn
+            echo "<script>
+                alert('Đăng ký tài khoản thành công !!!');
+                window.location.href = './index.php?action=login';
+            </script>";
             exit();
         } else {
             $errors['general'] = "Lỗi xảy ra khi đăng ký. Vui lòng thử lại.";
