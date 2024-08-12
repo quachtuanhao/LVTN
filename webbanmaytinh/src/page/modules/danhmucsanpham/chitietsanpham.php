@@ -24,11 +24,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_comment'])) {
         // Kiểm tra xem người dùng đã mua sản phẩm này và đơn hàng đã hoàn tất không
         $hasPurchasedAndCompleted = false;
         if ($userName) {
-            $sql_get_maKH = "SELECT maKH FROM dondathang 
-                             WHERE maKH IN (SELECT userName FROM taikhoan WHERE userName = '$userName') 
-                             AND maDonDatHang IN (SELECT maDDH FROM chitietdathang WHERE maSP = '$tam') 
-                             AND maTT = 'HT'";
-            $result_check_purchase = mysqli_query($conn, $sql_get_maKH);
+            $sql_check_purchase = "SELECT maDonDatHang FROM dondathang 
+                                   WHERE maKH = '$userName' 
+                                   AND maDonDatHang IN (SELECT maDDH FROM chitietdathang WHERE maSP = '$productId') 
+                                   AND maTT = 'HT'";
+            $result_check_purchase = mysqli_query($conn, $sql_check_purchase);
             if (mysqli_num_rows($result_check_purchase) > 0) {
                 $hasPurchasedAndCompleted = true;
             }
@@ -36,14 +36,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_comment'])) {
 
         if ($hasPurchasedAndCompleted) {
             // Kiểm tra xem người dùng đã đánh giá sản phẩm này chưa
-            $sql_check_comment = "SELECT * FROM comments WHERE maSP = '$productId' AND maKH = (SELECT maKH FROM taikhoan WHERE userName = '$userName')";
+            $sql_check_comment = "SELECT * FROM comments WHERE maSP = '$productId' AND maKH = '$userName'";
             $result_check_comment = mysqli_query($conn, $sql_check_comment);
 
             if (mysqli_num_rows($result_check_comment) > 0) {
                 echo "Bạn đã đánh giá sản phẩm này trước đó.";
             } else {
                 // Thực hiện chèn bình luận và đánh giá vào cơ sở dữ liệu
-                $insertComment = "INSERT INTO comments (maSP, rating, comment, maKH) VALUES ('$productId', '$rating', '$comment', (SELECT maKH FROM taikhoan WHERE userName = '$userName'))";
+                $insertComment = "INSERT INTO comments (maSP, rating, comment, maKH, tenKH) 
+                                  VALUES ('$productId', '$rating', '$comment', '$userName', 
+                                          (SELECT hoTen FROM taikhoan WHERE userName = '$userName'))";
                 if (mysqli_query($conn, $insertComment)) {
                     echo "Bình luận và đánh giá thành công!";
                 } else {
@@ -160,16 +162,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_comment'])) {
                     if (!empty($commentRow['comment'])) {
                         echo "<p>Bình luận: " . htmlspecialchars($commentRow['comment']) . "</p>";
                     }
-                    echo "<p>Người dùng: " . htmlspecialchars($commentRow['hoTen']) . "</p>";
-                    echo "<p>Thời gian: " . htmlspecialchars($commentRow['created_at']) . "</p><hr>";
+                    echo "<p>Người đánh giá: " . htmlspecialchars($commentRow['hoTen']) . "</p>";
+                    echo "<p>Ngày đánh giá: " . $commentRow['created_at'] . "</p>";
+                    echo "<hr>";
                 }
             } else {
                 echo "Lỗi khi lấy bình luận: " . mysqli_error($conn);
             }
+        } else {
+            echo "Không có mã sản phẩm.";
         }
         ?>
     </div>
 </div>
+
 
 <style>
 .rating {
