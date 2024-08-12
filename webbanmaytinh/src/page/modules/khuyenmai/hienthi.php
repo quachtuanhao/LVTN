@@ -11,6 +11,7 @@ include '../db/connect.php';
         <td class="cart-item width100"><b>Ngày bắt đầu</b></td>
         <td class="cart-item width100"><b>Ngày kết thúc</b></td>
         <td class="cart-item width150"><b>Giá trị khuyến mãi</b></td>
+        <td class="cart-item width100"><b>Thao tác</b></td> <!-- Thêm cột mới -->
     </tr>
     <?php
     $sql = "SELECT maKhuyenMai,tenKhuyenMai,ngayBatDau,ngayKetThuc,giaTriKhuyenMai,maLKM
@@ -31,10 +32,33 @@ include '../db/connect.php';
                 }
                 ?>
             </td>
+            <td class="cart-item width100">
+                <button onclick="copyToClipboard('<?php echo $row['maKhuyenMai'] ?>')">Copy</button>
+            </td>
         </tr>
-
     <?php
     }
     mysqli_close($conn);
     ?>
 </table>
+
+<script>
+function copyToClipboard(text) {
+    // Tạo một phần tử input ẩn để chứa mã khuyến mãi
+    var input = document.createElement('input');
+    input.setAttribute('value', text);
+    document.body.appendChild(input);
+    input.select();
+    
+    try {
+        // Sao chép nội dung của input vào clipboard
+        document.execCommand('copy');
+        alert('Mã khuyến mãi đã được sao chép: ' + text);
+    } catch (err) {
+        alert('Lỗi sao chép mã khuyến mãi!');
+    }
+    
+    // Xóa phần tử input sau khi sao chép
+    document.body.removeChild(input);
+}
+</script>
