@@ -1,6 +1,8 @@
 <?php
 include '../././db/connect.php';
 
+$message = '';
+
 if (isset($_GET['this_id'])) {
     $username = $_GET['this_id'];
 }
@@ -12,13 +14,12 @@ if (isset($_POST['sua'])) {
     $diachi = $_POST['diachi'];
     $errors = [];
 
-    // Kiểm tra trống và độ dài của họ tên
+    // Kiểm tra họ tên
     if (empty($name)) {
         $errors['name']['required'] = 'Họ tên không được bỏ trống';
     } else if (strlen($name) < 6) {
         $errors['name']['min'] = 'Họ tên phải lớn hơn 6 ký tự';
     } else {
-        // Kiểm tra họ tên có bị trùng lặp
         $sql_check_name = "SELECT * FROM taikhoan WHERE hoTen = '$name' AND userName != '$username'";
         $result_check_name = mysqli_query($conn, $sql_check_name);
         if (mysqli_num_rows($result_check_name) > 0) {
@@ -75,8 +76,11 @@ if (isset($_POST['sua'])) {
             if (isset($_GET['this_id'])) {
                 $sql = "SELECT hoTen, email, sdt, diachi FROM taikhoan WHERE userName='$username'";
                 $result = mysqli_query($conn, $sql);
+                if (!$result) {
+                    die('Lỗi truy vấn chọn tài khoản: ' . mysqli_error($conn));
+                }
                 $row = mysqli_fetch_array($result);
-                ?>
+            ?>
                 <label class="label">Họ tên</label>
                 <input class="text" type="text" name="name" value="<?php echo isset($name) ? $name : $row['hoTen']; ?>">
                 <?php echo !empty($errors['name']['required']) ? "<span class='message-error'>{$errors['name']['required']}</span>" : ''; ?>
@@ -98,7 +102,7 @@ if (isset($_POST['sua'])) {
                 <input class="text" type="text" name="diachi" value="<?php echo isset($diachi) ? $diachi : $row['diachi']; ?>">
                 <?php echo !empty($errors['diachi']['required']) ? "<span class='message-error'>{$errors['diachi']['required']}</span>" : ''; ?>
 
-                <input class="submit--update" type="submit" name="sua" value="Cập nhật">
+                <input class="submit" type="submit" name="sua" value="Cập nhật">
             <?php } ?>
         </div>
     </div>
