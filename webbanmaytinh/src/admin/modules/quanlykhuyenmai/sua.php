@@ -24,6 +24,9 @@ if (isset($_POST['submit'])) {
     } else {
         $sql_check = "SELECT tenKhuyenMai FROM khuyenmai WHERE tenKhuyenMai='$ten' AND maKhuyenMai != '$id'";
         $result_check = mysqli_query($conn, $sql_check);
+        if (!$result_check) {
+            die('Lỗi truy vấn kiểm tra tên khuyến mãi: ' . mysqli_error($conn));
+        }
         $row_check = mysqli_fetch_array($result_check);
         if (!empty($row_check)) {
             $errors['ten']['trung'] = 'Tên khuyến mãi đã tồn tại';
@@ -39,11 +42,7 @@ if (isset($_POST['submit'])) {
     }
 
     if (count($errors) == 0) {
-        if (isset($_POST['hienthi']) && $_POST['hienthi'] == 1) {
-            $sql = "UPDATE khuyenmai SET tenKhuyenMai='$ten', ngayBatDau='$ngayBatDau', ngayKetThuc='$ngayKetThuc', maLKM='$maLKM', giaTriKhuyenMai='$giaTriKhuyenMai', hienThi=1 WHERE maKhuyenMai='$id'";
-        } else {
-            $sql = "UPDATE khuyenmai SET tenKhuyenMai='$ten', ngayBatDau='$ngayBatDau', ngayKetThuc='$ngayKetThuc', maLKM='$maLKM', giaTriKhuyenMai='$giaTriKhuyenMai', hienThi=0 WHERE maKhuyenMai='$id'";
-        }
+            $sql = "UPDATE khuyenmai SET tenKhuyenMai='$ten', ngayBatDau='$ngayBatDau', ngayKetThuc='$ngayKetThuc', maLKM='$maLKM', giaTriKhuyenMai='$giaTriKhuyenMai' WHERE maKhuyenMai='$id'";
         if (mysqli_query($conn, $sql)) {
             $message = 'Sửa thông tin khuyến mãi thành công';
         } else {
@@ -63,11 +62,15 @@ if (isset($_POST['submit'])) {
         </div>
         <div class="form-content">
             <?php
-            $sql = "SELECT maKhuyenMai as ma, tenKhuyenMai as ten, ngayBatDau, ngayKetThuc, maLKM, giaTriKhuyenMai, tenLoai, hienThi
-                    FROM khuyenmai 
-                    JOIN loaikhuyenmai ON khuyenmai.maLKM = loaikhuyenmai.maLoai 
-                    WHERE maKhuyenMai='$this_id'";
+            $sql = "SELECT maKhuyenMai as ma, tenKhuyenMai as ten, ngayBatDau, ngayKetThuc, maLKM, giaTriKhuyenMai
+            FROM khuyenmai 
+            JOIN loaikhuyenmai ON khuyenmai.maLKM = loaikhuyenmai.maLoai 
+            WHERE maKhuyenMai='$this_id'";
+    
             $result = mysqli_query($conn, $sql);
+            if (!$result) {
+                die('Lỗi truy vấn chọn khuyến mãi: ' . mysqli_error($conn));
+            }
             while ($row = mysqli_fetch_array($result)) {
             ?>
 
@@ -92,6 +95,9 @@ if (isset($_POST['submit'])) {
                     <?php
                     $sql1 = "SELECT maLoai, tenLoai FROM loaikhuyenmai";
                     $result1 = mysqli_query($conn, $sql1);
+                    if (!$result1) {
+                        die('Lỗi truy vấn chọn loại khuyến mãi: ' . mysqli_error($conn));
+                    }
                     while ($row1 = mysqli_fetch_array($result1)) {
                     ?>
                         <option value="<?php echo $row1['maLoai'] ?>" <?php if ($row1['maLoai'] == $row['maLKM']) { echo 'selected'; } ?>>
