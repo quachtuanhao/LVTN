@@ -31,6 +31,8 @@ if (isset($_POST['dangky'])) {
         $errors['username']['required'] = 'Username không được bỏ trống';
     } elseif (!preg_match('/^[a-zA-Z0-9_]+$/', $username)) {
         $errors['username']['invalid'] = 'Username không được chứa ký tự đặc biệt hoặc khoảng trắng';
+    } elseif (strlen($username) < 6) {
+        $errors['username']['min'] = 'Username phải lớn hơn 6 ký tự';
     } else {
         $sql1 = "SELECT userName FROM taikhoan WHERE userName=?";
         $stmt1 = $conn->prepare($sql1);

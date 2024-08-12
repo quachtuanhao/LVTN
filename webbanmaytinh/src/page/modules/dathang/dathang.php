@@ -3,11 +3,12 @@ include '../../../db/connect.php';
 session_start(); // Gọi session_start() một lần ở đầu file
 
 if (isset($_SESSION['dangnhap'])) {
-    $maKM = isset($_GET['maKM']) ? $_GET['maKM'] : 'NULL'; // Đảm bảo $maKM có giá trị mặc định
+    // Kiểm tra mã khuyến mãi và đặt giá trị NULL nếu không có
+    $maKM = isset($_GET['maKM']) && $_GET['maKM'] !== '' ? $_GET['maKM'] : null;
 
     $id_user = $_SESSION['dangnhap'];
 
-    // Sử dụng prepared statements
+    // Sử dụng prepared statements để lấy thông tin người dùng
     $stmt = $conn->prepare("SELECT hoTen, email, sdt, diachi FROM taikhoan WHERE userName = ?");
     $stmt->bind_param("s", $id_user);
     $stmt->execute();
@@ -24,9 +25,17 @@ if (isset($_SESSION['dangnhap'])) {
         $date = date('Y-m-d H:i:s'); // Sử dụng định dạng giờ 24h
 
         // Thực hiện chèn đơn hàng
+        // Nếu maKM là NULL, thay đổi câu lệnh SQL và bind_param cho đúng
         $stmt = $conn->prepare("INSERT INTO dondathang (maKH, tenKhach, emailKhach, sdtKhach, diaChiKhach, ngayDat, maTT, maKM) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        
+        // Kiểm tra nếu maKM là NULL, nếu vậy, chỉ cần đặt nó vào bind_param
+        // Thay đổi kiểu dữ liệu của maKM thành 's' để phù hợp với trường hợp NULL
         $stmt->bind_param("ssssssss", $id_user, $name, $email, $sdt, $diachi, $date, $maTT, $maKM);
-        $stmt->execute();
+
+        if (!$stmt->execute()) {
+            die("Lỗi khi chèn đơn hàng: " . $stmt->error);
+        }
+
         $id = $conn->insert_id;
 
         // Thực hiện chèn chi tiết đơn hàng
@@ -39,7 +48,10 @@ if (isset($_SESSION['dangnhap'])) {
 
             $stmt = $conn->prepare("INSERT INTO chitietdathang (maDDH, maSP, tenSP, giaSP, soLuong, tongTien) VALUES (?, ?, ?, ?, ?, ?)");
             $stmt->bind_param("issdii", $id, $maSP, $tenSP, $giaSP, $soLuongSP, $totalSP);
-            $stmt->execute();
+            
+            if (!$stmt->execute()) {
+                die("Lỗi khi chèn chi tiết đơn hàng: " . $stmt->error);
+            }
 
             // Cập nhật số lượng sản phẩm
             $stmt = $conn->prepare("SELECT soLuong FROM sanpham WHERE maSanPham = ?");
@@ -55,7 +67,10 @@ if (isset($_SESSION['dangnhap'])) {
 
             $stmt = $conn->prepare("UPDATE sanpham SET soLuong = ? WHERE maSanPham = ?");
             $stmt->bind_param("is", $soluong, $maSP);
-            $stmt->execute();
+            
+            if (!$stmt->execute()) {
+                die("Lỗi khi cập nhật số lượng sản phẩm: " . $stmt->error);
+            }
         }
 
         unset($_SESSION["cart$id_user"]);
