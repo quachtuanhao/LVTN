@@ -38,7 +38,7 @@ if (!$result) {
         <h3 class="content-title">Danh Sách Sản Phẩm</h3>
         <div class="search-container">
             <form class="search-form" action="?action=quanlysanpham&query=search" method="POST">
-                <input class="search-input" type="text" name="text" value="<?php echo htmlspecialchars($searchText); ?>">
+                <input class="search-input" type="text" name="text" value="<?php echo htmlspecialchars($searchText); ?>" placeholder="Tìm kiếm...">
                 <button class="search-button" type="submit" name="search">Tìm kiếm</button>
             </form>
         </div>

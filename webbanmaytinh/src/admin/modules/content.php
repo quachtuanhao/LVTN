@@ -45,12 +45,16 @@
         include './modules/quanlytaikhoan/sua.php';
     } else if ($tam == 'quanlytaikhoan' && $query == 'xoa') {
         include './modules/quanlytaikhoan/xoa.php';
-        
+    } else if ($tam == 'quanlytaikhoan' && $query == 'search') {
+            include './modules/quanlytaikhoan/hienthi.php';
+
     } else if ($tam == 'quanlydonhang' && $query == 'no') {
         include './modules/quanlydonhang/hienthi.php';
     } else if ($tam == 'quanlydonhang' && $query == 'chitiet') {
         include './modules/quanlydonhang/chitiet.php';
     } else if ($tam == 'quanlydonhang' && $query == 'capnhat') {
+        include './modules/quanlydonhang/hienthi.php';
+    } else if ($tam == 'quanlydonhang' && $query == 'search') {
         include './modules/quanlydonhang/hienthi.php';
 
     } else if ($tam == 'quanlykhuyenmai' && $query == 'no') {

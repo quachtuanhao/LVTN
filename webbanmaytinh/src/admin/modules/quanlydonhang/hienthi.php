@@ -1,40 +1,61 @@
 <?php
 include '../././db/connect.php';
 
-if (isset($_POST['capnhat'])) {
-    $id = $_GET['id'];
-    $tt = $_POST['tinhtrang'];
-    $sql2 = "UPDATE dondathang SET maTT='$tt' WHERE maDonDatHang='$id'";
-    mysqli_query($conn, $sql2);
+// Xử lý tìm kiếm
+$searchText = isset($_POST['text']) ? $_POST['text'] : '';
+$searchCondition = '';
+
+if ($searchText) {
+    $searchText = mysqli_real_escape_string($conn, $searchText);
+    $searchCondition = "WHERE dondathang.maDonDatHang LIKE '%$searchText%' 
+                        OR dondathang.maKH LIKE '%$searchText%' 
+                        OR dondathang.tenKhach LIKE '%$searchText%' 
+                        OR dondathang.sdtKhach LIKE '%$searchText%' 
+                        OR dondathang.diaChiKhach LIKE '%$searchText%'";
 }
-?>
-<div class="content-header">
-    <h3 class="content-title">Danh Sách Đơn Hàng</h3>
-</div>
-<table class="content-wrapper" style="min-height:395px">
-    <tr class="content-list head">
-        <td class="content-item width100 head"> <b>Mã đơn hàng</b></td>
-        <td class="content-item width100 head"> <b>Username</b></td>
-        <td class="content-item width150 head"> <b>Tên khách hàng</b></td>
-        <td class="content-item width100 head"> <b>Số điện thoại</b></td>
-        <td class="content-item width150 head"> <b>Địa chỉ</b></td>
-        <td class="content-item width100 head"> <b>Ngày đặt</b></td>
-        <td class="content-item width200 head"> <b>Tình trạng</b></td>
-        <td class="content-item width50 head"> <b>Chi tiết</b></td>
-    </tr>
-    <?php
-    if (isset($_GET['page'])) {
-        $page = $_GET['page'];
-        $n = ($page - 1) * 5;
-        $sql = $page == 1 ? "SELECT * FROM dondathang ORDER BY ngayDat DESC LIMIT 0,5" : "SELECT * FROM dondathang ORDER BY ngayDat DESC LIMIT $n,5";
-    } else {
-        $sql = "SELECT * FROM dondathang ORDER BY ngayDat DESC LIMIT 0,5";
-    }
-    $result = mysqli_query($conn, $sql);
-    while ($row = mysqli_fetch_array($result)) {
-        $tt = $row['maTT'];
-        $maDDH = $row['maDonDatHang'];
+
+// Phân trang
+$limit = 5;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $limit;
+
+// Truy vấn đơn hàng
+$sql = "SELECT * FROM dondathang 
+        LEFT JOIN trangthai ON dondathang.maTT = trangthai.maTrangThai 
+        $searchCondition
+        ORDER BY dondathang.ngayDat DESC LIMIT $offset, $limit";
+
+$result = mysqli_query($conn, $sql);
+
+if (!$result) {
+    echo "Lỗi truy vấn: " . mysqli_error($conn);
+} else {
     ?>
+    <div class="content-header">
+        <h3 class="content-title">Danh Sách Đơn Hàng</h3>
+        <div class="search-container" style="text-align: center;">
+            <form class="search-form" action="?action=quanlydonhang&query=search" method="POST" style="display: inline-block;">
+                <input class="search-input" type="text" name="text" value="<?php echo htmlspecialchars($searchText); ?>" placeholder="Tìm kiếm...">
+                <button class="search-button" type="submit" name="search">Tìm kiếm</button>
+            </form>
+        </div>
+    </div>
+    <table class="content-wrapper" style="min-height:395px">
+        <tr class="content-list head">
+            <td class="content-item width100 head"><b>Mã đơn hàng</b></td>
+            <td class="content-item width100 head"><b>Username</b></td>
+            <td class="content-item width150 head"><b>Tên khách hàng</b></td>
+            <td class="content-item width100 head"><b>Số điện thoại</b></td>
+            <td class="content-item width150 head"><b>Địa chỉ</b></td>
+            <td class="content-item width100 head"><b>Ngày đặt</b></td>
+            <td class="content-item width200 head"><b>Tình trạng</b></td>
+            <td class="content-item width50 head"><b>Chi tiết</b></td>
+        </tr>
+        <?php
+        while ($row = mysqli_fetch_array($result)) {
+            $tt = $row['maTT'];
+            $maDDH = $row['maDonDatHang'];
+        ?>
         <tr class="content-list" style="height: 70px;">
             <td class="content-item width100"><?php echo $row['maDonDatHang'] ?></td>
             <td class="content-item width100"><?php echo $row['maKH'] ?></td>
@@ -64,10 +85,11 @@ if (isset($_POST['capnhat'])) {
                 <a href="index.php?action=quanlydonhang&&query=chitiet&&id=<?php echo $maDDH ?>"><i class="fa-solid fa-circle-info"></i></a>
             </td>
         </tr>
+        <?php
+        }
+        ?>
+    </table>
     <?php
-    }
-    ?>
-</table>
-<?php
-include 'pagination.php';
+    include 'pagination.php';
+}
 ?>
