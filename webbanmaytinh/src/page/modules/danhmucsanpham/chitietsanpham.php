@@ -22,38 +22,42 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_comment'])) {
         echo "Vui lòng chọn đánh giá sao.";
     } else {
         // Kiểm tra xem người dùng đã mua sản phẩm này và đơn hàng đã hoàn tất không
-        $hasPurchasedAndCompleted = false;
+        $purchaseCount = 0;
+        $commentCount = 0;
+
         if ($userName) {
-            $sql_check_purchase = "SELECT maDonDatHang FROM dondathang 
+            // Đếm số lần khách hàng đã mua sản phẩm
+            $sql_check_purchase = "SELECT COUNT(*) as purchase_count FROM dondathang 
                                    WHERE maKH = '$userName' 
                                    AND maDonDatHang IN (SELECT maDDH FROM chitietdathang WHERE maSP = '$productId') 
                                    AND maTT = 'HT'";
             $result_check_purchase = mysqli_query($conn, $sql_check_purchase);
-            if (mysqli_num_rows($result_check_purchase) > 0) {
-                $hasPurchasedAndCompleted = true;
+            if ($result_check_purchase) {
+                $row_purchase = mysqli_fetch_assoc($result_check_purchase);
+                $purchaseCount = $row_purchase['purchase_count'];
+            }
+
+            // Đếm số lần khách hàng đã đánh giá sản phẩm
+            $sql_check_comment = "SELECT COUNT(*) as comment_count FROM comments WHERE maSP = '$productId' AND maKH = '$userName'";
+            $result_check_comment = mysqli_query($conn, $sql_check_comment);
+            if ($result_check_comment) {
+                $row_comment = mysqli_fetch_assoc($result_check_comment);
+                $commentCount = $row_comment['comment_count'];
             }
         }
 
-        if ($hasPurchasedAndCompleted) {
-            // Kiểm tra xem người dùng đã đánh giá sản phẩm này chưa
-            $sql_check_comment = "SELECT * FROM comments WHERE maSP = '$productId' AND maKH = '$userName'";
-            $result_check_comment = mysqli_query($conn, $sql_check_comment);
-
-            if (mysqli_num_rows($result_check_comment) > 0) {
-                echo "Bạn đã đánh giá sản phẩm này trước đó.";
+        if ($purchaseCount > $commentCount) {
+            // Thực hiện chèn bình luận và đánh giá vào cơ sở dữ liệu
+            $insertComment = "INSERT INTO comments (maSP, rating, comment, maKH, tenKH) 
+                              VALUES ('$productId', '$rating', '$comment', '$userName', 
+                                      (SELECT hoTen FROM taikhoan WHERE userName = '$userName'))";
+            if (mysqli_query($conn, $insertComment)) {
+                echo "Bình luận và đánh giá thành công!";
             } else {
-                // Thực hiện chèn bình luận và đánh giá vào cơ sở dữ liệu
-                $insertComment = "INSERT INTO comments (maSP, rating, comment, maKH, tenKH) 
-                                  VALUES ('$productId', '$rating', '$comment', '$userName', 
-                                          (SELECT hoTen FROM taikhoan WHERE userName = '$userName'))";
-                if (mysqli_query($conn, $insertComment)) {
-                    echo "Bình luận và đánh giá thành công!";
-                } else {
-                    echo "Lỗi: " . mysqli_error($conn);
-                }
+                echo "Lỗi: " . mysqli_error($conn);
             }
         } else {
-            echo "Bạn cần mua sản phẩm và đơn hàng phải hoàn tất để đánh giá.";
+            echo "Bạn đã đánh giá sản phẩm này trước đó.";
         }
     }
 }
