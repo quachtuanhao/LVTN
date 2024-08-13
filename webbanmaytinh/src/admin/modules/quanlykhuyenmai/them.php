@@ -35,40 +35,45 @@ if (isset($_POST['submit'])) {
     }
 
     // Kiểm tra giá trị khuyến mãi
-    if ($loaikm == "KM1") {
-        if (empty($giatri)) {
-            $errors['giatri']['required'] = 'Giá trị không được bỏ trống';
-        } else if (!is_numeric($giatri)) {
-            $errors['giatri']['invalid'] = 'Giá trị phải là số';
-        }
+    if (empty($giatri)) {
+        $errors['giatri']['required'] = 'Giá trị không được bỏ trống';
+    } else if (!is_numeric($giatri)) {
+        $errors['giatri']['invalid'] = 'Giá trị phải là số';
+    } else if ($giatri < 0) {
+        $errors['giatri']['negative'] = 'Giá trị không được âm';
+    } else if ($loaikm == "KM2" && $giatri > 100) { // Giảm giá theo phần trăm
+        $errors['giatri']['max'] = 'Giá trị phần trăm không được vượt quá 100';
     }
-    if ($loaikm == "KM2") {
-        if (empty($giatri)) {
-            $errors['giatri']['required'] = 'Giá trị không được bỏ trống';
-        } else if (!is_numeric($giatri)) {
-            $errors['giatri']['invalid'] = 'Giá trị phải là số';
-        } else if (strlen($giatri) > 2) {
-            $errors['giatri']['max'] = 'Giá trị phải từ 1-99';
-        }
+
+    // Kiểm tra ngày kết thúc không được trước ngày bắt đầu
+    if (strtotime($ngaykt) < strtotime($ngaybd)) {
+        $errors['ngaykt']['invalid'] = 'Ngày kết thúc không được trước ngày bắt đầu';
+    }
+
+    // Kiểm tra ngày bắt đầu và ngày kết thúc không được trùng nhau
+    if ($ngaybd === $ngaykt) {
+        $errors['ngaykt']['trung'] = 'Ngày kết thúc không được trùng với ngày bắt đầu';
     }
 
     // Nếu không có lỗi thì thực hiện thêm khuyến mãi
     if (count($errors) == 0) {
-        if (isset($_POST['hienthi']) && $_POST['hienthi'] == 1) {
-            $sql = "INSERT INTO khuyenmai(maKhuyenMai, tenKhuyenMai, ngayBatDau, ngayKetThuc, maLKM, giaTriKhuyenMai, hienThi)
-                    VALUES('$ma', '$ten', '$ngaybd', '$ngaykt', '$loaikm', '$giatri', 1)";
-        } else {
-            $sql = "INSERT INTO khuyenmai(maKhuyenMai, tenKhuyenMai, ngayBatDau, ngayKetThuc, maLKM, giaTriKhuyenMai)
-                    VALUES('$ma', '$ten', '$ngaybd', '$ngaykt', '$loaikm', '$giatri')";
-        }
+        $sql = "INSERT INTO khuyenmai(maKhuyenMai, tenKhuyenMai, ngayBatDau, ngayKetThuc, maLKM, giaTriKhuyenMai)
+                VALUES('$ma', '$ten', '$ngaybd', '$ngaykt', '$loaikm', '$giatri')";
         $result = mysqli_query($conn, $sql);
         
         if ($result) {
-            $message = 'Thêm khuyến mãi thành công';
+            echo "<script>
+                alert('Thêm khuyến mãi thành công!');
+                window.location.href = 'index.php?action=quanlykhuyenmai&query=no';
+            </script>";
+            exit();
         } else {
-            $message = 'Thêm khuyến mãi thất bại';
+            echo "<script>
+                alert('Thêm khuyến mãi thất bại. Vui lòng thử lại.');
+                window.location.href = document.referrer;
+            </script>";
+            exit();
         }
-        header("location: ./index.php?action=quanlykhuyenmai&&query=no&message=" . urlencode($message));
     }
 }
 ?>
@@ -80,20 +85,22 @@ if (isset($_POST['submit'])) {
         </div>
         <div class="form-content">
             <label class="label">Mã khuyến mãi</label>
-            <input class="text" type="text" name="ma" value="<?php echo (!empty($ma) ? $ma : "") ?>">
-            <?php echo (!empty($errors['ma']['required'])) ? "<span class='message-error'>" . $errors['ma']['required'] . "</span>" : false ?>
-            <?php echo (!empty($errors['ma']['trung'])) ? "<span class='message-error'>" . $errors['ma']['trung'] . "</span>" : false ?>
+            <input class="text" type="text" name="ma" value="<?php echo (!empty($ma) ? htmlspecialchars($ma) : "") ?>">
+            <?php echo (!empty($errors['ma']['required'])) ? "<span class='message-error'>" . htmlspecialchars($errors['ma']['required']) . "</span>" : false ?>
+            <?php echo (!empty($errors['ma']['trung'])) ? "<span class='message-error'>" . htmlspecialchars($errors['ma']['trung']) . "</span>" : false ?>
             
             <label class="label">Tên khuyến mãi</label>
-            <input class="text" type="text" name="name" value="<?php echo (!empty($ten) ? $ten : "") ?>">
-            <?php echo (!empty($errors['ten']['required'])) ? "<span class='message-error'>" . $errors['ten']['required'] . "</span>" : false ?>
-            <?php echo (!empty($errors['ten']['trung'])) ? "<span class='message-error'>" . $errors['ten']['trung'] . "</span>" : false ?>
+            <input class="text" type="text" name="name" value="<?php echo (!empty($ten) ? htmlspecialchars($ten) : "") ?>">
+            <?php echo (!empty($errors['ten']['required'])) ? "<span class='message-error'>" . htmlspecialchars($errors['ten']['required']) . "</span>" : false ?>
+            <?php echo (!empty($errors['ten']['trung'])) ? "<span class='message-error'>" . htmlspecialchars($errors['ten']['trung']) . "</span>" : false ?>
             
             <label class="label">Ngày bắt đầu</label>
-            <input class="text" type="date" name="ngaybd" value="<?php echo (!empty($ngaybd) ? $ngaybd : "") ?>">
+            <input class="text" type="date" name="ngaybd" value="<?php echo (!empty($ngaybd) ? htmlspecialchars($ngaybd) : "") ?>">
             
             <label class="label">Ngày kết thúc</label>
-            <input class="text" type="date" name="ngaykt" value="<?php echo (!empty($ngaykt) ? $ngaykt : "") ?>">
+            <input class="text" type="date" name="ngaykt" value="<?php echo (!empty($ngaykt) ? htmlspecialchars($ngaykt) : "") ?>">
+            <?php echo (!empty($errors['ngaykt']['invalid'])) ? "<span class='message-error'>" . htmlspecialchars($errors['ngaykt']['invalid']) . "</span>" : false ?>
+            <?php echo (!empty($errors['ngaykt']['trung'])) ? "<span class='message-error'>" . htmlspecialchars($errors['ngaykt']['trung']) . "</span>" : false ?>
             
             <label class="label">Loại khuyến mãi</label>
             <select name="loaikm" id="Hang">
@@ -102,25 +109,20 @@ if (isset($_POST['submit'])) {
                 $result = mysqli_query($conn, $sql);
                 while ($row = mysqli_fetch_array($result)) {
                 ?>
-                    <option value="<?php echo $row['maLoai'] ?>"><?php echo $row['tenLoai'] ?></option>
+                    <option value="<?php echo htmlspecialchars($row['maLoai']) ?>"><?php echo htmlspecialchars($row['tenLoai']) ?></option>
                 <?php
                 }
                 ?>
             </select>
             
             <label class="label">Giá trị khuyến mãi</label>
-            <?php echo (!empty($errors['giatri']['required'])) ? "<span class='message-error'>" . $errors['giatri']['required'] . "</span>" : false ?>
-            <?php echo (!empty($errors['giatri']['invalid'])) ? "<span class='message-error'>" . $errors['giatri']['invalid'] . "</span>" : false ?>
-            <?php echo (!empty($errors['giatri']['max'])) ? "<span class='message-error'>" . $errors['giatri']['max'] . "</span>" : false ?>
-            <input class="text" type="text" name="giatri" value="<?php echo (!empty($giatri) ? $giatri : "") ?>">
+            <?php echo (!empty($errors['giatri']['required'])) ? "<span class='message-error'>" . htmlspecialchars($errors['giatri']['required']) . "</span>" : false ?>
+            <?php echo (!empty($errors['giatri']['invalid'])) ? "<span class='message-error'>" . htmlspecialchars($errors['giatri']['invalid']) . "</span>" : false ?>
+            <?php echo (!empty($errors['giatri']['negative'])) ? "<span class='message-error'>" . htmlspecialchars($errors['giatri']['negative']) . "</span>" : false ?>
+            <?php echo (!empty($errors['giatri']['max'])) ? "<span class='message-error'>" . htmlspecialchars($errors['giatri']['max']) . "</span>" : false ?>
+            <input class="text" type="text" name="giatri" value="<?php echo (!empty($giatri) ? htmlspecialchars($giatri) : "") ?>">
             
             <input class="submit" type="submit" name="submit" value="Thêm">
         </div>
     </div>
 </form>
-
-<?php
-if (isset($_GET['message'])) {
-    echo "<div class='message'>" . $_GET['message'] . "</div>";
-}
-?>

@@ -1,6 +1,8 @@
 <?php
 include '../././db/connect.php';
 
+
+
 if (isset($_POST['submit'])) {
     $ten = $_POST['name'];
     $gia = $_POST['gia'];
@@ -67,11 +69,21 @@ if (isset($_POST['submit'])) {
     if (count($errors) == 0) {
         $sql = "INSERT INTO sanpham (maSanPham, tenSanPham, gia, soLuong, hinhAnh, moTa, maNSX, maLSP) 
                 VALUES ('$ma', '$ten', '$gia', '$soluong', '$anh', '$mota', '$nsx', '$loai')";
-        mysqli_query($conn, $sql);
-
-        $_SESSION['success_message'] = 'Thêm sản phẩm thành công!';
-        header('Location: ./index.php?action=quanlysanpham&query=no');
-        exit();
+        
+        if (mysqli_query($conn, $sql)) {
+            // Hiển thị thông báo thành công
+            echo "<script>
+                alert('Thêm sản phẩm thành công!');
+                window.location.href = 'index.php?action=quanlysanpham&query=no';
+            </script>";
+            exit();
+        } else {
+            echo "<script>
+                alert('Có lỗi xảy ra khi thêm sản phẩm. Vui lòng thử lại.');
+                window.location.href = document.referrer;
+            </script>";
+            exit();
+        }
     }
 }
 ?>
@@ -84,26 +96,26 @@ if (isset($_POST['submit'])) {
         </div>
         <div class="form-content">
             <label class="label">Tên sản phẩm</label>
-            <input class="text" type="text" name="name" value="<?php echo (!empty($ten) ? $ten : "") ?>">
-            <?php echo (!empty($errors['ten']['required'])) ? "<span class='message-error'>" . $errors['ten']['required'] . "</span>" : false ?>
+            <input class="text" type="text" name="name" value="<?php echo (!empty($ten) ? htmlspecialchars($ten) : "") ?>">
+            <?php echo (!empty($errors['ten']['required'])) ? "<span class='message-error'>" . htmlspecialchars($errors['ten']['required']) . "</span>" : false ?>
             
             <label class="label">Giá</label>
-            <input class="text" type="text" name="gia" value="<?php echo (!empty($gia) ? $gia : "") ?>">
-            <?php echo (!empty($errors['gia']['required'])) ? "<span class='message-error'>" . $errors['gia']['required'] . "</span>" : false ?>
-            <?php echo (!empty($errors['gia']['invalid'])) ? "<span class='message-error'>" . $errors['gia']['invalid'] . "</span>" : false ?>
+            <input class="text" type="text" name="gia" value="<?php echo (!empty($gia) ? htmlspecialchars($gia) : "") ?>">
+            <?php echo (!empty($errors['gia']['required'])) ? "<span class='message-error'>" . htmlspecialchars($errors['gia']['required']) . "</span>" : false ?>
+            <?php echo (!empty($errors['gia']['invalid'])) ? "<span class='message-error'>" . htmlspecialchars($errors['gia']['invalid']) . "</span>" : false ?>
 
             <label class="label">Số lượng</label>
-            <input class="text" type="text" name="soluong" value="<?php echo (!empty($soluong) ? $soluong : "") ?>">
-            <?php echo (!empty($errors['soluong']['required'])) ? "<span class='message-error'>" . $errors['soluong']['required'] . "</span>" : false ?>
-            <?php echo (!empty($errors['soluong']['invalid'])) ? "<span class='message-error'>" . $errors['soluong']['invalid'] . "</span>" : false ?>
+            <input class="text" type="text" name="soluong" value="<?php echo (!empty($soluong) ? htmlspecialchars($soluong) : "") ?>">
+            <?php echo (!empty($errors['soluong']['required'])) ? "<span class='message-error'>" . htmlspecialchars($errors['soluong']['required']) . "</span>" : false ?>
+            <?php echo (!empty($errors['soluong']['invalid'])) ? "<span class='message-error'>" . htmlspecialchars($errors['soluong']['invalid']) . "</span>" : false ?>
 
             <label class="label">Ảnh</label>
             <input class="text" type="file" name="anh" accept="image/*">
-            <?php echo (!empty($errors['anh']['required'])) ? "<span class='message-error'>" . $errors['anh']['required'] . "</span>" : false ?>
-            <?php echo (!empty($errors['anh']['type'])) ? "<span class='message-error'>" . $errors['anh']['type'] . "</span>" : false ?>
+            <?php echo (!empty($errors['anh']['required'])) ? "<span class='message-error'>" . htmlspecialchars($errors['anh']['required']) . "</span>" : false ?>
+            <?php echo (!empty($errors['anh']['type'])) ? "<span class='message-error'>" . htmlspecialchars($errors['anh']['type']) . "</span>" : false ?>
 
             <label class="label">Mô tả</label>
-            <textarea class="text" name="mota" rows="9" cols="70"><?php echo (!empty($mota) ? $mota : "") ?></textarea>
+            <textarea class="text" name="mota" rows="9" cols="70"><?php echo (!empty($mota) ? htmlspecialchars($mota) : "") ?></textarea>
 
             <label class="label">Nhà sản xuất</label>
             <select class="text" name="hang" id="Hang">
@@ -131,11 +143,3 @@ if (isset($_POST['submit'])) {
         </div>
     </div>
 </form>
-
-<?php
-// Hiển thị thông báo thành công nếu có
-if (isset($_SESSION['success_message'])) {
-    echo "<p class='message-success'>" . $_SESSION['success_message'] . "</p>";
-    unset($_SESSION['success_message']);
-}
-?>

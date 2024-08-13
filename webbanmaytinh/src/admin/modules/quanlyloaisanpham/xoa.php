@@ -5,27 +5,45 @@ if (isset($_GET['this_id'])) {
     $id = mysqli_real_escape_string($conn, $_GET['this_id']); // Chuẩn hóa đầu vào
 
     // Kiểm tra sản phẩm còn tồn tại không
-    $sql = "SELECT * FROM sanpham WHERE maLSP='$id'";
-    $result = mysqli_query($conn, $sql);
+    $sql_check = "SELECT * FROM sanpham WHERE maLSP=?";
+    $stmt_check = mysqli_prepare($conn, $sql_check);
+    mysqli_stmt_bind_param($stmt_check, 's', $id);
+    mysqli_stmt_execute($stmt_check);
+    mysqli_stmt_store_result($stmt_check);
 
-    if (mysqli_num_rows($result) == 0) {
+    if (mysqli_stmt_num_rows($stmt_check) == 0) {
         // Xóa loại sản phẩm
-        $sql1 = "DELETE FROM loaisanpham WHERE maLoaiSanPham='$id'";
-        if (mysqli_query($conn, $sql1)) {
-            header('Location: index.php?action=quanlyloaisanpham&query=no');
+        $sql_delete = "DELETE FROM loaisanpham WHERE maLoaiSanPham=?";
+        $stmt_delete = mysqli_prepare($conn, $sql_delete);
+        mysqli_stmt_bind_param($stmt_delete, 's', $id);
+        
+        if (mysqli_stmt_execute($stmt_delete)) {
+            echo "<script>
+                alert('Xóa loại sản phẩm thành công!');
+                window.location.href = 'index.php?action=quanlyloaisanpham&query=no';
+            </script>";
             exit(); // Ngừng script sau khi điều hướng
         } else {
-            echo "Lỗi khi xóa loại sản phẩm: " . mysqli_error($conn);
+            echo "<script>
+                alert('Có lỗi xảy ra khi xóa loại sản phẩm. Vui lòng thử lại.');
+                window.location.href = document.referrer;
+            </script>";
+            exit();
         }
+        mysqli_stmt_close($stmt_delete);
     } else {
         echo "<script>
-            alert('Có sản phẩm tồn tại! Không thể xóa');
-            window.location = 'index.php?action=quanlyloaisanpham&query=no';
+            alert('Có sản phẩm tồn tại trong loại sản phẩm này! Không thể xóa.');
+            window.location.href = 'index.php?action=quanlyloaisanpham&query=no';
         </script>";
+        exit();
     }
-
+    mysqli_stmt_close($stmt_check);
     mysqli_close($conn);
 } else {
-    echo 'Xóa không thành công';
+    echo "<script>
+        alert('Yêu cầu xóa không hợp lệ.');
+        window.location.href = 'index.php?action=quanlyloaisanpham&query=no';
+    </script>";
 }
 ?>

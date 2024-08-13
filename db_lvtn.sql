@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Aug 12, 2024 at 03:32 PM
+-- Generation Time: Aug 13, 2024 at 09:09 AM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -589,16 +589,11 @@ ALTER TABLE `khuyenmai`
   ADD CONSTRAINT `PK_KM_LKM` FOREIGN KEY (`maLKM`) REFERENCES `loaikhuyenmai` (`maLoai`);
 
 --
--- Constraints for table `loaisanpham`
---
-ALTER TABLE `loaisanpham`
-  ADD CONSTRAINT `PK_LSP_SP` FOREIGN KEY (`maLoaiSanPham`) REFERENCES `sanpham` (`maLSP`);
-
---
 -- Constraints for table `sanpham`
 --
 ALTER TABLE `sanpham`
-  ADD CONSTRAINT `FK_SP_NSX` FOREIGN KEY (`maNSX`) REFERENCES `nhasanxuat` (`maNhaSanXuat`);
+  ADD CONSTRAINT `FK_SP_NSX` FOREIGN KEY (`maNSX`) REFERENCES `nhasanxuat` (`maNhaSanXuat`),
+  ADD CONSTRAINT `FK_SanPham_LoaiSanPham` FOREIGN KEY (`maLSP`) REFERENCES `loaisanpham` (`maLoaiSanPham`);
 
 --
 -- Constraints for table `taikhoan`
