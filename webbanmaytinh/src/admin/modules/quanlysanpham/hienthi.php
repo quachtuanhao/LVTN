@@ -2,7 +2,7 @@
 include '../././db/connect.php';
 
 // Xử lý tìm kiếm
-$searchText = isset($_POST['text']) ? $_POST['text'] : '';
+$searchText = isset($_POST['text']) ? $_POST['text'] : (isset($_GET['text']) ? $_GET['text'] : '');
 $searchCondition = '';
 
 if ($searchText) {
@@ -37,7 +37,7 @@ if (!$result) {
     <div class="content-header">
         <h3 class="content-title">Danh Sách Sản Phẩm</h3>
         <div class="search-container">
-            <form class="search-form" action="?action=quanlysanpham&query=search" method="POST">
+            <form class="search-form" action="" method="POST">
                 <input class="search-input" type="text" name="text" value="<?php echo htmlspecialchars($searchText); ?>" placeholder="Tìm kiếm...">
                 <button class="search-button" type="submit" name="search">Tìm kiếm</button>
             </form>
@@ -77,6 +77,23 @@ if (!$result) {
         ?>
     </table>
     <?php
-    include 'pagination.php'; 
+    // Bao gồm tập tin phân trang
+    include 'pagination.php';
 }
 ?>
+
+<!-- pagination.php -->
+<?php
+// pagination.php - Tập tin phân trang
+
+// Lấy tổng số lượng sản phẩm để tính số trang
+$countSql = "SELECT COUNT(*) as total FROM sanpham 
+             JOIN nhasanxuat ON sanpham.maNSX=nhaSanXuat.maNhaSanXuat 
+             JOIN loaisanpham ON sanpham.maLSP=loaisanpham.maLoaiSanPham 
+             $searchCondition";
+$countResult = mysqli_query($conn, $countSql);
+$countRow = mysqli_fetch_assoc($countResult);
+$totalRecords = $countRow['total'];
+$totalPages = ceil($totalRecords / $limit);
+
+

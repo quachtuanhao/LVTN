@@ -2,7 +2,7 @@
 include '../././db/connect.php';
 
 // Xử lý tìm kiếm
-$searchText = isset($_POST['text']) ? $_POST['text'] : '';
+$searchText = isset($_POST['text']) ? $_POST['text'] : (isset($_GET['text']) ? $_GET['text'] : '');
 $searchCondition = '';
 
 if ($searchText) {
@@ -34,7 +34,7 @@ if (!$result) {
     <div class="content-header">
         <h3 class="content-title">Danh Sách Đơn Hàng</h3>
         <div class="search-container" style="text-align: center;">
-            <form class="search-form" action="?action=quanlydonhang&query=search" method="POST" style="display: inline-block;">
+            <form class="search-form" action="" method="POST" style="display: inline-block;">
                 <input class="search-input" type="text" name="text" value="<?php echo htmlspecialchars($searchText); ?>" placeholder="Tìm kiếm...">
                 <button class="search-button" type="submit" name="search">Tìm kiếm</button>
             </form>
@@ -59,12 +59,12 @@ if (!$result) {
         <tr class="content-list" style="height: 70px;">
             <td class="content-item width100"><?php echo $row['maDonDatHang'] ?></td>
             <td class="content-item width100"><?php echo $row['maKH'] ?></td>
-            <td class="content-item width150"><?php echo $row['tenKhach'] ?></td>
+            <td class="content-item width150"><?php echo htmlspecialchars($row['tenKhach']) ?></td>
             <td class="content-item width100"><?php echo $row['sdtKhach'] ?></td>
-            <td class="content-item width150"><?php echo $row['diaChiKhach'] ?></td>
+            <td class="content-item width150"><?php echo htmlspecialchars($row['diaChiKhach']) ?></td>
             <td class="content-item width100"><?php echo date("d/m/Y", strtotime($row['ngayDat'])) ?></td>
             <td class="content-item width200">
-                <form class="form-row" action="index.php?action=quanlydonhang&&query=capnhat&&id=<?php echo $maDDH ?>" method="POST">
+                <form class="form-row" action="index.php?action=quanlydonhang&query=capnhat&id=<?php echo $maDDH ?>" method="POST">
                     <select name="tinhtrang">
                         <?php
                         $sql1 = "SELECT * FROM trangthai";
@@ -72,7 +72,7 @@ if (!$result) {
                         while ($row1 = mysqli_fetch_array($result1)) {
                         ?>
                             <option value="<?php echo $row1['maTrangThai'] ?>" <?php if ($tt == $row1['maTrangThai']) echo 'selected'; ?>>
-                                <?php echo $row1['tenTrangThai'] ?>
+                                <?php echo htmlspecialchars($row1['tenTrangThai']) ?>
                             </option>
                         <?php
                         }
@@ -82,7 +82,7 @@ if (!$result) {
                 </form>
             </td>
             <td class="content-item width50">
-                <a href="index.php?action=quanlydonhang&&query=chitiet&&id=<?php echo $maDDH ?>"><i class="fa-solid fa-circle-info"></i></a>
+                <a href="index.php?action=quanlydonhang&query=chitiet&id=<?php echo $maDDH ?>"><i class="fa-solid fa-circle-info"></i></a>
             </td>
         </tr>
         <?php
@@ -90,6 +90,22 @@ if (!$result) {
         ?>
     </table>
     <?php
+    // Bao gồm tập tin phân trang
     include 'pagination.php';
 }
 ?>
+
+<!-- pagination.php -->
+<?php
+// pagination.php - Tập tin phân trang
+
+// Lấy tổng số lượng đơn hàng để tính số trang
+$countSql = "SELECT COUNT(*) as total FROM dondathang 
+             LEFT JOIN trangthai ON dondathang.maTT = trangthai.maTrangThai 
+             $searchCondition";
+$countResult = mysqli_query($conn, $countSql);
+$countRow = mysqli_fetch_assoc($countResult);
+$totalRecords = $countRow['total'];
+$totalPages = ceil($totalRecords / $limit);
+
+
