@@ -12,6 +12,17 @@ $tam = isset($_GET['value']) ? $_GET['value'] : null;
 // Kiểm tra xem người dùng đã đăng nhập chưa
 $userName = isset($_SESSION['dangnhap']) ? $_SESSION['dangnhap'] : null;
 
+// Tính toán đánh giá trung bình của sản phẩm
+$averageRating = 0;
+if ($tam) {
+    $sql_avg_rating = "SELECT AVG(rating) as avg_rating FROM comments WHERE maSP = '$tam'";
+    $result_avg_rating = mysqli_query($conn, $sql_avg_rating);
+    if ($result_avg_rating) {
+        $row_avg_rating = mysqli_fetch_assoc($result_avg_rating);
+        $averageRating = $row_avg_rating['avg_rating'] ? round($row_avg_rating['avg_rating'], 1) : 0;
+    }
+}
+
 // Xử lý việc gửi bình luận và đánh giá
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_comment'])) {
     $rating = isset($_POST['rating']) ? $_POST['rating'] : null;
@@ -53,6 +64,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_comment'])) {
                                       (SELECT hoTen FROM taikhoan WHERE userName = '$userName'))";
             if (mysqli_query($conn, $insertComment)) {
                 echo "Bình luận và đánh giá thành công!";
+                // Cập nhật lại giá trị đánh giá trung bình sau khi thêm mới đánh giá
+                $sql_avg_rating = "SELECT AVG(rating) as avg_rating FROM comments WHERE maSP = '$tam'";
+                $result_avg_rating = mysqli_query($conn, $sql_avg_rating);
+                if ($result_avg_rating) {
+                    $row_avg_rating = mysqli_fetch_assoc($result_avg_rating);
+                    $averageRating = $row_avg_rating['avg_rating'] ? round($row_avg_rating['avg_rating'], 1) : 0;
+                }
             } else {
                 echo "Lỗi: " . mysqli_error($conn);
             }
@@ -129,6 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_comment'])) {
 
     <!-- Bình luận và đánh giá sản phẩm -->
     <div class="comments-section">
+        <h2>Sản phẩm được đánh giá: <?php echo number_format($averageRating, 1); ?> sao</h2>
         <h2>Bình luận và đánh giá sản phẩm</h2>
         <?php if ($userName): ?>
             <form action="" method="POST">
@@ -179,7 +198,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_comment'])) {
         ?>
     </div>
 </div>
-
 
 <style>
 .rating {
