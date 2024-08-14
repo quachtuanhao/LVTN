@@ -93,19 +93,27 @@ if (!$result) {
     // Bao gồm tập tin phân trang
     include 'pagination.php';
 }
+
+// Xử lý cập nhật tình trạng đơn hàng
+if (isset($_POST['capnhat'])) {
+    $maDDH = $_GET['id']; // Lấy mã đơn hàng từ URL
+    $tinhTrang = $_POST['tinhtrang']; // Lấy tình trạng mới từ form
+
+    // Kiểm tra kết nối cơ sở dữ liệu
+    if (!$conn) {
+        die("Kết nối thất bại: " . mysqli_connect_error());
+    }
+
+    // Cập nhật tình trạng đơn hàng
+    $updateSql = "UPDATE dondathang SET maTT = '$tinhTrang' WHERE maDonDatHang = '$maDDH'";
+    $updateResult = mysqli_query($conn, $updateSql);
+
+    if ($updateResult && mysqli_affected_rows($conn) > 0) {
+        echo "<script>alert('Cập nhật thành công!');</script>";
+        // Optional: redirect to prevent form resubmission
+        echo "<script>window.location.href='index.php?action=quanlydonhang';</script>";
+    } else {
+        echo "Lỗi khi cập nhật: " . mysqli_error($conn);
+    }
+}
 ?>
-
-<!-- pagination.php -->
-<?php
-// pagination.php - Tập tin phân trang
-
-// Lấy tổng số lượng đơn hàng để tính số trang
-$countSql = "SELECT COUNT(*) as total FROM dondathang 
-             LEFT JOIN trangthai ON dondathang.maTT = trangthai.maTrangThai 
-             $searchCondition";
-$countResult = mysqli_query($conn, $countSql);
-$countRow = mysqli_fetch_assoc($countResult);
-$totalRecords = $countRow['total'];
-$totalPages = ceil($totalRecords / $limit);
-
-

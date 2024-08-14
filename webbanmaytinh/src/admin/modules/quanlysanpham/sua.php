@@ -57,9 +57,10 @@ if (isset($_POST['submit'])) {
     }
 
     // Kiểm tra số lượng
-    if (!isset($soluong)) {
-        $errors['soluong']['required'] = 'Số lượng không được bỏ trống';
-    } elseif (!is_numeric($soluong)) {
+    //if (!isset($soluong)) {
+    //    $errors['soluong']['required'] = 'Số lượng không được bỏ trống';
+    //} else
+    if (!is_numeric($soluong)) {
         $errors['soluong']['invalid'] = 'Số lượng phải là số';
     } elseif ($soluong < 0) {
         $errors['soluong']['invalid'] = 'Số lượng không được âm';

@@ -93,21 +93,3 @@ $countRow = mysqli_fetch_assoc($countResult);
 $totalRecords = $countRow['total'];
 $totalPages = ceil($totalRecords / $limit);
 
-// Hiển thị phân trang
-if ($totalPages > 1) {
-    echo '<ul class="pagination">';
-    if ($page > 1) {
-        echo '<li><a href="?action=quanlytaikhoan&page=' . ($page - 1) . '&text=' . $searchText . '">&laquo;</a></li>';
-    }
-
-    for ($i = 1; $i <= $totalPages; $i++) {
-        $active = ($i == $page) ? 'class="active"' : '';
-        echo '<li ' . $active . '><a href="?action=quanlytaikhoan&page=' . $i . '&text=' . $searchText . '">' . $i . '</a></li>';
-    }
-
-    if ($page < $totalPages) {
-        echo '<li><a href="?action=quanlytaikhoan&page=' . ($page + 1) . '&text=' . $searchText . '">&raquo;</a></li>';
-    }
-    echo '</ul>';
-}
-?>
